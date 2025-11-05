@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>my ip</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            color: #434343;
+            line-height: 1.6;
+        }
+        .header {
+            background-color: #ffffff;
+            padding: 30px 20px 20px 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #fe0032;
+            font-size: 2.2em;
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .info-section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            color: #fe0032;
+            font-size: 1.15em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: lowercase;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 8px 15px;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #434343;
+            border-radius: 8px;
+        }
+        .info-label {
+            color: #666666;
+            font-weight: 400;
+            text-transform: lowercase;
+            font-size: 0.95em;
+        }
+        .info-value {
+            color: #434343;
+            font-weight: 400;
+            word-break: break-word;
+            font-size: 0.95em;
+        }
+        .whois-text {
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #434343;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9em;
+            white-space: pre-wrap;
+            color: #434343;
+        }
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 10px 16px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            text-transform: lowercase;
+            background-color: #ffffff;
+            color: #434343;
+            border: 1px solid #434343;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        button:hover {
+            border-color: #fe0032;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background-color: #fe0032;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+        .spacer {
+            height: 100px;
+        }
+        @media (max-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .info-label {
+                font-weight: 700;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>my ip address</h1>
+    </div>
+    
+    <div class="container">
+        <div class="button-group">
+            <button onclick="copyIPAddress()">copy ip address</button>
+            <button onclick="copyFullRecord()">copy full record</button>
+        </div>
+
+        <div class="info-section" id="ipSection">
+            <div class="section-title">ip address</div>
+            <div class="info-grid">
+                <div class="info-label">ip address</div>
+                <div class="info-value" id="ipAddress">loading...</div>
+            </div>
+        </div>
+
+        <div class="info-section" id="locationSection">
+            <div class="section-title">location</div>
+            <div class="info-grid" id="locationGrid">
+                <div class="info-label">loading...</div>
+                <div class="info-value">loading...</div>
+            </div>
+        </div>
+
+        <div class="info-section" id="additionalIPSection">
+            <div class="section-title">additional ip address details</div>
+            <div class="info-grid" id="additionalIPGrid">
+                <div class="info-label">loading...</div>
+                <div class="info-value">loading...</div>
+            </div>
+        </div>
+
+        <div class="info-section" id="whoisSection">
+            <div class="section-title">ip address whois</div>
+            <div class="whois-text" id="whoisText">loading...</div>
+        </div>
+
+        <div class="info-section">
+            <div class="section-title">additional details</div>
+            <div class="info-grid">
+                <div class="info-label">user agent</div>
+                <div class="info-value" id="userAgent">loading...</div>
+                
+                <div class="info-label">screen resolution</div>
+                <div class="info-value" id="screenRes">loading...</div>
+                
+                <div class="info-label">browser language</div>
+                <div class="info-value" id="language">loading...</div>
+                
+                <div class="info-label">platform</div>
+                <div class="info-value" id="platform">loading...</div>
+                
+                <div class="info-label">cookies enabled</div>
+                <div class="info-value" id="cookies">loading...</div>
+                
+                <div class="info-label">do not track</div>
+                <div class="info-value" id="dnt">loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">copied to clipboard!</div>
+
+    <div class="spacer"></div>
+
+    <script>
+        const API_KEY = '63665388aab8472f62a751e099358d46';
+        let allData = {};
+        
+        async function getIPAddress() {
+            try {
+                const response = await fetch(`https://api.whatismyip.com/ip.php?key=${API_KEY}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const ip = await response.text();
+                console.log('IP Response:', ip);
+                
+                document.getElementById('ipAddress').textContent = ip.trim();
+                allData.ip = ip.trim();
+                
+                // Now get location and other details
+                getIPLookup(ip.trim());
+                getWhois(ip.trim());
+            } catch (error) {
+                console.error('Error fetching IP:', error);
+                document.getElementById('ipAddress').textContent = `error: ${error.message}`;
+            }
+        }
+        
+        async function getIPLookup(ip) {
+            try {
+                const url = `https://api.whatismyip.com/ip-address-lookup.php?key=${API_KEY}&input=${ip}&output=json`;
+                console.log('Lookup URL:', url);
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Lookup Response:', data);
+                
+                // The API returns data in ip_address_lookup array
+                const lookupData = data.ip_address_lookup && data.ip_address_lookup.length > 1 ? data.ip_address_lookup[1] : {};
+                allData.lookup = lookupData;
+                
+                // Populate location grid
+                const locationGrid = document.getElementById('locationGrid');
+                locationGrid.innerHTML = '';
+                
+                const locationFields = {
+                    'country': lookupData.country || 'n/a',
+                    'region': lookupData.region || 'n/a',
+                    'city': lookupData.city || 'n/a',
+                    'postal code': lookupData.postalcode || 'n/a',
+                    'timezone': lookupData.time || 'n/a',
+                    'latitude': lookupData.latitude || 'n/a',
+                    'longitude': lookupData.longitude || 'n/a'
+                };
+                
+                for (const [key, value] of Object.entries(locationFields)) {
+                    const label = document.createElement('div');
+                    label.className = 'info-label';
+                    label.textContent = key;
+                    
+                    const val = document.createElement('div');
+                    val.className = 'info-value';
+                    val.textContent = value;
+                    
+                    locationGrid.appendChild(label);
+                    locationGrid.appendChild(val);
+                }
+                
+                // Populate additional IP details
+                const additionalIPGrid = document.getElementById('additionalIPGrid');
+                additionalIPGrid.innerHTML = '';
+                
+                const additionalFields = {
+                    'isp': lookupData.isp || 'n/a',
+                    'organization': lookupData.isp || 'n/a'
+                };
+                
+                for (const [key, value] of Object.entries(additionalFields)) {
+                    const label = document.createElement('div');
+                    label.className = 'info-label';
+                    label.textContent = key;
+                    
+                    const val = document.createElement('div');
+                    val.className = 'info-value';
+                    val.textContent = value;
+                    
+                    additionalIPGrid.appendChild(label);
+                    additionalIPGrid.appendChild(val);
+                }
+                
+            } catch (error) {
+                console.error('Error fetching IP lookup:', error);
+                document.getElementById('locationGrid').innerHTML = 
+                    `<div class="info-label">error</div><div class="info-value">${error.message}</div>`;
+            }
+        }
+        
+        async function getWhois(ip) {
+            try {
+                const url = `https://api.whatismyip.com/whois.php?key=${API_KEY}&input=${ip}`;
+                console.log('WHOIS URL:', url);
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const whois = await response.text();
+                console.log('WHOIS Response length:', whois.length);
+                
+                document.getElementById('whoisText').textContent = whois;
+                allData.whois = whois;
+            } catch (error) {
+                console.error('Error fetching WHOIS:', error);
+                document.getElementById('whoisText').textContent = `error: ${error.message}`;
+            }
+        }
+        
+        function getBrowserInfo() {
+            document.getElementById('userAgent').textContent = navigator.userAgent;
+            document.getElementById('screenRes').textContent = `${screen.width} x ${screen.height}`;
+            document.getElementById('language').textContent = navigator.language;
+            document.getElementById('platform').textContent = navigator.platform;
+            document.getElementById('cookies').textContent = navigator.cookieEnabled ? 'yes' : 'no';
+            document.getElementById('dnt').textContent = navigator.doNotTrack || 'not set';
+        }
+        
+        function copyIPAddress() {
+            const ip = document.getElementById('ipAddress').textContent;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(ip).then(() => {
+                    showToast();
+                }).catch(err => {
+                    console.error('Clipboard error:', err);
+                    fallbackCopy(ip);
+                });
+            } else {
+                fallbackCopy(ip);
+            }
+        }
+        
+        function copyFullRecord() {
+            let text = 'IP ADDRESS\n';
+            text += `IP Address: ${document.getElementById('ipAddress').textContent}\n\n`;
+            
+            text += 'LOCATION\n';
+            const locationGrid = document.getElementById('locationGrid');
+            const locationLabels = locationGrid.querySelectorAll('.info-label');
+            const locationValues = locationGrid.querySelectorAll('.info-value');
+            for (let i = 0; i < locationLabels.length; i++) {
+                text += `${locationLabels[i].textContent}: ${locationValues[i].textContent}\n`;
+            }
+            text += '\n';
+            
+            text += 'ADDITIONAL IP ADDRESS DETAILS\n';
+            const additionalIPGrid = document.getElementById('additionalIPGrid');
+            const additionalLabels = additionalIPGrid.querySelectorAll('.info-label');
+            const additionalValues = additionalIPGrid.querySelectorAll('.info-value');
+            for (let i = 0; i < additionalLabels.length; i++) {
+                text += `${additionalLabels[i].textContent}: ${additionalValues[i].textContent}\n`;
+            }
+            text += '\n';
+            
+            text += 'IP ADDRESS WHOIS\n';
+            text += document.getElementById('whoisText').textContent + '\n\n';
+            
+            text += 'ADDITIONAL DETAILS\n';
+            text += `User Agent: ${document.getElementById('userAgent').textContent}\n`;
+            text += `Screen Resolution: ${document.getElementById('screenRes').textContent}\n`;
+            text += `Browser Language: ${document.getElementById('language').textContent}\n`;
+            text += `Platform: ${document.getElementById('platform').textContent}\n`;
+            text += `Cookies Enabled: ${document.getElementById('cookies').textContent}\n`;
+            text += `Do Not Track: ${document.getElementById('dnt').textContent}\n`;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast();
+                }).catch(err => {
+                    console.error('Clipboard error:', err);
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+        
+        function fallbackCopy(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast();
+                } else {
+                    alert('Unable to copy. Please copy manually.');
+                }
+            } catch (err) {
+                console.error('Fallback copy error:', err);
+                alert('Unable to copy. Please copy manually.');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+        
+        getIPAddress();
+        getBrowserInfo();
+    </script>
+</body>
+</html>
