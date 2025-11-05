@@ -259,12 +259,15 @@
                 }
                 
                 const jsonData = await response.json();
-                console.log('JSON lookup response:', jsonData);
+                console.log('JSON lookup response:', JSON.stringify(jsonData, null, 2));
                 
                 // The API returns data in ip_address_lookup array format
                 const data = jsonData.ip_address_lookup && jsonData.ip_address_lookup.length > 1 ? jsonData.ip_address_lookup[1] : {};
                 
-                console.log('Parsed lookup data:', data);
+                console.log('Parsed lookup data:', JSON.stringify(data, null, 2));
+                console.log('City value:', data.city);
+                console.log('Region value:', data.region);
+                console.log('ISP value:', data.isp);
                 
                 document.getElementById('city').textContent = data.city || 'n/a';
                 document.getElementById('region').textContent = data.region || 'n/a';
