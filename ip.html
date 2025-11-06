@@ -19,7 +19,7 @@
         }
         .header {
             background-color: #ffffff;
-            padding: 30px 20px 20px 20px;
+            padding: 30px 20px 10px 20px;
             text-align: center;
         }
         .header img {
@@ -28,7 +28,7 @@
         }
         .container {
             max-width: 800px;
-            margin: 40px auto;
+            margin: 20px auto;
             padding: 0 20px;
         }
         .info-section {
@@ -62,6 +62,14 @@
             font-weight: 400;
             word-break: break-word;
             font-size: 0.95em;
+        }
+        .info-value a {
+            color: #fe0032;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .info-value a:hover {
+            opacity: 0.7;
         }
         .whois-text {
             padding: 20px;
@@ -139,14 +147,14 @@
     
     <div class="container">
         <div class="button-group">
-            <button onclick="copyIPAddress()">copy ip address</button>
+            <button onclick="copyIPInfo()">copy ip info</button>
             <button onclick="copyFullRecord()">copy full record</button>
         </div>
 
         <div class="info-section" id="myIPSection">
-            <div class="section-title">my ip address</div>
+            <div class="section-title">ip info</div>
             <div class="info-grid">
-                <div class="info-label">ipv4</div>
+                <div class="info-label">ip address</div>
                 <div class="info-value" id="ipv4">loading...</div>
                 
                 <div class="info-label">city</div>
@@ -161,8 +169,14 @@
                 <div class="info-label">country</div>
                 <div class="info-value" id="country">loading...</div>
                 
+                <div class="info-label">coordinates</div>
+                <div class="info-value" id="coordinates">loading...</div>
+                
                 <div class="info-label">time zone</div>
                 <div class="info-value" id="timezone">loading...</div>
+                
+                <div class="info-label">local time</div>
+                <div class="info-value" id="localTime">loading...</div>
                 
                 <div class="info-label">isp</div>
                 <div class="info-value" id="isp">loading...</div>
@@ -170,23 +184,23 @@
                 <div class="info-label">domain</div>
                 <div class="info-value" id="domain">loading...</div>
                 
-                <div class="info-label">asn</div>
-                <div class="info-value" id="asn">loading...</div>
-                
                 <div class="info-label">organization</div>
                 <div class="info-value" id="organization">loading...</div>
                 
-                <div class="info-label">asn ip range</div>
+                <div class="info-label">asn</div>
+                <div class="info-value" id="asn">loading...</div>
+                
+                <div class="info-label">asn organization</div>
+                <div class="info-value" id="asnOrganization">loading...</div>
+                
+                <div class="info-label">network ip range</div>
                 <div class="info-value" id="asnRange">loading...</div>
                 
-                <div class="info-label">known proxy</div>
-                <div class="info-value" id="knownProxy">checking...</div>
+                <div class="info-label">proxy detected</div>
+                <div class="info-value" id="proxyDetected">checking...</div>
                 
                 <div class="info-label">proxy type</div>
                 <div class="info-value" id="proxyType">checking...</div>
-                
-                <div class="info-label">network speed</div>
-                <div class="info-value" id="networkSpeed">detecting...</div>
             </div>
         </div>
 
@@ -224,7 +238,10 @@
     <div class="spacer"></div>
 
     <script>
-        const API_KEY = '460800313c6ea807a2f7ecb537d59e76';
+        console.log('=== SCRIPT STARTED ===');
+        console.log('Script is loading...');
+        
+        const API_KEY = '11bd32f84899328983282dc05b6f0314';
         let allData = {};
         
         async function getIPAddress() {
@@ -252,28 +269,25 @@
         
         async function getIPLookup(ip) {
             try {
-                const response = await fetch(`https://api.whatismyip.com/ip-address-lookup.php?key=${API_KEY}&input=${ip}`);
+                const response = await fetch(`https://api.whatismyip.com/ip-address-lookup.php?key=${API_KEY}&input=${ip}&output=json`);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
-                const text = await response.text();
-                console.log('Raw lookup response:', text);
+                const jsonData = await response.json();
+                console.log('JSON lookup response:', JSON.stringify(jsonData, null, 2));
                 
-                // Parse plain text response
-                const data = {};
-                const parts = text.split(' ');
-                parts.forEach(part => {
-                    const colonIndex = part.indexOf(':');
-                    if (colonIndex !== -1) {
-                        const key = part.substring(0, colonIndex);
-                        const value = part.substring(colonIndex + 1);
-                        data[key] = value;
-                    }
-                });
+                // The API returns data in ip_address_lookup array format
+                // Get the first (and likely only) element, or if there are two, get the second (the data)
+                const lookupArray = jsonData.ip_address_lookup || [];
+                const data = lookupArray.length === 1 ? lookupArray[0] : (lookupArray[1] || {});
                 
-                console.log('Parsed lookup data:', data);
+                console.log('Parsed lookup data:', JSON.stringify(data, null, 2));
+                console.log('City value:', data.city);
+                console.log('Region value:', data.region);
+                console.log('ISP value:', data.isp);
+                console.log('ASN value:', data.asn);
                 
                 document.getElementById('city').textContent = data.city || 'n/a';
                 document.getElementById('region').textContent = data.region || 'n/a';
@@ -282,6 +296,44 @@
                 document.getElementById('timezone').textContent = data.time || 'n/a';
                 document.getElementById('isp').textContent = data.isp || 'n/a';
                 document.getElementById('organization').textContent = data.isp || 'n/a';
+                
+                // ASN with link
+                if (data.asn) {
+                    const asnLink = document.createElement('a');
+                    asnLink.href = `https://asnlookup.com/asn/AS${data.asn}`;
+                    asnLink.target = '_blank';
+                    asnLink.textContent = `AS${data.asn}`;
+                    document.getElementById('asn').innerHTML = '';
+                    document.getElementById('asn').appendChild(asnLink);
+                } else {
+                    document.getElementById('asn').textContent = 'n/a';
+                }
+                
+                // Coordinates
+                if (data.latitude && data.longitude) {
+                    document.getElementById('coordinates').textContent = `${data.latitude}, ${data.longitude}`;
+                } else {
+                    document.getElementById('coordinates').textContent = 'n/a';
+                }
+                
+                // Calculate local time from timezone offset
+                if (data.time) {
+                    const now = new Date();
+                    const localTimeStr = now.toLocaleString('en-US', { 
+                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        weekday: 'short',
+                        year: 'numeric',
+                        month: 'short',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false
+                    });
+                    document.getElementById('localTime').textContent = localTimeStr;
+                } else {
+                    document.getElementById('localTime').textContent = 'n/a';
+                }
                 
                 allData.lookup = data;
             } catch (error) {
@@ -354,7 +406,74 @@
             } catch (error) {
                 console.error('Error fetching WHOIS:', error);
                 document.getElementById('whoisText').textContent = 'error loading whois data';
+                document.getElementById('asnOrganization').textContent = 'n/a';
                 document.getElementById('asnRange').textContent = 'n/a';
+            }
+        }
+        
+        async function getProxyCheck(ip) {
+            try {
+                const response = await fetch(`https://api.whatismyip.com/proxy.php?key=${API_KEY}&input=${ip}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const proxyText = await response.text();
+                console.log('Proxy check raw response:', proxyText);
+                
+                const proxyData = {};
+                
+                // Parse plain text response - handles both space and newline separators
+                // "ip:xxx is_proxy:yes proxy_type:VPN" or with newlines
+                const lines = proxyText.trim().split(/[\s\n\r]+/);
+                console.log('Proxy check parts:', lines);
+                
+                lines.forEach(part => {
+                    const colonIndex = part.indexOf(':');
+                    if (colonIndex !== -1) {
+                        const key = part.substring(0, colonIndex);
+                        const value = part.substring(colonIndex + 1);
+                        proxyData[key] = value;
+                    }
+                });
+                
+                console.log('Parsed proxy data:', proxyData);
+                
+                document.getElementById('proxyDetected').textContent = proxyData.is_proxy === 'yes' ? 'yes' : 'no';
+                document.getElementById('proxyType').textContent = proxyData.proxy_type || 'n/a';
+                
+                allData.proxy = proxyData;
+            } catch (error) {
+                console.error('Error fetching proxy check:', error);
+                document.getElementById('proxyDetected').textContent = 'error checking';
+                document.getElementById('proxyType').textContent = 'n/a';
+            }
+        }
+        
+        function convertRangeToCIDR(startIP, endIP) {
+            // Simple conversion for common cases
+            // Convert IPs to numbers
+            const start = startIP.split('.').map(Number);
+            const end = endIP.split('.').map(Number);
+            
+            // Calculate the prefix length based on the range
+            // This is a simplified version that works for common cases
+            if (end[0] - start[0] > 0) {
+                // Class A range
+                return `${startIP}/8`;
+            } else if (end[1] - start[1] > 0) {
+                // Class B range  
+                return `${startIP}/16`;
+            } else if (end[2] - start[2] > 0) {
+                // Class C range
+                return `${startIP}/24`;
+            } else {
+                // Smaller range, calculate more precisely
+                const diff = end[3] - start[3] + 1;
+                const bits = Math.floor(Math.log2(diff));
+                const prefix = 32 - bits;
+                return `${startIP}/${prefix}`;
             }
         }
         
@@ -382,17 +501,9 @@
             document.getElementById('platform').textContent = navigator.platform;
             document.getElementById('cookies').textContent = navigator.cookieEnabled ? 'yes' : 'no';
             document.getElementById('dnt').textContent = navigator.doNotTrack || 'not set';
-            
-            // Detect network speed
-            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-            if (conn && conn.downlink) {
-                document.getElementById('networkSpeed').textContent = `${conn.downlink} Mbps`;
-            } else {
-                document.getElementById('networkSpeed').textContent = 'unable to detect';
-            }
         }
         
-        function copyIPAddress() {
+        function copyIPInfo() {
             const ip = document.getElementById('ipv4').textContent;
             
             if (navigator.clipboard && navigator.clipboard.writeText) {
