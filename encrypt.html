@@ -1,274 +1,331 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Symmetric Encryption (libsodium.js)</title>
-    <!-- Load Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load libsodium.js library -->
+    <title>encrypt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/libsodium-wrappers/0.7.11/libsodium.js"></script>
     <style>
-        /* Custom font and base styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f9fc;
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            color: #434343;
+            line-height: 1.5;
         }
-        /* Style for textareas to improve readability */
+        .header {
+            background-color: #ffffff;
+            padding: 30px 20px 10px 20px;
+            text-align: center;
+        }
+        .header img {
+            max-width: 396px;
+            height: auto;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .section-title {
+            color: #fe0032;
+            font-size: 1.15em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-transform: lowercase;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 400;
+            color: #666666;
+            font-size: 0.95em;
+            text-transform: lowercase;
+        }
+        input[type="password"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #434343;
+            border-radius: 8px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.95em;
+            color: #434343;
+            background-color: #ffffff;
+            margin-bottom: 20px;
+        }
         textarea {
-            resize: vertical;
             min-height: 120px;
+            resize: vertical;
+        }
+        input[type="password"]:focus, textarea:focus {
+            outline: none;
+            border-color: #fe0032;
+        }
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        button {
+            padding: 10px 16px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            text-transform: lowercase;
+            background-color: #ffffff;
+            color: #434343;
+            border: 1px solid #434343;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        button:hover {
+            border-color: #fe0032;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background-color: #fe0032;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+        .toast.error {
+            background-color: #d32f2f;
+        }
+        .note {
+            font-size: 0.85em;
+            color: #666666;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        .spacer {
+            height: 100px;
         }
     </style>
 </head>
-<body class="min-h-screen flex items-start justify-center p-4 sm:p-8">
-
-    <div id="app-container" class="w-full max-w-2xl bg-white shadow-xl rounded-2xl p-6 sm:p-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">
-            🔐 Secure Symmetric Encryption
-        </h1>
-
-        <!-- Input Section -->
-        <section class="mb-8 p-4 bg-indigo-50 rounded-xl shadow-inner">
-            <h2 class="text-xl font-semibold text-indigo-700 mb-4">Input Data</h2>
-
-            <div class="mb-4">
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password (Used for Argon2id Key Derivation):</label>
-                <!-- Using type="password" to hide input -->
-                <input type="password" id="password" class="w-full p-3 border border-indigo-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 shadow-sm" placeholder="Enter a strong password">
-            </div>
-
-            <div class="mb-4">
-                <label for="plaintext" class="block text-sm font-medium text-gray-700 mb-1">Message to Encrypt:</label>
-                <textarea id="plaintext" class="w-full p-3 border border-indigo-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 shadow-sm" placeholder="Type your secret message here..."></textarea>
-            </div>
-        </section>
-
-        <!-- Action Buttons and Message Box -->
-        <div class="flex flex-col sm:flex-row gap-4 mb-8">
-            <button onclick="encrypt()" id="encrypt-btn" class="flex-1 bg-indigo-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-indigo-700 transition duration-300 shadow-md hover:shadow-lg active:bg-indigo-800">
-                Encrypt Message
-            </button>
-            <button onclick="decrypt()" id="decrypt-btn" class="flex-1 bg-gray-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-gray-700 transition duration-300 shadow-md hover:shadow-lg active:bg-gray-800">
-                Decrypt Ciphertext
-            </button>
-        </div>
-
-        <!-- Message Box -->
-        <div id="message-box" class="p-3 mt-4 rounded-lg text-sm text-center transition-opacity duration-500 opacity-0 h-0 overflow-hidden"></div>
-
-
-        <!-- Output Section -->
-        <section class="mb-8">
-            <h2 class="text-xl font-semibold text-gray-700 mb-4 border-b pb-2">Results</h2>
-
-            <div class="mb-6">
-                <label for="ciphertext" class="block text-sm font-medium text-gray-700 mb-1">Ciphertext (Base64 - Includes Salt, Nonce, and Ciphertext):</label>
-                <textarea id="ciphertext" readonly class="w-full p-3 border border-gray-300 bg-gray-50 rounded-lg focus:ring-gray-400 text-sm" placeholder="Encrypted data will appear here..."></textarea>
-                <button onclick="copyToClipboard('ciphertext')" class="mt-2 text-xs text-indigo-500 hover:text-indigo-700 font-medium">
-                    Copy Ciphertext
-                </button>
-            </div>
-
-            <div>
-                <label for="decrypted" class="block text-sm font-medium text-gray-700 mb-1">Decrypted Message:</label>
-                <textarea id="decrypted" readonly class="w-full p-3 border border-gray-300 bg-gray-50 rounded-lg focus:ring-gray-400 text-sm" placeholder="Decrypted message will appear here..."></textarea>
-            </div>
-        </section>
-
-        <p class="text-xs text-gray-500 mt-4 italic">
-            Uses Argon2id for key derivation and XSalsa20-Poly1305 for authenticated encryption.
-        </p>
+<body>
+    <div class="header">
+        <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/refs/heads/main/encrypt.jpg" alt="encrypt">
     </div>
 
-    <script>
-        let sodium;
+```
+<div class="container">
+    <div class="section-title">input data</div>
+    
+    <label for="password">password (used for key derivation)</label>
+    <input type="password" id="password" placeholder="enter a strong password">
 
-        // --- Utility Functions ---
+    <label for="plaintext">message to encrypt</label>
+    <textarea id="plaintext" placeholder="type your secret message here..."></textarea>
 
-        // Function to display messages in a dedicated UI area (replacing alert)
-        function showMessage(message, isError = false) {
-            const msgElement = document.getElementById('message-box');
-            msgElement.textContent = message;
-            // Set styles based on success or error
-            msgElement.className = `p-3 mt-4 mb-4 rounded-lg text-sm text-center transition-opacity duration-300 ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'} opacity-100`;
-            msgElement.style.height = 'auto'; // Make it visible
+    <div class="button-group">
+        <button onclick="encrypt()" id="encrypt-btn">encrypt message</button>
+        <button onclick="decrypt()" id="decrypt-btn">decrypt ciphertext</button>
+    </div>
 
-            // Clear message and hide element after 5 seconds
-            setTimeout(() => {
-                msgElement.className = 'opacity-0';
-                setTimeout(() => msgElement.style.height = '0', 300); // Wait for fade out before collapsing
-            }, 5000);
+    <div class="section-title">results</div>
+
+    <label for="ciphertext">ciphertext (base64)</label>
+    <textarea id="ciphertext" readonly placeholder="encrypted data will appear here..."></textarea>
+    <div class="button-group">
+        <button onclick="copyToClipboard('ciphertext')">copy ciphertext</button>
+    </div>
+
+    <label for="decrypted">decrypted message</label>
+    <textarea id="decrypted" readonly placeholder="decrypted message will appear here..."></textarea>
+
+    <p class="note">
+        uses Argon2id for key derivation and XSalsa20-Poly1305 for authenticated encryption
+    </p>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="spacer"></div>
+
+<script>
+    let sodium;
+
+    function showMessage(message, isError = false) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = 'toast show' + (isError ? ' error' : '');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    function to_base64(buf) {
+        return sodium.to_base64(buf, sodium.base64_variants.ORIGINAL);
+    }
+
+    function from_base64(str) {
+        return sodium.from_base64(str, sodium.base64_variants.ORIGINAL);
+    }
+
+    function copyToClipboard(elementId) {
+        const element = document.getElementById(elementId);
+        if (!element.value) {
+            showMessage('nothing to copy', true);
+            return;
         }
-
-        function to_base64(buf) {
-            return sodium.to_base64(buf, sodium.base64_variants.ORIGINAL);
-        }
-
-        function from_base64(str) {
-            return sodium.from_base64(str, sodium.base64_variants.ORIGINAL);
-        }
-
-        function copyToClipboard(elementId) {
-            const element = document.getElementById(elementId);
-            element.select();
-            element.setSelectionRange(0, 99999); // For mobile devices
-            try {
-                document.execCommand('copy');
-                showMessage('Copied to clipboard!', false);
-            } catch (err) {
-                console.error('Copy command failed: ', err);
-                showMessage('Failed to copy. Please copy manually.', true);
-            }
-        }
-
-        // Wait for libsodium to be ready
-        window.addEventListener('DOMContentLoaded', async () => {
-            try {
-                // Ensure libsodium is fully loaded
-                await libsodium.ready;
-                sodium = libsodium;
-
-                // Simple check to confirm the algorithm constants are loaded
-                if (typeof sodium.crypto_pwhash_ALG_ARGON2ID13 === 'undefined') {
-                    throw new Error("libsodium Argon2 constants not found.");
-                }
-
-                showMessage('Cryptography engine (libsodium) is ready.', false);
-                document.getElementById('encrypt-btn').disabled = false;
-                document.getElementById('decrypt-btn').disabled = false;
-
-            } catch (error) {
-                console.error("Failed to initialize libsodium:", error);
-                showMessage(`Initialization Failed: ${error.message}. Check console.`, true);
-                document.getElementById('encrypt-btn').disabled = true;
-                document.getElementById('decrypt-btn').disabled = true;
-            }
+        
+        navigator.clipboard.writeText(element.value).then(() => {
+            showMessage('copied to clipboard!');
+        }).catch(() => {
+            showMessage('failed to copy', true);
         });
+    }
 
+    window.addEventListener('DOMContentLoaded', async () => {
+        try {
+            await libsodium.ready;
+            sodium = libsodium;
 
-        // --- Encryption/Decryption Logic ---
-
-        async function encrypt() {
-            if (!sodium) {
-                showMessage('Cryptography engine is not ready yet.', true);
-                return;
+            if (typeof sodium.crypto_pwhash_ALG_ARGON2ID13 === 'undefined') {
+                throw new Error("libsodium Argon2 constants not found");
             }
 
-            const password = document.getElementById('password').value;
-            const plaintext = document.getElementById('plaintext').value;
-            document.getElementById('ciphertext').value = '';
-            document.getElementById('decrypted').value = '';
+            showMessage('cryptography engine ready');
+            document.getElementById('encrypt-btn').disabled = false;
+            document.getElementById('decrypt-btn').disabled = false;
 
+        } catch (error) {
+            console.error("Failed to initialize libsodium:", error);
+            showMessage(`initialization failed: ${error.message}`, true);
+            document.getElementById('encrypt-btn').disabled = true;
+            document.getElementById('decrypt-btn').disabled = true;
+        }
+    });
 
-            if (!password || !plaintext) {
-                showMessage('Please enter both password and message to encrypt.', true);
-                return;
-            }
-
-            try {
-                // 1. Generate random salt
-                const salt = sodium.randombytes_buf(sodium.crypto_pwhash_SALTBYTES);
-
-                // 2. Derive key from password using Argon2id (stronger than PBKDF2)
-                const key = sodium.crypto_pwhash(
-                    sodium.crypto_secretbox_KEYBYTES,
-                    password,
-                    salt,
-                    sodium.crypto_pwhash_OPSLIMIT_MODERATE,
-                    sodium.crypto_pwhash_MEMLIMIT_MODERATE,
-                    sodium.crypto_pwhash_ALG_ARGON2ID13
-                );
-
-                // 3. Generate random nonce (must be unique for every encryption)
-                const nonce = sodium.randombytes_buf(sodium.crypto_secretbox_NONCEBYTES);
-
-                // 4. Encrypt using XSalsa20-Poly1305 (Authenticated Encryption)
-                const ciphertext = sodium.crypto_secretbox_easy(
-                    sodium.from_string(plaintext),
-                    nonce,
-                    key
-                );
-
-                // 5. Concatenate salt + nonce + ciphertext for secure transport
-                // The recipient needs salt (to derive the key) and nonce (to decrypt)
-                const combined = new Uint8Array(
-                    salt.length + nonce.length + ciphertext.length
-                );
-                combined.set(salt, 0);
-                combined.set(nonce, salt.length);
-                combined.set(ciphertext, salt.length + nonce.length);
-
-                // 6. Output the Base64-encoded result
-                document.getElementById('ciphertext').value = to_base64(combined);
-                showMessage('Message encrypted successfully!', false);
-
-            } catch (e) {
-                console.error("Encryption Error:", e);
-                showMessage('An error occurred during encryption.', true);
-            }
+    async function encrypt() {
+        if (!sodium) {
+            showMessage('cryptography engine not ready', true);
+            return;
         }
 
-        async function decrypt() {
-            if (!sodium) {
-                showMessage('Cryptography engine is not ready yet.', true);
-                return;
-            }
+        const password = document.getElementById('password').value;
+        const plaintext = document.getElementById('plaintext').value;
+        document.getElementById('ciphertext').value = '';
+        document.getElementById('decrypted').value = '';
 
-            const password = document.getElementById('password').value;
-            const b64 = document.getElementById('ciphertext').value;
-            document.getElementById('decrypted').value = '';
-
-            if (!password || !b64) {
-                showMessage('Please enter both password and the ciphertext to decrypt.', true);
-                return;
-            }
-
-            try {
-                // 1. Decode from Base64
-                const combined = from_base64(b64);
-
-                const salt_len = sodium.crypto_pwhash_SALTBYTES;
-                const nonce_len = sodium.crypto_secretbox_NONCEBYTES;
-                const min_len = salt_len + nonce_len + sodium.crypto_secretbox_MACBYTES; // MACBYTES is for authentication tag
-
-                if (combined.length < min_len) {
-                    throw new Error('Ciphertext too short. Invalid format or corrupted.');
-                }
-
-                // 2. Separate salt, nonce, and actual ciphertext
-                const salt = combined.slice(0, salt_len);
-                const nonce = combined.slice(salt_len, salt_len + nonce_len);
-                const ciphertext = combined.slice(salt_len + nonce_len);
-
-                // 3. Derive key from password and extracted salt (must use same Argon2id parameters)
-                const key = sodium.crypto_pwhash(
-                    sodium.crypto_secretbox_KEYBYTES,
-                    password,
-                    salt,
-                    sodium.crypto_pwhash_OPSLIMIT_MODERATE,
-                    sodium.crypto_pwhash_MEMLIMIT_MODERATE,
-                    sodium.crypto_pwhash_ALG_ARGON2ID13
-                );
-
-                // 4. Decrypt and authenticate
-                const decrypted = sodium.crypto_secretbox_open_easy(
-                    ciphertext,
-                    nonce,
-                    key
-                );
-
-                // 5. Output the result
-                document.getElementById('decrypted').value = sodium.to_string(decrypted);
-                showMessage('Decryption successful!', false);
-
-            } catch (e) {
-                // This catches authentication failure (MAC mismatch) or structural errors
-                console.error("Decryption Error:", e);
-                document.getElementById('decrypted').value = 'Decryption failed! (Incorrect Password or Corrupted Data)';
-                showMessage('Decryption failed! Check password and ciphertext.', true);
-            }
+        if (!password || !plaintext) {
+            showMessage('enter both password and message', true);
+            return;
         }
-    </script>
+
+        try {
+            const salt = sodium.randombytes_buf(sodium.crypto_pwhash_SALTBYTES);
+            const key = sodium.crypto_pwhash(
+                sodium.crypto_secretbox_KEYBYTES,
+                password,
+                salt,
+                sodium.crypto_pwhash_OPSLIMIT_MODERATE,
+                sodium.crypto_pwhash_MEMLIMIT_MODERATE,
+                sodium.crypto_pwhash_ALG_ARGON2ID13
+            );
+
+            const nonce = sodium.randombytes_buf(sodium.crypto_secretbox_NONCEBYTES);
+            const ciphertext = sodium.crypto_secretbox_easy(
+                sodium.from_string(plaintext),
+                nonce,
+                key
+            );
+
+            const combined = new Uint8Array(
+                salt.length + nonce.length + ciphertext.length
+            );
+            combined.set(salt, 0);
+            combined.set(nonce, salt.length);
+            combined.set(ciphertext, salt.length + nonce.length);
+
+            document.getElementById('ciphertext').value = to_base64(combined);
+            showMessage('message encrypted successfully');
+
+        } catch (e) {
+            console.error("Encryption Error:", e);
+            showMessage('encryption error occurred', true);
+        }
+    }
+
+    async function decrypt() {
+        if (!sodium) {
+            showMessage('cryptography engine not ready', true);
+            return;
+        }
+
+        const password = document.getElementById('password').value;
+        const b64 = document.getElementById('ciphertext').value;
+        document.getElementById('decrypted').value = '';
+
+        if (!password || !b64) {
+            showMessage('enter both password and ciphertext', true);
+            return;
+        }
+
+        try {
+            const combined = from_base64(b64);
+            const salt_len = sodium.crypto_pwhash_SALTBYTES;
+            const nonce_len = sodium.crypto_secretbox_NONCEBYTES;
+            const min_len = salt_len + nonce_len + sodium.crypto_secretbox_MACBYTES;
+
+            if (combined.length < min_len) {
+                throw new Error('ciphertext too short');
+            }
+
+            const salt = combined.slice(0, salt_len);
+            const nonce = combined.slice(salt_len, salt_len + nonce_len);
+            const ciphertext = combined.slice(salt_len + nonce_len);
+
+            const key = sodium.crypto_pwhash(
+                sodium.crypto_secretbox_KEYBYTES,
+                password,
+                salt,
+                sodium.crypto_pwhash_OPSLIMIT_MODERATE,
+                sodium.crypto_pwhash_MEMLIMIT_MODERATE,
+                sodium.crypto_pwhash_ALG_ARGON2ID13
+            );
+
+            const decrypted = sodium.crypto_secretbox_open_easy(
+                ciphertext,
+                nonce,
+                key
+            );
+
+            document.getElementById('decrypted').value = sodium.to_string(decrypted);
+            showMessage('decryption successful');
+
+        } catch (e) {
+            console.error("Decryption Error:", e);
+            document.getElementById('decrypted').value = 'decryption failed (incorrect password or corrupted data)';
+            showMessage('decryption failed', true);
+        }
+    }
+</script>
+```
+
 </body>
 </html>
