@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>URL Encoder / Decoder</title>
+  <title>encoding</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -12,19 +13,20 @@
       background-color: #ffffff;
       color: #434343;
       line-height: 1.5;
-      padding: 30px 20px;
     }
-    h1 {
+    .header {
+      background-color: #ffffff;
+      padding: 30px 20px 10px 20px;
       text-align: center;
-      font-size: 1.6em;
-      font-weight: 700;
-      color: #fe0032;
-      margin-bottom: 20px;
-      text-transform: lowercase;
+    }
+    .header img {
+      max-width: 360px;
+      height: auto;
     }
     .container {
       max-width: 800px;
-      margin: 0 auto;
+      margin: 20px auto;
+      padding: 0 20px;
     }
     textarea {
       width: 100%;
@@ -83,32 +85,42 @@
       opacity: 1;
       transform: translateX(-50%) scale(1);
     }
+    .spacer {
+      height: 100px;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>url encoder / decoder</h1>
+  <div class="header">
+    <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/refs/heads/main/encoding.jpg" alt="encoding">
+  </div>
 
+  <div class="container">
     <textarea id="input" placeholder="enter text here..."></textarea>
 
-    <div class="button-group">
-      <button onclick="encodeURIComp()">encodeURI</button>
-      <button onclick="decodeURIComp()">decodeURI</button>
-      <button onclick="base64Encode()">base64 encode</button>
-      <button onclick="base64Decode()">base64 decode</button>
-      <button onclick="htmlEscape()">html escape</button>
-      <button onclick="htmlUnescape()">html unescape</button>
-    </div>
+```
+<div class="button-group">
+  <button onclick="encodeURIComp()">encodeURI</button>
+  <button onclick="decodeURIComp()">decodeURI</button>
+  <button onclick="base64Encode()">base64 encode</button>
+  <button onclick="base64Decode()">base64 decode</button>
+  <button onclick="htmlEscape()">html escape</button>
+  <button onclick="htmlUnescape()">html unescape</button>
+</div>
 
-    <textarea id="output" placeholder="output will appear here..." readonly></textarea>
+<textarea id="output" placeholder="output will appear here..." readonly></textarea>
 
-    <div class="button-group">
-      <button onclick="clearFields()">clear</button>
-      <button onclick="copyOutput()">copy output</button>
-    </div>
+<div class="button-group">
+  <button onclick="clearFields()">clear</button>
+  <button onclick="copyOutput()">copy output</button>
+</div>
 
-    <div class="toast" id="toast">copied to clipboard!</div>
+<div class="toast" id="toast">copied to clipboard!</div>
+```
+
   </div>
+
+  <div class="spacer"></div>
 
   <script>
     const input = document.getElementById('input');
@@ -181,5 +193,6 @@
       setTimeout(() => toast.classList.remove('show'), 2000);
     }
   </script>
+
 </body>
 </html>
