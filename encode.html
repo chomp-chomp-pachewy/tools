@@ -28,6 +28,23 @@
       margin: 20px auto;
       padding: 0 20px;
     }
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-family: 'Roboto', sans-serif;
+      border: 1px solid #434343;
+      border-radius: 8px;
+      background-color: #ffffff;
+      color: #434343;
+      margin-bottom: 20px;
+      height: 52px;
+      box-sizing: border-box;
+    }
+    select:focus {
+      outline: none;
+      border-color: #fe0032;
+    }
     textarea {
       width: 100%;
       height: 140px;
@@ -96,26 +113,22 @@
   </div>
 
   <div class="container">
-    <textarea id="input" placeholder="enter text here..."></textarea>
+    <select id="encodeType" onchange="processEncode()">
+      <option value="">select encoding type...</option>
+      <option value="encodeURI">encode URI</option>
+      <option value="decodeURI">decode URI</option>
+      <option value="base64Encode">base64 encode</option>
+      <option value="base64Decode">base64 decode</option>
+      <option value="hexEncode">hex encode</option>
+      <option value="hexDecode">hex decode</option>
+      <option value="binaryEncode">binary encode</option>
+      <option value="binaryDecode">binary decode</option>
+      <option value="md5Hash">MD5 hash</option>
+      <option value="sha256Hash">SHA-256 hash</option>
+    </select>
 
 ```
-<div class="button-group">
-  <button onclick="encodeURIComp()">encode URI</button>
-  <button onclick="decodeURIComp()">decode URI</button>
-  <button onclick="base64Encode()">base64 encode</button>
-  <button onclick="base64Decode()">base64 decode</button>
-  <button onclick="hexEncode()">hex encode</button>
-  <button onclick="hexDecode()">hex decode</button>
-</div>
-
-<div class="button-group">
-  <button onclick="binaryEncode()">binary encode</button>
-  <button onclick="binaryDecode()">binary decode</button>
-  <button onclick="md5Hash()">MD5 hash</button>
-  <button onclick="sha256Hash()">SHA-256 hash</button>
-  <button onclick="htmlEscape()">html escape</button>
-  <button onclick="htmlUnescape()">html unescape</button>
-</div>
+<textarea id="input" placeholder="enter text here..."></textarea>
 
 <textarea id="output" placeholder="output will appear here..." readonly></textarea>
 
@@ -135,6 +148,29 @@
     const input = document.getElementById('input');
     const output = document.getElementById('output');
     const toast = document.getElementById('toast');
+    const encodeType = document.getElementById('encodeType');
+
+    function processEncode() {
+      const selectedType = encodeType.value;
+      if (!selectedType) return;
+
+      const functions = {
+        'encodeURI': encodeURIComp,
+        'decodeURI': decodeURIComp,
+        'base64Encode': base64Encode,
+        'base64Decode': base64Decode,
+        'hexEncode': hexEncode,
+        'hexDecode': hexDecode,
+        'binaryEncode': binaryEncode,
+        'binaryDecode': binaryDecode,
+        'md5Hash': md5Hash,
+        'sha256Hash': sha256Hash
+      };
+
+      if (functions[selectedType]) {
+        functions[selectedType]();
+      }
+    }
 
     function encodeURIComp() {
       try {
@@ -175,6 +211,15 @@
         .replace(/>/g, '&gt;')
         .replace(/\"/g, '&quot;')
         .replace(/'/g, '&#39;');
+    }
+
+    function htmlUnescape() {
+      output.value = input.value
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&amp;/g, '&');
     }
 
     function htmlUnescape() {
