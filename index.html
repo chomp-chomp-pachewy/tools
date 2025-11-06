@@ -421,11 +421,12 @@
                 
                 const proxyData = {};
                 
-                // Parse plain text response: "ip:xxx is_proxy:yes proxy_type:VPN tor_node:no"
-                const parts = proxyText.trim().split(/\s+/);
-                console.log('Proxy check parts:', parts);
+                // Parse plain text response - handles both space and newline separators
+                // "ip:xxx is_proxy:yes proxy_type:VPN" or with newlines
+                const lines = proxyText.trim().split(/[\s\n\r]+/);
+                console.log('Proxy check parts:', lines);
                 
-                parts.forEach(part => {
+                lines.forEach(part => {
                     const colonIndex = part.indexOf(':');
                     if (colonIndex !== -1) {
                         const key = part.substring(0, colonIndex);
