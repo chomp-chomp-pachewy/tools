@@ -144,9 +144,9 @@
         </div>
 
         <div class="info-section" id="myIPSection">
-            <div class="section-title">my ip address</div>
+            <div class="section-title">ip info</div>
             <div class="info-grid">
-                <div class="info-label">ipv4</div>
+                <div class="info-label">ip address</div>
                 <div class="info-value" id="ipv4">loading...</div>
                 
                 <div class="info-label">city</div>
@@ -161,8 +161,14 @@
                 <div class="info-label">country</div>
                 <div class="info-value" id="country">loading...</div>
                 
+                <div class="info-label">coordinates</div>
+                <div class="info-value" id="coordinates">loading...</div>
+                
                 <div class="info-label">time zone</div>
                 <div class="info-value" id="timezone">loading...</div>
+                
+                <div class="info-label">local time</div>
+                <div class="info-value" id="localTime">loading...</div>
                 
                 <div class="info-label">isp</div>
                 <div class="info-value" id="isp">loading...</div>
@@ -170,23 +176,14 @@
                 <div class="info-label">domain</div>
                 <div class="info-value" id="domain">loading...</div>
                 
-                <div class="info-label">asn</div>
-                <div class="info-value" id="asn">loading...</div>
-                
                 <div class="info-label">organization</div>
                 <div class="info-value" id="organization">loading...</div>
                 
-                <div class="info-label">asn ip range</div>
+                <div class="info-label">network ip range</div>
                 <div class="info-value" id="asnRange">loading...</div>
                 
-                <div class="info-label">known proxy</div>
-                <div class="info-value" id="knownProxy">checking...</div>
-                
-                <div class="info-label">proxy type</div>
-                <div class="info-value" id="proxyType">checking...</div>
-                
-                <div class="info-label">network speed</div>
-                <div class="info-value" id="networkSpeed">detecting...</div>
+                <div class="info-label">asn</div>
+                <div class="info-value" id="asn">loading...</div>
             </div>
         </div>
 
@@ -241,7 +238,6 @@
                 
                 // Get all other data
                 getIPLookup(ip.trim());
-                getProxyCheck(ip.trim());
                 getWhois(ip.trim());
                 getHostname(ip.trim());
             } catch (error) {
@@ -270,6 +266,7 @@
                 console.log('City value:', data.city);
                 console.log('Region value:', data.region);
                 console.log('ISP value:', data.isp);
+                console.log('ASN value:', data.asn);
                 
                 document.getElementById('city').textContent = data.city || 'n/a';
                 document.getElementById('region').textContent = data.region || 'n/a';
@@ -278,6 +275,33 @@
                 document.getElementById('timezone').textContent = data.time || 'n/a';
                 document.getElementById('isp').textContent = data.isp || 'n/a';
                 document.getElementById('organization').textContent = data.isp || 'n/a';
+                document.getElementById('asn').textContent = data.asn ? `AS${data.asn}` : 'n/a';
+                
+                // Coordinates
+                if (data.latitude && data.longitude) {
+                    document.getElementById('coordinates').textContent = `${data.latitude}, ${data.longitude}`;
+                } else {
+                    document.getElementById('coordinates').textContent = 'n/a';
+                }
+                
+                // Calculate local time from timezone offset
+                if (data.time) {
+                    const now = new Date();
+                    const localTimeStr = now.toLocaleString('en-US', { 
+                        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        weekday: 'short',
+                        year: 'numeric',
+                        month: 'short',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: false
+                    });
+                    document.getElementById('localTime').textContent = localTimeStr;
+                } else {
+                    document.getElementById('localTime').textContent = 'n/a';
+                }
                 
                 allData.lookup = data;
             } catch (error) {
@@ -378,14 +402,6 @@
             document.getElementById('platform').textContent = navigator.platform;
             document.getElementById('cookies').textContent = navigator.cookieEnabled ? 'yes' : 'no';
             document.getElementById('dnt').textContent = navigator.doNotTrack || 'not set';
-            
-            // Detect network speed
-            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-            if (conn && conn.downlink) {
-                document.getElementById('networkSpeed').textContent = `${conn.downlink} Mbps`;
-            } else {
-                document.getElementById('networkSpeed').textContent = 'unable to detect';
-            }
         }
         
         function copyIPAddress() {
