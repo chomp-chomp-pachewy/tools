@@ -1,427 +1,592 @@
+Make it like the page here:
+
 <!DOCTYPE html>
 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nautical ipsum - chomp tools</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-```
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>inferno ipsum</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        background: white;
-        color: #434343;
-        line-height: 1.6;
-        padding: 20px;
-        margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #ffffff;
+      color: #434343;
+      line-height: 1.5;
     }
-    
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    
     .header {
-        text-align: center;
-        padding: 40px 20px 20px;
-        margin-bottom: 40px;
+      background-color: #ffffff;
+      padding: 30px 20px 10px 20px;
+      text-align: center;
     }
-    
-    .header-graphic {
-        max-width: 400px;
-        margin: 0 auto 30px;
+    .header img {
+      max-width: 425px;
+      height: auto;
     }
-    
-    .header-graphic svg {
-        width: 100%;
-        height: auto;
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 20px;
     }
-    
-    h1 {
-        font-size: 28px;
-        margin-bottom: 8px;
-        color: #434343;
-        text-transform: lowercase;
-        font-weight: 400;
+    .section-title {
+      color: #fe0032;
+      font-size: 1.15em;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-transform: lowercase;
     }
-    
-    .back-link {
-        display: inline-block;
-        color: #fe0032;
-        text-decoration: none;
-        margin-bottom: 15px;
-        font-size: 14px;
-        text-transform: lowercase;
+    .subsection-title {
+      color: #434343;
+      font-size: 1em;
+      font-weight: 400;
+      margin-bottom: 15px;
+      margin-top: 5px;
+      text-transform: lowercase;
     }
-    
-    .back-link:hover {
-        text-decoration: underline;
-    }
-    
-    .description {
-        color: #999;
-        font-size: 15px;
-        text-transform: lowercase;
-    }
-    
-    .generator-section {
-        margin-bottom: 50px;
-        padding-bottom: 50px;
-        border-bottom: 1px solid #f0f0f0;
-    }
-    
-    .generator-section:last-of-type {
-        border-bottom: none;
-    }
-    
-    .generator-title {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 8px;
-        color: #fe0032;
-        text-transform: lowercase;
-    }
-    
-    .generator-description {
-        color: #999;
-        font-size: 14px;
-        margin-bottom: 25px;
-        text-transform: lowercase;
-    }
-    
     .control-group {
-        margin-bottom: 20px;
+      margin-bottom: 8px;
     }
-    
     label {
-        display: block;
-        margin-bottom: 8px;
-        font-size: 14px;
-        font-weight: 400;
-        text-transform: lowercase;
-        color: #434343;
+      display: block;
+      color: #434343;
+      font-size: 0.95em;
+      font-family: 'Roboto', sans-serif;
+      margin-bottom: 8px;
+      text-transform: lowercase;
     }
-    
     input[type="number"] {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #e0e0e0;
-        border-radius: 4px;
-        font-size: 15px;
-        font-family: inherit;
-        color: #434343;
+      width: 250px;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-family: 'Roboto', sans-serif;
+      border: 1px solid #434343;
+      border-radius: 8px;
+      background-color: #ffffff;
+      color: #434343;
+      margin-bottom: 8px;
+      height: 52px;
+      box-sizing: border-box;
     }
-    
-    input[type="number"]:focus {
-        outline: none;
-        border-color: #fe0032;
+    select {
+      width: 250px;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-family: 'Roboto', sans-serif;
+      border: 1px solid #434343;
+      border-radius: 8px;
+      background-color: #ffffff;
+      color: #434343;
+      margin-bottom: 8px;
+      height: 52px;
+      box-sizing: border-box;
     }
-    
+    select:focus, input[type="number"]:focus {
+      outline: none;
+      border-color: #fe0032;
+    }
+    textarea {
+      width: 100%;
+      height: 400px;
+      padding: 12px;
+      border: 1px solid #434343;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.9em;
+      color: #434343;
+      background-color: #ffffff;
+      margin-bottom: 50px;
+      margin-top: 8px;
+      line-height: 1.8;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #fe0032;
+    }
     .button-group {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 25px;
+      display: flex;
+      gap: 12px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
     }
-    
     button {
-        flex: 1;
-        padding: 14px 24px;
-        border: none;
-        border-radius: 4px;
-        font-size: 15px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.2s;
-        text-transform: lowercase;
-        font-family: inherit;
+      width: 250px;
+      padding: 10px 16px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      text-transform: lowercase;
+      background-color: #ffffff;
+      color: #434343;
+      border: 1px solid #434343;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      height: 52px;
+      box-sizing: border-box;
     }
-    
-    .generate-btn {
-        background: #fe0032;
-        color: white;
+    button:hover {
+      border-color: #fe0032;
     }
-    
-    .generate-btn:hover {
-        background: #e5002d;
+    button:active {
+      transform: scale(0.98);
     }
-    
-    .copy-btn {
-        background: #f5f5f5;
-        color: #434343;
+    .toast {
+      position: fixed;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      background-color: #fe0032;
+      color: #ffffff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      opacity: 0;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      z-index: 1000;
     }
-    
-    .copy-btn:hover {
-        background: #e8e8e8;
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
     }
-    
-    .copy-btn.copied {
-        background: #4caf50;
-        color: white;
+    .spacer {
+      height: 100px;
     }
-    
-    .output {
-        background: #fafafa;
-        padding: 25px;
-        border-radius: 4px;
-        min-height: 150px;
-        border: 1px solid #e8e8e8;
+    nav {
+      padding: 20px;
+      text-align: right;
     }
-    
-    .output p {
-        margin-bottom: 16px;
-        line-height: 1.8;
-        color: #666;
+    nav a {
+      color: #999;
+      text-decoration: none;
+      margin-left: 30px;
+      font-size: 0.95em;
     }
-    
-    .output p:last-child {
-        margin-bottom: 0;
+    nav a:hover {
+      color: #333;
     }
-</style>
-```
-
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <a href="https://tools.chomp.ltd" class="back-link">← back to tools</a>
-            <div class="header-graphic">
-                <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="300" cy="200" r="150" fill="none" stroke="#e0e0e0" stroke-width="1" opacity="0.5"/>
-                    <circle cx="300" cy="200" r="120" fill="none" stroke="#e0e0e0" stroke-width="1" opacity="0.5"/>
-                    <circle cx="220" cy="160" r="35" fill="#d0d0d0"/>
-                    <circle cx="228" cy="150" r="6" fill="white" opacity="0.8"/>
-                    <circle cx="218" cy="165" r="5" fill="white" opacity="0.8"/>
-                    <circle cx="232" cy="168" r="4" fill="white" opacity="0.8"/>
-                    <circle cx="260" cy="130" r="3" fill="#d0d0d0"/>
-                    <circle cx="340" cy="140" r="2.5" fill="#fe0032" opacity="0.6"/>
-                    <circle cx="360" cy="175" r="2" fill="#d0d0d0"/>
-                    <circle cx="280" cy="240" r="3" fill="#fe0032" opacity="0.4"/>
-                    <circle cx="320" cy="260" r="2" fill="#d0d0d0"/>
-                    <path d="M380,160 Q370,145 360,150 Q350,155 355,168 L370,185 L385,168 Q390,155 380,150 Q370,145 370,160" fill="none" stroke="#fe0032" stroke-width="2"/>
-                    <path d="M400,190 Q392,178 385,182 Q378,186 382,196 L392,209 L402,196 Q406,186 400,182 Q392,178 392,190" fill="#fe0032" opacity="0.3"/>
-                    <path d="M240,185 L245,195 L235,195 Z" fill="#fe0032" opacity="0.4"/>
-                    <path d="M365,215 L370,223 L360,223 Z" fill="#fe0032" opacity="0.3"/>
-                    <path d="M250,200 Q260,195 270,200" fill="none" stroke="#d0d0d0" stroke-width="1.5"/>
-                    <path d="M320,210 Q330,205 340,210" fill="none" stroke="#fe0032" stroke-width="1" opacity="0.4"/>
-                </svg>
-            </div>
-            <h1>nautical ipsum</h1>
-            <p class="description">nautical-themed placeholder text generators</p>
-        </div>
+  <nav>
+    <a href="https://chomp.ltd">home</a>
+    <a href="https://tools.chomp.ltd">tools</a>
+  </nav>
+
+  <div class="header">
+    <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/6a83632e2b13c9ca2c9ba9abd314f31ebf5c510f/dante.jpeg" alt="inferno ipsum">
+  </div>
+
+  <div class="container">
+    <div class="section-title">dante's inferno</div>
 
 ```
-    <div class="generator-section">
-        <div class="generator-title">nautical terms</div>
-        <div class="generator-description">random maritime words and phrases (50-65 words per paragraph)</div>
-        
-        <div class="control-group">
-            <label for="nautical-paragraphs">number of paragraphs</label>
-            <input type="number" id="nautical-paragraphs" min="1" max="20" value="3">
-        </div>
-        
-        <div class="button-group">
-            <button class="generate-btn" onclick="generateNautical()">generate text</button>
-            <button class="copy-btn" onclick="copyNautical()">copy to clipboard</button>
-        </div>
-        
-        <div class="output" id="nautical-output"></div>
-    </div>
-    
-    <div class="generator-section">
-        <div class="generator-title">moby dick</div>
-        <div class="generator-description">passages from herman melville's classic</div>
-        
-        <div class="control-group">
-            <label for="moby-paragraphs">number of paragraphs</label>
-            <input type="number" id="moby-paragraphs" min="1" max="20" value="3">
-        </div>
-        
-        <div class="button-group">
-            <button class="generate-btn" onclick="generateMoby()">generate text</button>
-            <button class="copy-btn" onclick="copyMoby()">copy to clipboard</button>
-        </div>
-        
-        <div class="output" id="moby-output"></div>
-    </div>
+<div class="subsection-title">english translation</div>
+
+<div class="control-group">
+  <label for="count-en">quantity:</label>
+  <input type="number" id="count-en" value="5" min="1" max="50">
 </div>
 
+<div class="control-group">
+  <label for="type-en">generate:</label>
+  <select id="type-en">
+    <option value="tercets">tercets (3-line stanzas)</option>
+    <option value="lines">lines</option>
+  </select>
+</div>
+
+<div class="button-group">
+  <button onclick="generate('en')">generate</button>
+  <button onclick="copyToClipboard('en')">copy to clipboard</button>
+</div>
+
+<textarea id="output-en" placeholder="generated text will appear here..." readonly></textarea>
+
+<div class="subsection-title">italiano originale</div>
+
+<div class="control-group">
+  <label for="count-it">quantità:</label>
+  <input type="number" id="count-it" value="5" min="1" max="50">
+</div>
+
+<div class="control-group">
+  <label for="type-it">genera:</label>
+  <select id="type-it">
+    <option value="tercets">terzine</option>
+    <option value="lines">versi</option>
+  </select>
+</div>
+
+<div class="button-group">
+  <button onclick="generate('it')">genera</button>
+  <button onclick="copyToClipboard('it')">copia</button>
+</div>
+
+<textarea id="output-it" placeholder="il testo generato apparirà qui..." readonly></textarea>
+
+<div class="toast" id="toast">copied to clipboard!</div>
+```
+
+  </div>
+
+  <div class="spacer"></div>
+
+  <script>
+    // English lines from Dante's Inferno
+    const infernoTextEn = [
+      "Midway upon the journey of our life",
+      "I found myself within a forest dark,",
+      "For the straightforward pathway had been lost.",
+      "Ah me! how hard a thing it is to say",
+      "What was this forest savage, rough, and stern,",
+      "Which in the very thought renews the fear.",
+      "So bitter is it, death is little more;",
+      "But of the good to treat, which there I found,",
+      "Speak will I of the other things I saw there.",
+      "Upward I looked, and I beheld its shoulders",
+      "Vested already with that planet's rays",
+      "Which leadeth others right by every road.",
+      "Then was the fear a little quieted",
+      "That in my heart's lake had endured throughout",
+      "The night, which I had passed so piteously.",
+      "After my weary body I had rested,",
+      "The way resumed I on the desert slope,",
+      "So that the firm foot ever was the lower.",
+      "And lo! almost where the ascent began,",
+      "A panther light and swift exceedingly,",
+      "Which with a spotted skin was covered o'er!",
+      "'Per me si va ne la città dolente,",
+      "per me si va ne l'etterno dolore,",
+      "per me si va tra la perduta gente.",
+      "All hope abandon, ye who enter in!",
+      "These words in sombre colour I beheld",
+      "Written upon the summit of a gate;",
+      "Whence I: 'Their sense is, Master, hard to me!'",
+      "And he to me, as one experienced:",
+      "'Here all suspicion needs must be abandoned,",
+      "All cowardice must needs be here extinct.",
+      "We to the place have come, where I have told thee",
+      "Thou shalt behold the people dolorous",
+      "Who have foregone the good of intellect.'",
+      "Diverse tongues, horrible languages,",
+      "Outcries of woe, accents of anger,",
+      "Voices deep and hoarse, with sound of hands,",
+      "Made up a tumult that goes whirling on",
+      "For ever in that air for ever black,",
+      "Even as the sand doth, when the whirlwind breathes.",
+      "The heavy thunder broke my head with sound",
+      "So that I woke, like one by force disturbed;",
+      "I stood erect and rested, and I looked",
+      "To recognize the place in which I was.",
+      "True is it, that upon the verge I found me",
+      "Of the abysmal valley dolorous,",
+      "That gathers thunder of infinite ululations.",
+      "There is a place in Hell called Malebolge,",
+      "Wholly of stone and of an iron colour,",
+      "As is the circle that around it turns.",
+      "In the right center of the malign field",
+      "Yawns a well, exceeding wide and deep,",
+      "Of which its place the structure will recount."
+    ];
+    
+    // Italian lines from Dante's Inferno
+    const infernoTextIt = [
+      "Nel mezzo del cammin di nostra vita",
+      "mi ritrovai per una selva oscura,",
+      "ché la diritta via era smarrita.",
+      "Ahi quanto a dir qual era è cosa dura",
+      "esta selva selvaggia e aspra e forte",
+      "che nel pensier rinova la paura!",
+      "Tant' è amara che poco è più morte;",
+      "ma per trattar del ben ch'i' vi trovai,",
+      "dirò de l'altre cose ch'i' v'ho scorte.",
+      "guardai in alto e vidi le sue spalle",
+      "vestite già de' raggi del pianeta",
+      "che mena dritto altrui per ogne calle.",
+      "Allor fu la paura un poco queta,",
+      "che nel lago del cor m'era durata",
+      "la notte ch'i' passai con tanta pieta.",
+      "Poi ch'èi posato un poco il corpo lasso,",
+      "ripresi via per la piaggia diserta,",
+      "sì che 'l piè fermo sempre era 'l più basso.",
+      "Ed ecco, quasi al cominciar de l'erta,",
+      "una lonza leggera e presta molto,",
+      "che di pel macolato era coverta;",
+      "'Per me si va ne la città dolente,",
+      "per me si va ne l'etterno dolore,",
+      "per me si va tra la perduta gente.",
+      "Lasciate ogne speranza, voi ch'intrate'.",
+      "Queste parole di colore oscuro",
+      "vid' ïo scritte al sommo d'una porta;",
+      "per ch'io: «Maestro, il senso lor m'è duro».",
+      "Ed elli a me, come persona accorta:",
+      "«Qui si convien lasciare ogne sospetto;",
+      "ogne viltà convien che qui sia morta.",
+      "Noi siam venuti al loco ov' i' t'ho detto",
+      "che tu vedrai le genti dolorose",
+      "c'hanno perduto il ben de l'intelletto».",
+      "Diverse lingue, orribili favelle,",
+      "parole di dolore, accenti d'ira,",
+      "voci alte e fioche, e suon di man con elle",
+      "facevano un tumulto, il qual s'aggira",
+      "sempre in quell' aura sanza tempo tinta,",
+      "come la rena quando turbo spira.",
+      "Ruppemi l'alto sonno ne la testa",
+      "un greve truono, sì ch'io mi riscossi",
+      "come persona ch'è per forza desta;",
+      "Vero è che 'n su la proda mi trovai",
+      "de la valle d'abisso dolorosa",
+      "che 'ntrono accoglie d'infiniti guai.",
+      "Luogo è in inferno detto Malebolge,",
+      "tutto di pietra di color ferrigno,",
+      "come la cerchia che dintorno il volge.",
+      "Nel dritto mezzo del campo maligno",
+      "vaneggia un pozzo assai largo e profondo,",
+      "di cui suo loco dicerò l'ordigno."
+    ];
+    
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    function generate(lang) {
+      const count = parseInt(document.getElementById('count-' + lang).value);
+      const type = document.getElementById('type-' + lang).value;
+      const output = document.getElementById('output-' + lang);
+      const lines = lang === 'en' ? infernoTextEn : infernoTextIt;
+      
+      if (count < 1 || count > 50) {
+        output.value = 'please enter a number between 1 and 50';
+        return;
+      }
+      
+      let result = '';
+      
+      if (type === 'lines') {
+        for (let i = 0; i < count; i++) {
+          const line = lines[getRandomInt(0, lines.length - 1)];
+          result += line + '\n';
+        }
+      } else if (type === 'tercets') {
+        for (let i = 0; i < count; i++) {
+          const start = Math.floor(Math.random() * (lines.length - 2));
+          result += lines[start] + '\n';
+          result += lines[start + 1] + '\n';
+          result += lines[start + 2] + '\n\n';
+        }
+      }
+      
+      output.value = result.trim();
+    }
+    
+    function copyToClipboard(lang) {
+      const output = document.getElementById('output-' + lang);
+      const text = output.value;
+      const toast = document.getElementById('toast');
+      
+      if (!text || text === 'generated text will appear here...' || text === 'il testo generato apparirà qui...') {
+        return;
+      }
+      
+      navigator.clipboard.writeText(text).then(() => {
+        toast.textContent = lang === 'en' ? 'copied to clipboard!' : 'copiato!';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+      });
+    }
+    
+    // Generate default content on load
+    window.onload = function() {
+      generate('en');
+      generate('it');
+    };
+  </script>
+
+</body>
+</html>
+
+```
 <script>
-    const nauticalTerms = [
-        'anchor', 'ballast', 'barnacle', 'beacon', 'bearing', 'berth', 'bilge', 'boom', 
-        'bow', 'bowsprit', 'bridge', 'bulkhead', 'buoy', 'cabin', 'capstan', 'cargo', 
-        'chart', 'cleat', 'compass', 'course', 'crew', 'current', 'davit', 'deck', 
-        'depth', 'dinghy', 'drift', 'fathom', 'figurehead', 'fleet', 'galley', 'gunwale', 
-        'halyard', 'harbor', 'hatch', 'hawser', 'heading', 'helm', 'horizon', 'hull', 
-        'jib', 'keel', 'knot', 'lanyard', 'latitude', 'league', 'lee', 'lighthouse', 
-        'line', 'log', 'longitude', 'mainmast', 'mainsail', 'mast', 'mooring', 'nautical', 
-        'navigation', 'offshore', 'outrigger', 'passage', 'pier', 'pilot', 'plank', 
-        'porthole', 'prow', 'pulley', 'quarter', 'quay', 'rail', 'rigging', 'rudder', 
-        'sail', 'sailor', 'schooner', 'scupper', 'sea', 'sextant', 'sheet', 'ship', 
-        'shroud', 'skipper', 'sloop', 'spar', 'spinnaker', 'splice', 'squall', 'starboard', 
-        'stern', 'stowage', 'tackle', 'tack', 'tide', 'tiller', 'transom', 'vessel', 
-        'wake', 'watch', 'wave', 'wharf', 'windlass', 'yardarm',
-        'cast off', 'weigh anchor', 'full sail ahead', 'man overboard', 'all hands on deck',
-        'steady as she goes', 'hard to starboard', 'reef the sails', 'swab the deck',
-        'batten down the hatches', 'three sheets to the wind', 'dead in the water',
-        'show your true colors', 'know the ropes', 'on an even keel', 'take the helm',
-        'chart a course', 'trim the sails', 'make way', 'clear the deck', 'splice the mainbrace',
-        'heave to', 'come about', 'stand by', 'drop anchor', 'set sail', 'fair winds',
-        'following seas', 'smooth sailing', 'rough waters', 'high tide', 'low tide',
-        'dead reckoning', 'full steam ahead', 'all hands', 'abandon ship', 'steady course',
-        'port side', 'list to starboard', 'into the wind', 'with the current', 'against the tide'
+    // English lines from Canto I
+    const infernoTextEn = [
+        "Midway upon the journey of our life",
+        "I found myself within a forest dark,",
+        "For the straightforward pathway had been lost.",
+        "Ah me! how hard a thing it is to say",
+        "What was this forest savage, rough, and stern,",
+        "Which in the very thought renews the fear.",
+        "So bitter is it, death is little more;",
+        "But of the good to treat, which there I found,",
+        "Speak will I of the other things I saw there.",
+        "Upward I looked, and I beheld its shoulders",
+        "Vested already with that planet's rays",
+        "Which leadeth others right by every road.",
+        "Then was the fear a little quieted",
+        "That in my heart's lake had endured throughout",
+        "The night, which I had passed so piteously.",
+        "After my weary body I had rested,",
+        "The way resumed I on the desert slope,",
+        "So that the firm foot ever was the lower.",
+        "And lo! almost where the ascent began,",
+        "A panther light and swift exceedingly,",
+        "Which with a spotted skin was covered o'er!",
+        "'Per me si va ne la città dolente,",
+        "per me si va ne l'etterno dolore,",
+        "per me si va tra la perduta gente.",
+        "All hope abandon, ye who enter in!",
+        "These words in sombre colour I beheld",
+        "Written upon the summit of a gate;",
+        "Whence I: 'Their sense is, Master, hard to me!'",
+        "And he to me, as one experienced:",
+        "'Here all suspicion needs must be abandoned,",
+        "All cowardice must needs be here extinct.",
+        "We to the place have come, where I have told thee",
+        "Thou shalt behold the people dolorous",
+        "Who have foregone the good of intellect.'",
+        "Diverse tongues, horrible languages,",
+        "Outcries of woe, accents of anger,",
+        "Voices deep and hoarse, with sound of hands,",
+        "Made up a tumult that goes whirling on",
+        "For ever in that air for ever black,",
+        "Even as the sand doth, when the whirlwind breathes.",
+        "The heavy thunder broke my head with sound",
+        "So that I woke, like one by force disturbed;",
+        "I stood erect and rested, and I looked",
+        "To recognize the place in which I was.",
+        "True is it, that upon the verge I found me",
+        "Of the abysmal valley dolorous,",
+        "That gathers thunder of infinite ululations.",
+        "There is a place in Hell called Malebolge,",
+        "Wholly of stone and of an iron colour,",
+        "As is the circle that around it turns.",
+        "In the right center of the malign field",
+        "Yawns a well, exceeding wide and deep,",
+        "Of which its place the structure will recount."
     ];
     
-    const mobyPassages = [
-        "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
-        "It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people's hats off—then, I account it high time to get to sea as soon as I can.",
-        "There now is your insular city of the Manhattoes, belted round by wharves as Indian isles by coral reefs—commerce surrounds it with her surf. Right and left, the streets take you waterward. Its extreme downtown is the battery, where that noble mole is washed by waves, and cooled by breezes, which a few hours previous were out of sight of land.",
-        "But look! here come more crowds, pacing straight for the water, and seemingly bound for a dive. Strange! Nothing will content them but the extremest limit of the land; loitering under the shady lee of yonder warehouses will not suffice. No. They must get just as nigh the water as they possibly can without falling in.",
-        "And there they stand—miles of them—leagues. Inlanders all, they come from lanes and alleys, streets and avenues—north, east, south, and west. Yet here they all unite. Tell me, does the magnetic virtue of the needles of the compasses of all those ships attract them thither?",
-        "Once more. Say you are in the country; in some high land of lakes. Take almost any path you please, and ten to one it carries you down in a dale, and leaves you there by a pool in the stream. There is magic in it. Let the most absent-minded of men be plunged in his deepest reveries—stand that man on his legs, set his feet a-going, and he will infallibly lead you to water, if water there be in all that region.",
-        "Should you ever be athirst in the great American desert, try this experiment, if your caravan happen to be supplied with a metaphysical professor. Yes, as every one knows, meditation and water are wedded for ever.",
-        "But here is an artist. He desires to paint you the dreamiest, shadiest, quietest, most enchanting bit of romantic landscape in all the valley of the Saco. What is the chief element he employs? There stand his trees, each with a hollow trunk, as if a hermit and a crucifix were within; and here sleeps his meadow, and there sleep his cattle; and up from yonder cottage goes a sleepy smoke.",
-        "Deep into distant woodlands winds a mazy way, reaching to overlapping spurs of mountains bathed in their hill-side blue. But though the picture lies thus tranced, and though this pine-tree shakes down its sighs like leaves upon this shepherd's head, yet all were vain, unless the shepherd's eye were fixed upon the magic stream before him.",
-        "Go visit the Prairies in June, when for scores on scores of miles you wade knee-deep among Tiger-lilies—what is the one charm wanting?—Water—there is not a drop of water there! Were Niagara but a cataract of sand, would you travel your thousand miles to see it? Why did the poor poet of Tennessee, upon suddenly receiving two handfuls of silver, deliberate whether to buy him a coat, which he sadly needed, or invest his money in a pedestrian trip to Rockaway Beach?",
-        "Why is almost every robust healthy boy with a robust healthy soul in him, at some time or other crazy to go to sea? Why upon your first voyage as a passenger, did you yourself feel such a mystical vibration, when first told that you and your ship were now out of sight of land? Why did the old Persians hold the sea holy? Why did the Greeks give it a separate deity, and own brother of Jove? Surely all this is not without meaning.",
-        "And still deeper the meaning of that story of Narcissus, who because he could not grasp the tormenting, mild image he saw in the fountain, plunged into it and was drowned. But that same image, we ourselves see in all rivers and oceans. It is the image of the ungraspable phantom of life; and this is the key to it all.",
-        "Now, when I say that I am in the habit of going to sea whenever I begin to grow hazy about the eyes, and begin to be over conscious of my lungs, I do not mean to have it inferred that I ever go to sea as a passenger. For to go as a passenger you must needs have a purse, and a purse is but a rag unless you have something in it.",
-        "Besides, passengers get sea-sick—grow quarrelsome—don't sleep of nights—do not enjoy themselves much, as a general thing;—no, I never go as a passenger; nor, though I am something of a salt, do I ever go to sea as a Commodore, or a Captain, or a Cook. I abandon the glory and distinction of such offices to those who like them.",
-        "For my part, I abominate all honorable respectable toils, trials, and tribulations of every kind whatsoever. It is quite as much as I can do to take care of myself, without taking care of ships, barques, brigs, schooners, and what not. And as for going as cook,—though I confess there is considerable glory in that, a cook being a sort of officer on ship-board—yet, somehow, I never fancied broiling fowls;—though once broiled, judiciously buttered, and judgmatically salted and peppered, there is no one who will speak more respectfully, not to say reverentially, of a broiled fowl than I will.",
-        "It is out of the idolatrous dotings of the old Egyptians upon broiled ibis and roasted river horse, that you see the mummies of those creatures in their huge bake-houses the pyramids. No, when I go to sea, I go as a simple sailor, right before the mast, plumb down into the forecastle, aloft there to the royal mast-head.",
-        "True, they rather order me about some, and make me jump from spar to spar, like a grasshopper in a May meadow. And at first, this sort of thing is unpleasant enough. It touches one's sense of honor, particularly if you come of an old established family in the land, the Van Rensselaers, or Randolphs, or Hardicanutes.",
-        "And more than all, if just previous to putting your hand into the tar-pot, you have been lording it as a country schoolmaster, making the tallest boys stand in awe of you. The transition is a keen one, I assure you, from a schoolmaster to a sailor, and requires a strong decoction of Seneca and the Stoics to enable you to grin and bear it.",
-        "But even this wears off in time. What of it, if some old hunks of a sea-captain orders me to get a broom and sweep down the decks? What does that indignity amount to, weighed, I mean, in the scales of the New Testament? Do you think the archangel Gabriel thinks anything the less of me, because I promptly and respectfully obey that old hunks in that particular instance?",
-        "Who ain't a slave? Tell me that. Well, then, however the old sea-captains may order me about—however they may thump and punch me about, I have the satisfaction of knowing that it is all right; that everybody else is one way or other served in much the same way—either in a physical or metaphysical point of view, that is; and so the universal thump is passed round, and all hands should rub each other's shoulder-blades, and be content.",
-        "Again, I always go to sea as a sailor, because they make a point of paying me for my trouble, whereas they never pay passengers a single penny that I ever heard of. On the contrary, passengers themselves must pay. And there is all the difference in the world between paying and being paid.",
-        "The act of paying is perhaps the most uncomfortable infliction that the two orchard thieves entailed upon us. But being paid,—what will compare with it? The urbane activity with which a man receives money is really marvellous, considering that we so earnestly believe money to be the root of all earthly ills, and that on no account can a monied man enter heaven. Ah! how cheerfully we consign ourselves to perdition!",
-        "Finally, I always go to sea as a sailor, because of the wholesome exercise and pure air of the fore-castle deck. For as in this world, head winds are far more prevalent than winds from astern (that is, if you never violate the Pythagorean maxim), so for the most part the Commodore on the quarter-deck gets his atmosphere at second hand from the sailors on the forecastle.",
-        "He thinks he breathes it first; but not so. In much the same way do the commonalty lead their leaders in many other things, at the same time that the leaders little suspect it. But wherefore it was that after having repeatedly smelt the sea as a merchant sailor, I should now take it into my head to go on a whaling voyage; this the invisible police officer of the Fates, who has the constant surveillance of me, and secretly dogs me, and influences me in some unaccountable way—he can better answer than any one else.",
-        "And, doubtless, my going on this whaling voyage, formed part of the grand programme of Providence that was drawn up a long time ago. It came in as a sort of brief interlude and solo between more extensive performances. I take it that this part of the bill must have run something like this: 'Grand Contested Election for the Presidency of the United States. Whaling voyage by one Ishmael. Bloody Battle in Affghanistan.'",
-        "Though I cannot tell why it was exactly that those stage managers, the Fates, put me down for this shabby part of a whaling voyage, when others were set down for magnificent parts in high tragedies, and short and easy parts in genteel comedies, and jolly parts in farces—though I cannot tell why this was exactly; yet, now that I recall all the circumstances, I think I can see a little into the springs and motives which being cunningly presented to me under various disguises, induced me to set about performing the part I did, besides cajoling me into the delusion that it was a choice resulting from my own unbiased freewill and discriminating judgment.",
-        "Chief among these motives was the overwhelming idea of the great whale himself. Such a portentous and mysterious monster roused all my curiosity. Then the wild and distant seas where he rolled his island bulk; the undeliverable, nameless perils of the whale; these, with all the attending marvels of a thousand Patagonian sights and sounds, helped to sway me to my wish.",
-        "With other men, perhaps, such things would not have been inducements; but as for me, I am tormented with an everlasting itch for things remote. I love to sail forbidden seas, and land on barbarous coasts. Not ignoring what is good, I am quick to perceive a horror, and could still be social with it—would they let me—since it is but well to be on friendly terms with all the inmates of the place one lodges in.",
-        "By reason of these things, then, the whaling voyage was welcome; the great flood-gates of the wonder-world swung open, and in the wild conceits that swayed me to my purpose, two and two there floated into my inmost soul, endless processions of the whale, and, mid most of them all, one grand hooded phantom, like a snow hill in the air.",
-        "The Pequod was a ship of the old school, rather small if anything; with an old-fashioned claw-footed look about her. Long seasoned and weather-stained in the typhoons and calms of all four oceans, her old hull's complexion was darkened like a French grenadier's, who has alike fought in Egypt and Siberia.",
-        "Her venerable bows looked bearded. Her masts—cut somewhere on the coast of Japan, where her original ones were lost overboard in a gale—her masts stood stiffly up like the spines of the three old kings of Cologne. Her ancient decks were worn and wrinkled, like the pilgrim-worshipped flag-stone in Canterbury Cathedral where Becket bled.",
-        "But to all these her old antiquities, were added new and marvellous features, pertaining to the wild business that for more than half a century she had followed. Old Captain Peleg, many years her chief-mate, before he commanded another vessel of his own, and now a retired seaman, and one of the principal owners of the Pequod,—this old Peleg, during the term of his chief-mateship, had built upon her original grotesqueness, and inlaid it, all over, with a quaintness both of material and device, unmatched by anything except it be Thorkill-Hake's carved buckler or bedstead.",
-        "She was apparelled like any barbaric Ethiopian emperor, his neck heavy with pendants of polished ivory. She was a thing of trophies. A cannibal of a craft, tricking herself forth in the chased bones of her enemies. All round, her unpanelled, open bulwarks were garnished like one continuous jaw, with the long sharp teeth of the sperm whale, inserted there for pins, to fasten her old hempen thews and tendons to.",
-        "Those thews ran not through base blocks of land wood, but deftly travelled over sheaves of sea-ivory. Scorning a turnstile wheel at her reverend helm, she sported there a tiller; and that tiller was in one mass, curiously carved from the long narrow lower jaw of her hereditary foe. The helmsman who steered by that tiller in a tempest, felt like the Tartar, when he holds back his fiery steed by clutching its jaw.",
-        "A noble craft, but somehow a most melancholy! All noble things are touched with that. Now when I looked about the quarter-deck, for some one having authority, in order to propose myself as a candidate for the voyage, at first I saw nobody; but I could not well overlook a strange sort of tent, or rather wigwam, pitched a little behind the main-mast.",
-        "It seemed only a temporary erection used in port. It was of a conical shape, some ten feet high; consisting of the long, huge slabs of limber black bone taken from the middle and highest part of the jaws of the right-whale. Planted with their broad ends on the deck, a circle of these slabs laced together, mutually sloped towards each other, and at the apex united in a tufted point, where the loose hairy fibres waved to and fro like the top-knot on some old Pottowottamie Sachem's head.",
-        "A triangular opening faced towards the bows of the ship, so that the insider commanded a complete view forward. And half concealed in this queer tenement, I at length found one who by his aspect seemed to have authority; and who, it being noon, and the ship's work suspended, was now enjoying respite from the burden of command.",
-        "He was seated on an old-fashioned oaken chair, wriggling all over with curious carving; and the bottom of which was formed of a stout interlacing of the same elastic stuff of which the wigwam was constructed. There was nothing so very particular, perhaps, about the appearance of the elderly man I saw; he was brown and brawny, like most old seamen, and heavily rolled up in blue pilot-cloth, cut in the Quaker style; only there was a fine and almost microscopic net-work of the minutest wrinkles interlacing round his eyes, which must have arisen from his continual sailings in many hard gales, and always looking to windward;—for this causes the muscles about the eyes to become pursed together.",
-        "Such eye-wrinkles are very effectual in a scowl. 'Is this the Captain of the Pequod?' said I, advancing to the door of the tent. 'Supposing it be the captain of the Pequod, what dost thou want of him?' he demanded. 'I was thinking of shipping.' 'Thou wast, wast thou? I see thou art no Nantucketer—ever been in a stove boat?' 'No, Sir, I never have.'",
-        "'Dost know nothing at all about whaling, I dare say—eh?' 'Nothing, Sir; but I have no doubt I shall soon learn. I've been several voyages in the merchant service, and I think that—' 'Merchant service be damned. Talk not that lingo to me. Dost see that leg?—I'll take that leg away from thy stern, if ever thou talkest of the marchant service to me again. Marchant service indeed! I suppose now ye feel considerable proud of having served in those marchant ships. But flukes! man, what makes thee want to go a whaling, eh?—it looks a little suspicious, don't it, eh?—Hast not been a pirate, hast thou?—Didst not rob thy last Captain, didst thou?—Dost not think of murdering the officers when thou gettest to sea?'",
-        "I protested my innocence of these things. I saw that under the mask of these half humorous innuendoes, this old seaman, as an insulated Quakerish Nantucketer, was full of his insular prejudices, and rather distrustful of all aliens, unless they hailed from Cape Cod or the Vineyard. 'But what takes thee a-whaling? I want to know that before I think of shipping ye.' 'Well, sir, I want to see what whaling is. I want to see the world.' 'Want to see what whaling is, eh? Have ye clapped eye on Captain Ahab?'",
-        "'Who is Captain Ahab, sir?' 'Aye, aye, I thought so. Captain Ahab is the Captain of this ship.' 'I am mistaken then. I thought I was speaking to the Captain himself.' 'Thou art speaking to Captain Peleg—that's who ye are speaking to, young man. It belongs to me and Captain Bildad to see the Pequod fitted out for the voyage, and supplied with all her needs, including crew. We are part owners and agents. But as I was going to say, if thou wantest to know what whaling is, as thou tellest ye do, I can put ye in a way of finding it out before ye bind yourself to it, past backing out.'",
-        "'Clap eye on Captain Ahab, young man, and thou wilt find that he has only one leg.' 'What do you mean, sir? Was the other one lost by a whale?' 'Lost by a whale! Young man, come nearer to me: it was devoured, chewed up, crunched by the monstrousest parmacetty that ever chipped a boat!—ah, ah!' I was a little alarmed by his energy, perhaps also a little touched at the hearty grief in his concluding exclamation, but said as calmly as I could, 'What you say is no doubt true enough, sir; but how could I know there was any peculiar ferocity in that particular whale, though indeed I might have inferred as much from the simple fact of the accident.'",
-        "'Look ye now, young man, thy lungs are a sort of soft, d'ye see; thou dost not talk shark a bit. Sure, ye've been to sea before now; sure of that?' 'Sir,' said I, 'I thought I told you that I had been four voyages in the merchant—' 'Hard down out of that! Mind what I said about the marchant service—don't aggravate me—I won't have it. But let us understand each other. I have given thee a hint about what whaling is; do ye yet feel inclined for it?'",
-        "'I do, sir.' 'Very good. Now, art thou the man to pitch a harpoon down a live whale's throat, and then jump after it? Answer, quick!' 'I am, sir, if it should be positively indispensable to do so; not to be got rid of, that is; which I don't take to be the fact.' 'Good again. Now then, thou not only wantest to go a-whaling, to find out by experience what whaling is, but ye also want to go in order to see the world? Was not that what ye said? I thought so. Well then, just step forward there, and take a peep over the weather-bow, and then back to me and tell me what ye see there.'",
-        "For a moment I stood a little puzzled by this curious request, not knowing exactly how to take it, whether humorously or in earnest. But concentrating all his crow's feet into one scowl, Captain Peleg started me on the errand. Going forward and glancing over the weather bow, I perceived that the ship swinging to her anchor with the flood-tide, was now obliquely pointing towards the open ocean. The prospect was unlimited, but exceedingly monotonous and forbidding; not the slightest variety that I could see.",
-        "'Well, what's the report?' said Peleg when I came back; 'what did ye see?' 'Not much,' I replied—'nothing but water; considerable horizon though, and there's a squall coming up, I think.' 'Well, what does thou think then of seeing the world? Do ye wish to go round Cape Horn to see any more of it, eh? Can't ye see the world where you stand?' I was a little staggered, but go a-whaling I must, and I would; and the Pequod was as good a ship as any—I thought the best—and all this I now repeated to Peleg.",
-        "Seeing me so determined, he expressed his willingness to ship me. 'And thou mayest as well sign the papers right off,' he added—'come along with ye.' And so saying, he led the way below deck into the cabin. Seated on the transom was what seemed to me a most uncommon and surprising figure. It turned out to be Captain Bildad, who along with Captain Peleg was one of the largest owners of the vessel; the other shares, as is sometimes the case in these ports, being held by a crowd of old annuitants; widows, fatherless children, and chancery wards; each owning about the value of a timber head, or a foot of plank, or a nail or two in the ship.",
-        "People in Nantucket invest their money in whaling vessels, the same way that you do yours in approved state stocks bringing in good interest. Now, Bildad, like Peleg, and indeed many other Nantucketers, was a Quaker, the island having been originally settled by that sect; and to this day its inhabitants in general retain in an uncommon measure the peculiarities of the Quaker, only variously and anomalously modified by things altogether alien and heterogeneous.",
-        "For some of these same Quakers are the most sanguinary of all sailors and whale-hunters. They are fighting Quakers; they are Quakers with a vengeance. So that there are instances among them of men, who, named with Scripture names—a singularly common fashion on the island—and in childhood naturally imbibing the stately dramatic thee and thou of the Quaker idiom; still, from the audacious, daring, and boundless adventure of their subsequent lives, strangely blend with these unoutgrown peculiarities, a thousand bold dashes of character, not unworthy a Scandinavian sea-king, or a poetical Pagan Roman."
+    // Italian lines from Canto I
+    const infernoTextIt = [
+        "Nel mezzo del cammin di nostra vita",
+        "mi ritrovai per una selva oscura,",
+        "ché la diritta via era smarrita.",
+        "Ahi quanto a dir qual era è cosa dura",
+        "esta selva selvaggia e aspra e forte",
+        "che nel pensier rinova la paura!",
+        "Tant' è amara che poco è più morte;",
+        "ma per trattar del ben ch'i' vi trovai,",
+        "dirò de l'altre cose ch'i' v'ho scorte.",
+        "guardai in alto e vidi le sue spalle",
+        "vestite già de' raggi del pianeta",
+        "che mena dritto altrui per ogne calle.",
+        "Allor fu la paura un poco queta,",
+        "che nel lago del cor m'era durata",
+        "la notte ch'i' passai con tanta pieta.",
+        "Poi ch'èi posato un poco il corpo lasso,",
+        "ripresi via per la piaggia diserta,",
+        "sì che 'l piè fermo sempre era 'l più basso.",
+        "Ed ecco, quasi al cominciar de l'erta,",
+        "una lonza leggera e presta molto,",
+        "che di pel macolato era coverta;",
+        "'Per me si va ne la città dolente,",
+        "per me si va ne l'etterno dolore,",
+        "per me si va tra la perduta gente.",
+        "Lasciate ogne speranza, voi ch'intrate'.",
+        "Queste parole di colore oscuro",
+        "vid' ïo scritte al sommo d'una porta;",
+        "per ch'io: «Maestro, il senso lor m'è duro».",
+        "Ed elli a me, come persona accorta:",
+        "«Qui si convien lasciare ogne sospetto;",
+        "ogne viltà convien che qui sia morta.",
+        "Noi siam venuti al loco ov' i' t'ho detto",
+        "che tu vedrai le genti dolorose",
+        "c'hanno perduto il ben de l'intelletto».",
+        "Diverse lingue, orribili favelle,",
+        "parole di dolore, accenti d'ira,",
+        "voci alte e fioche, e suon di man con elle",
+        "facevano un tumulto, il qual s'aggira",
+        "sempre in quell' aura sanza tempo tinta,",
+        "come la rena quando turbo spira.",
+        "Ruppemi l'alto sonno ne la testa",
+        "un greve truono, sì ch'io mi riscossi",
+        "come persona ch'è per forza desta;",
+        "Vero è che 'n su la proda mi trovai",
+        "de la valle d'abisso dolorosa",
+        "che 'ntrono accoglie d'infiniti guai.",
+        "Luogo è in inferno detto Malebolge,",
+        "tutto di pietra di color ferrigno,",
+        "come la cerchia che dintorno il volge.",
+        "Nel dritto mezzo del campo maligno",
+        "vaneggia un pozzo assai largo e profondo,",
+        "di cui suo loco dicerò l'ordigno."
     ];
     
-    function generateNauticalParagraph() {
-        const targetWords = Math.floor(Math.random() * 16) + 50;
-        let paragraph = [];
-        let wordCount = 0;
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    function generate(lang) {
+        const count = parseInt(document.getElementById('count-' + lang).value);
+        const type = document.getElementById('type-' + lang).value;
+        const output = document.getElementById('output-' + lang);
+        const lines = lang === 'en' ? infernoTextEn : infernoTextIt;
         
-        while (wordCount < targetWords) {
-            const term = nauticalTerms[Math.floor(Math.random() * nauticalTerms.length)];
-            const termWords = term.split(' ').length;
-            
-            if (wordCount + termWords <= targetWords) {
-                paragraph.push(term);
-                wordCount += termWords;
-            } else if (wordCount < targetWords - 5) {
-                paragraph.push(term);
-                wordCount += termWords;
-            } else {
-                break;
+        if (count < 1 || count > 50) {
+            output.innerHTML = 'please enter a number between 1 and 50';
+            output.classList.remove('empty');
+            return;
+        }
+        
+        let result = '';
+        
+        if (type === 'lines') {
+            for (let i = 0; i < count; i++) {
+                const line = lines[getRandomInt(0, lines.length - 1)];
+                result += line + '\n';
+            }
+        } else if (type === 'tercets') {
+            for (let i = 0; i < count; i++) {
+                const start = Math.floor(Math.random() * (lines.length - 2));
+                result += lines[start] + '\n';
+                result += lines[start + 1] + '\n';
+                result += lines[start + 2] + '\n\n';
             }
         }
         
-        let text = paragraph.join(' ');
-        return text.charAt(0).toUpperCase() + text.slice(1) + '.';
+        output.textContent = result.trim();
+        output.classList.remove('empty');
     }
     
-    function generateNautical() {
-        const count = parseInt(document.getElementById('nautical-paragraphs').value) || 3;
-        const output = document.getElementById('nautical-output');
+    function copyToClipboard(lang) {
+        const output = document.getElementById('output-' + lang);
+        const text = output.textContent;
         
-        let html = '';
-        for (let i = 0; i < count; i++) {
-            html += '<p>' + generateNauticalParagraph() + '</p>';
+        if (text === 'generated text will appear here' || text === 'il testo generato apparirà qui') {
+            return;
         }
-        
-        output.innerHTML = html;
-    }
-    
-    function generateMoby() {
-        const count = parseInt(document.getElementById('moby-paragraphs').value) || 3;
-        const output = document.getElementById('moby-output');
-        
-        let selectedPassages = [];
-        let availableIndices = mobyPassages.map((_, i) => i);
-        
-        for (let i = 0; i < count && availableIndices.length > 0; i++) {
-            const randomIndex = Math.floor(Math.random() * availableIndices.length);
-            const passageIndex = availableIndices[randomIndex];
-            selectedPassages.push(mobyPassages[passageIndex]);
-            availableIndices.splice(randomIndex, 1);
-        }
-        
-        let html = selectedPassages.map(p => '<p>' + p + '</p>').join('');
-        output.innerHTML = html;
-    }
-    
-    function copyNautical() {
-        const output = document.getElementById('nautical-output');
-        const text = output.innerText;
         
         navigator.clipboard.writeText(text).then(() => {
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = 'copied!';
-            btn.classList.add('copied');
-            
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = lang === 'en' ? 'copied!' : 'copiato!';
             setTimeout(() => {
-                btn.textContent = originalText;
-                btn.classList.remove('copied');
+                button.textContent = originalText;
             }, 2000);
+        }).catch(err => {
+            alert(lang === 'en' ? 'failed to copy to clipboard' : 'copia non riuscita');
         });
     }
     
-    function copyMoby() {
-        const output = document.getElementById('moby-output');
-        const text = output.innerText;
-        
-        navigator.clipboard.writeText(text).then(() => {
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = 'copied!';
-            btn.classList.add('copied');
-            
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.classList.remove('copied');
-            }, 2000);
-        });
-    }
-    
-    window.addEventListener('DOMContentLoaded', () => {
-        generateNautical();
-        generateMoby();
-    });
+    // Generate default content on load
+    window.onload = function() {
+        generate('en');
+        generate('it');
+    };
 </script>
 ```
 
