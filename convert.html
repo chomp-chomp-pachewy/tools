@@ -161,8 +161,8 @@
 <div class="container">
     <div class="form-group">
         <label for="conversionType">conversion type</label>
-        <select id="conversionType" onchange="updateUnits()">
-            <option value="length">length</option>
+<select id="conversionType" onchange="handleTypeChange()">
+    <option value="length">length</option>
             <option value="area">area</option>
             <option value="volume">volume</option>
             <option value="mass">mass</option>
@@ -410,28 +410,34 @@
 
     let converting = false;
 
-    function updateUnits() {
-        const type = document.getElementById('conversionType').value;
-        const unit1 = document.getElementById('unit1');
-        const unit2 = document.getElementById('unit2');
-        
-        unit1.innerHTML = '';
-        unit2.innerHTML = '';
-        
-        const units = Object.keys(conversions[type].units);
-        units.forEach(unit => {
-            unit1.add(new Option(unit, unit));
-            unit2.add(new Option(unit, unit));
-        });
-        
-        if (units.length > 1) {
-            unit2.selectedIndex = 1;
-        }
-        
-        document.getElementById('value1').value = '';
-        document.getElementById('value2').value = '';
-        
-        updateFormula();
+    // This function ONLY populates the unit lists
+    function updateUnits() {
+        const type = document.getElementById('conversionType').value;
+        const unit1 = document.getElementById('unit1');
+        const unit2 = document.getElementById('unit2');
+        
+        unit1.innerHTML = '';
+        unit2.innerHTML = '';
+        
+        const units = Object.keys(conversions[type].units);
+        units.forEach(unit => {
+            unit1.add(new Option(unit, unit));
+            unit2.add(new Option(unit, unit));
+        });
+    }
+
+    // NEW FUNCTION to handle the "onchange" event
+    function handleTypeChange() {
+        updateUnits(); // 1. Populate the lists
+
+        // 2. Set default units for the new type (e.g., Meter and Kilometer)
+        if (Object.keys(conversions[document.getElementById('conversionType').value].units).length > 1) {
+            document.getElementById('unit1').selectedIndex = 0;
+            document.getElementById('unit2').selectedIndex = 1; 
+        }
+
+        // 3. Clear values and update formula
+        clearAll();
     }
 
     function convert(source) {
@@ -509,8 +515,24 @@
     }
 
    
-    updateUnits();
-</script>
+// Function to set the initial state explicitly
+    function initializeConverter() {
+        // 1. Ensure 'length' is selected as the conversion type
+        document.getElementById('conversionType').value = 'length';
+        
+        // 2. Load the units for 'length'
+        updateUnits(); 
+        
+        // 3. Explicitly set the units to Inch and Centimeter
+        document.getElementById('unit1').value = 'Inch';
+        document.getElementById('unit2').value = 'Centimeter';
+        
+        // 4. Update the formula display
+        updateFormula();
+    }
+
+    // Call the new initialization function
+    initializeConverter();</script>
 
 
 </body>
