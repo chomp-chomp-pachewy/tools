@@ -1,409 +1,244 @@
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>conversions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
-            color: #434343;
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .header {
-            background-color: #ffffff;
-            padding: 30px 20px 20px 20px;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
-        .header img {
-            max-width: 360px;
-            height: auto;
-        }
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        .form-group {
-            margin-bottom: 40px;
-        }
-        label {
-            display: block;
-            margin-bottom: 12px;
-            font-weight: 400;
-            color: #666666;
-            font-size: 1em;
-            text-transform: lowercase;
-            transition: color 0.3s;
-        }
-        select, input {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 15px;
-            font-family: 'Roboto', sans-serif;
-            border: 1px solid #434343;
-            border-radius: 8px;
-            background-color: #ffffff;
-            color: #434343;
-            transition: all 0.2s;
-            text-transform: lowercase;
-            height: 52px;
-            box-sizing: border-box;
-        }
-
-        select:focus, input:focus {
-            outline: none;
-            border-color: #fe0032;
-        }
-        input::placeholder {
-            color: #999;
-        }
-        .conversion-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .conversion-row input {
-            width: 100%;
-        }
-        .conversion-row select {
-            width: 100%;
-        }
-        .clear-link {
-            text-align: center;
-            margin: 40px 0 20px 0;
-        }
-        .clear-link a {
-            color: #fe0032;
-            text-decoration: none;
-            font-size: 0.95em;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .clear-link a:hover {
-            opacity: 0.7;
-        }
-        .formula-box {
-            margin-top: 60px;
-            padding: 30px;
-            background-color: #F2F2F4;
-            color: #000000;
-            border-radius: 8px;
-            border: 1px solid #434343;
-            margin-bottom: 100px;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        .formula-box strong {
-            color: #fe0032;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 10px;
-            font-size: 1em;
-        }
-        .formula-box p {
-            margin: 0;
-            color: #000000;
-            font-weight: 300;
-            line-height: 1.8;
-            font-size: 0.95em;
-        }
-        .equals {
-            text-align: center;
-            color: #000000;
-            font-size: 1.1em;
-            margin: 10px 0;
-            transition: color 0.3s;
-        }
- nav {
-        padding: 20px;
-        text-align: right;
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>conversions</title><link href="https://www.google.com/search?q=https://fonts.googleapis.com/css2%3Ffamily%3DRoboto:wght%40300%3B400%3B700%26display%3Dswap" rel="stylesheet"><style>* {margin: 0;padding: 0;box-sizing: border-box;}body {font-family: 'Roboto', sans-serif;background-color: #ffffff;color: #434343;line-height: 1.6;transition: background-color 0.3s, color 0.3s;}.header {background-color: #ffffff;padding: 30px 20px 20px 20px;text-align: center;transition: background-color 0.3s;}.header img {max-width: 360px;height: auto;}.container {max-width: 600px;margin: 40px auto;padding: 0 20px;}.form-group {margin-bottom: 40px;}label {display: block;margin-bottom: 12px;font-weight: 400;color: #666666;font-size: 1em;text-transform: lowercase;transition: color 0.3s;}select, input {width: 100%;padding: 14px 16px;font-size: 15px;font-family: 'Roboto', sans-serif;border: 1px solid #434343;border-radius: 8px;background-color: #ffffff;color: #434343;transition: all 0.2s;text-transform: lowercase;height: 52px;box-sizing: border-box;}    select:focus, input:focus {
+        outline: none;
+        border-color: #fe0032;
     }
-
-    nav a {
+    input::placeholder {
         color: #999;
+    }
+    .conversion-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+    .conversion-row input {
+        width: 100%;
+    }
+    .conversion-row select {
+        width: 100%;
+    }
+    .clear-link {
+        text-align: center;
+        margin: 40px 0 20px 0;
+    }
+    .clear-link a {
+        color: #fe0032;
         text-decoration: none;
-        margin-left: 30px;
+        font-size: 0.95em;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+    .clear-link a:hover {
+        opacity: 0.7;
+    }
+    .formula-box {
+        margin-top: 60px;
+        padding: 30px;
+        background-color: #F2F2F4;
+        color: #000000;
+        border-radius: 8px;
+        border: 1px solid #434343;
+        margin-bottom: 100px;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+    .formula-box strong {
+        color: #fe0032;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 10px;
+        font-size: 1em;
+    }
+    .formula-box p {
+        margin: 0;
+        color: #000000;
+        font-weight: 300;
+        line-height: 1.8;
         font-size: 0.95em;
     }
-
-    nav a:hover {
-        color: #333;
+    .equals {
+        text-align: center;
+        color: #000000;
+        font-size: 1.1em;
+        margin: 10px 0;
+        transition: color 0.3s;
     }
+nav {
+    padding: 20px;
+    text-align: right;
+}
 
-        
-    </style>
-</head>
-<body>
-        <nav>
-        <a href="https://chomp.ltd">home</a>
-        <a href="https://tools.chomp.ltd">tools</a>
-    </nav>
-    <div class="header">
-        <img src="https://github.com/chomp-chomp-pachewy/chomp-chomp/blob/main/conversions.jpeg?raw=true" alt="Conversions">
-    </div>
+nav a {
+    color: #999;
+    text-decoration: none;
+    margin-left: 30px;
+    font-size: 0.95em;
+}
 
-<div class="container">
-    <div class="form-group">
-        <label for="conversionType">conversion type</label>
-        <select id="conversionType" onchange="updateUnits()">
-            <option value="length">length</option>
-            <option value="area">area</option>
-            <option value="volume">volume</option>
-            <option value="mass">mass</option>
-            <option value="temperature">temperature</option>
-            <option value="speed">speed</option>
-            <option value="time">time</option>
-            <option value="energy">energy</option>
-            <option value="frequency">frequency</option>
-            <option value="ring">ring sizes</option>
-            <option value="data">data storage</option>
-            <option value="cooking">cooking/baking</option>
-            <option value="power">power</option>
-            <option value="shoes">shoe sizes</option>
-        </select>
-    </div>
+nav a:hover {
+    color: #333;
+}
 
-    <div class="conversion-row">
-        <input type="number" id="value1" oninput="convert(1)" placeholder="enter value" step="any">
-        <select id="unit1" onchange="convert(1)"></select>
-    </div>
-
-    <div class="equals">=</div>
-
-    <div class="conversion-row">
-        <input type="number" id="value2" oninput="convert(2)" placeholder="enter value" step="any">
-        <select id="unit2" onchange="convert(2)"></select>
-    </div>
-
-    <div class="clear-link">
-        <a onclick="clearAll()">clear all values</a>
-    </div>
-
-    <div class="formula-box">
-        <span style="color: #fe0032;">formula</span>
-        <p id="formulaText"></p>
-    </div>
+    
+</style>
+</head><body><nav><a href="https://www.google.com/search?q=https://chomp.ltd">home</a><a href="https://www.google.com/search?q=https://tools.chomp.ltd">tools</a></nav><div class="header"><img src="https://www.google.com/search?q=https://github.com/chomp-chomp-pachewy/chomp-chomp/blob/main/conversions.jpeg%3Fraw%3Dtrue" alt="Conversions"></div><div class="container"><div class="form-group"><label for="conversionType">conversion type</label><!-- MODIFICATION: Changed onchange to handleTypeChange() --><select id="conversionType" onchange="handleTypeChange()"><option value="length">length</option><option value="area">area</option><option value="volume">volume</option><option value="mass">mass</option><option value="temperature">temperature</option><option value="speed">speed</option><option value="time">time</option><option value="energy">energy</option><option value="frequency">frequency</option><option value="ring">ring sizes</option><option value="data">data storage</option><option value="cooking">cooking/baking</option><option value="power">power</option><option value="shoes">shoe sizes</option></select></div><div class="conversion-row">
+    <input type="number" id="value1" oninput="convert(1)" placeholder="enter value" step="any">
+    <select id="unit1" onchange="convert(1)"></select>
 </div>
 
-<script>
-    const conversions = {
-        length: {
-            units: {
-                'Meter': 1,
-                'Kilometer': 0.001,
-                'Centimeter': 100,
-                'Millimeter': 1000,
-                'Mile': 0.000621371,
-                'Yard': 1.09361,
-                'Foot': 3.28084,
-                'Inch': 39.3701
-            }
-        },
-        area: {
-            units: {
-                'Square Meter': 1,
-                'Square Kilometer': 0.000001,
-                'Square Centimeter': 10000,
-                'Hectare': 0.0001,
-                'Square Mile': 3.861e-7,
-                'Acre': 0.000247105,
-                'Square Yard': 1.19599,
-                'Square Foot': 10.7639,
-                'Square Inch': 1550
-            }
-        },
-        volume: {
-            units: {
-                'Liter': 1,
-                'Milliliter': 1000,
-                'Cubic Meter': 0.001,
-                'Cubic Centimeter': 1000,
-                'US Liquid Gallon': 0.264172,
-                'US Liquid Quart': 1.05669,
-                'US Liquid Pint': 2.11338,
-                'US Cup': 4.22675,
-                'US Fluid Ounce': 33.814,
-                'US Tablespoon': 67.628,
-                'US Teaspoon': 202.884,
-                'Imperial Gallon': 0.219969,
-                'Cubic Foot': 0.0353147,
-                'Cubic Inch': 61.0237
-            }
-        },
-        mass: {
-            units: {
-                'Kilogram': 1,
-                'Gram': 1000,
-                'Milligram': 1000000,
-                'Metric Ton': 0.001,
-                'Pound': 2.20462,
-                'Ounce': 35.274,
-                'Ton (US)': 0.00110231,
-                'Stone': 0.157473
-            }
-        },
-        temperature: {
-            units: {
-                'Celsius': null,
-                'Fahrenheit': null,
-                'Kelvin': null
-            },
-            convert: (val, from, to) => {
-                let celsius;
-                if (from === 'Celsius') celsius = val;
-                else if (from === 'Fahrenheit') celsius = (val - 32) * 5/9;
-                else if (from === 'Kelvin') celsius = val - 273.15;
-                
-                if (to === 'Celsius') return celsius;
-                else if (to === 'Fahrenheit') return celsius * 9/5 + 32;
-                else if (to === 'Kelvin') return celsius + 273.15;
-            }
-        },
-        speed: {
-            units: {
-                'Meter per Second': 1,
-                'Kilometer per Hour': 3.6,
-                'Mile per Hour': 2.23694,
-                'Foot per Second': 3.28084,
-                'Knot': 1.94384
-            }
-        },
-        time: {
-            units: {
-                'Second': 1,
-                'Millisecond': 1000,
-                'Microsecond': 1000000,
-                'Minute': 0.0166667,
-                'Hour': 0.000277778,
-                'Day': 0.0000115741,
-                'Week': 0.00000165344,
-                'Month (30 days)': 3.8052e-7,
-                'Year (365 days)': 3.171e-8
-            }
-        },
-        energy: {
-            units: {
-                'Joule': 1,
-                'Kilojoule': 0.001,
-                'Calorie': 0.239006,
-                'Kilocalorie': 0.000239006,
-                'Watt Hour': 0.000277778,
-                'Kilowatt Hour': 2.7778e-7,
-                'Electronvolt': 6.242e+18,
-                'British Thermal Unit': 0.000947817,
-                'Foot-Pound': 0.737562
-            }
-        },
-        frequency: {
-            units: {
-                'Hertz': 1,
-                'Kilohertz': 0.001,
-                'Megahertz': 0.000001,
-                'Gigahertz': 1e-9
-            }
-        },
-        ring: {
-            units: {
-                'US Size': null,
-                'UK Size': null,
-                'EU Size': null,
-                'Diameter (mm)': null
-            },
-            convert: (val, from, to) => {
-                let diameter;
-                if (from === 'US Size') diameter = 11.63 + 0.8128 * val;
-                else if (from === 'UK Size') diameter = 11.63 + 0.8128 * (val + 1.5);
-                else if (from === 'EU Size') diameter = val * 0.6375;
-                else if (from === 'Diameter (mm)') diameter = val;
-                
-                if (to === 'US Size') return (diameter - 11.63) / 0.8128;
-                else if (to === 'UK Size') return (diameter - 11.63) / 0.8128 - 1.5;
-                else if (to === 'EU Size') return diameter / 0.6375;
-                else if (to === 'Diameter (mm)') return diameter;
-            }
-        },
-        data: {
-            units: {
-                'Bit': 8,
-                'Byte': 1,
-                'Kilobyte': 0.001,
-                'Megabyte': 0.000001,
-                'Gigabyte': 1e-9,
-                'Terabyte': 1e-12,
-                'Petabyte': 1e-15,
-                'Kibibyte': 0.0009765625,
-                'Mebibyte': 9.5367431640625e-7,
-                'Gibibyte': 9.31322574615479e-10,
-                'Tebibyte': 9.09494701772928e-13
-            }
-        },
-        cooking: {
-            units: {
-                'Cup (US)': 1,
-                'Tablespoon (US)': 16,
-                'Teaspoon (US)': 48,
-                'Fluid Ounce (US)': 8,
-                'Milliliter': 236.588,
-                'Liter': 0.236588,
-                'Pint (US)': 0.5,
-                'Quart (US)': 0.25,
-                'Gallon (US)': 0.0625,
-                'Gram (water)': 236.588,
-                'Gram (flour)': 125,
-                'Gram (sugar)': 200,
-                'Gram (butter)': 227,
-                'Stick of Butter': 0.5
-            }
-        },
-        power: {
-            units: {
-                'Watt': 1,
-                'Kilowatt': 0.001,
-                'Megawatt': 0.000001,
-                'Horsepower (mechanical)': 0.00134102,
-                'Horsepower (metric)': 0.00135962,
-                'BTU per Hour': 3.41214,
-                'Foot-Pound per Second': 0.737562,
-                'Calorie per Second': 0.238846
-            }
-        },
-        shoes: {
-            units: {
-                'US Men': null,
-                'US Women': null,
-                'UK': null,
-                'EU': null,
-                'CM': null
-            },
-            convert: (val, from, to) => {
-                let cm;
-                if (from === 'US Men') cm = 22.86 + (val - 7) * 0.847;
-                else if (from === 'US Women') cm = 22.86 + (val - 5) * 0.847 - 1.5 * 0.847;
-                else if (from === 'UK') cm = 22.86 + (val - 6) * 0.847;
-                else if (from === 'EU') cm = 22.86 + (val - 40) * 0.667;
-                else if (from === 'CM') cm = val;
-                
-                if (to === 'US Men') return 7 + (cm - 22.86) / 0.847;
-                else if (to === 'US Women') return 5 + (cm - 22.86) / 0.847 + 1.5;
-                else if (to === 'UK') return 6 + (cm - 22.86) / 0.847;
-                else if (to === 'EU') return 40 + (cm - 22.86) / 0.667;
-                else if (to === 'CM') return cm;
-            }
-        }
-    };
+<div class="equals">=</div>
 
-    let converting = false;
+<div class="conversion-row">
+    <input type="number" id="value2" oninput="convert(2)" placeholder="enter value" step="any">
+    <select id="unit2" onchange="convert(2)"></select>
+</div>
+
+<div class="clear-link">
+    <a onclick="clearAll()">clear all values</a>
+</div>
+
+<div class="formula-box">
+    <span style="color: #fe0032;">formula</span>
+    <p id="formulaText"></p>
+</div>
+</div><script>const conversions = {length: {units: {'Meter': 1,'Kilometer': 0.001,'Centimeter': 100,'Millimeter': 1000,'Mile': 0.000621371,'Yard': 1.09361,'Foot': 3.28084,'Inch': 39.3701}},area: {units: {'Square Meter': 1,'Square Kilometer': 0.000001,'Square Centimeter': 10000,'Hectare': 0.0001,'Square Mile': 3.861e-7,'Acre': 0.000247105,'Square Yard': 1.19599,'Square Foot': 10.7639,'Square Inch': 1550}},volume: {units: {'Liter': 1,'Milliliter': 1000,'Cubic Meter': 0.001,'Cubic Centimeter': 1000,'US Liquid Gallon': 0.264172,'US Liquid Quart': 1.05669,'US Liquid Pint': 2.11338,'US Cup': 4.22675,'US Fluid Ounce': 33.814,'US Tablespoon': 67.628,'US Teaspoon': 202.884,'Imperial Gallon': 0.219969,'Cubic Foot': 0.0353147,'Cubic Inch': 61.0237}},mass: {units: {'Kilogram': 1,'Gram': 1000,'Milligram': 1000000,'Metric Ton': 0.001,'Pound': 2.20462,'Ounce': 35.274,'Ton (US)': 0.00110231,'Stone': 0.157473}},temperature: {units: {'Celsius': null,'Fahrenheit': null,'Kelvin': null},convert: (val, from, to) => {let celsius;if (from === 'Celsius') celsius = val;else if (from === 'Fahrenheit') celsius = (val - 32) * 5/9;else if (from === 'Kelvin') celsius = val - 273.15;            if (to === &#39;Celsius&#39;) return celsius;
+            else if (to === &#39;Fahrenheit&#39;) return celsius * 9/5 + 32;
+            else if (to === &#39;Kelvin&#39;) return celsius + 273.15;
+        }
+    },
+    speed: {
+        units: {
+            &#39;Meter per Second&#39;: 1,
+            &#39;Kilometer per Hour&#39;: 3.6,
+            &#39;Mile per Hour&#39;: 2.23694,
+            &#39;Foot per Second&#39;: 3.28084,
+            &#39;Knot&#39;: 1.94384
+        }
+    },
+    time: {
+        units: {
+            &#39;Second&#39;: 1,
+            &#39;Millisecond&#39;: 1000,
+            &#39;Microsecond&#39;: 1000000,
+            &#39;Minute&#39;: 0.0166667,
+            &#39;Hour&#39;: 0.000277778,
+            &#39;Day&#39;: 0.0000115741,
+            &#39;Week&#39;: 0.00000165344,
+            &#39;Month (30 days)&#39;: 3.8052e-7,
+            &#39;Year (365 days)&#39;: 3.171e-8
+        }
+    },
+    energy: {
+        units: {
+            &#39;Joule&#39;: 1,
+            &#39;Kilojoule&#39;: 0.001,
+            &#39;Calorie&#39;: 0.239006,
+            &#39;Kilocalorie&#39;: 0.000239006,
+            &#39;Watt Hour&#39;: 0.000277778,
+            &#39;Kilowatt Hour&#39;: 2.7778e-7,
+            &#39;Electronvolt&#39;: 6.242e+18,
+            &#39;British Thermal Unit&#39;: 0.000947817,
+            &#39;Foot-Pound&#39;: 0.737562
+        }
+    },
+    frequency: {
+        units: {
+            &#39;Hertz&#39;: 1,
+            &#39;Kilohertz&#39;: 0.001,
+            &#39;Megahertz&#39;: 0.000001,
+            &#39;Gigahertz&#39;: 1e-9
+        }
+    },
+    ring: {
+        units: {
+            &#39;US Size&#39;: null,
+            &#39;UK Size&#39;: null,
+            &#39;EU Size&#39;: null,
+            &#39;Diameter (mm)&#39;: null
+        },
+        convert: (val, from, to) =&gt; {
+            let diameter;
+            if (from === &#39;US Size&#39;) diameter = 11.63 + 0.8128 * val;
+            else if (from === &#39;UK Size&#39;) diameter = 11.63 + 0.8128 * (val + 1.5);
+            else if (from === &#39;EU Size&#39;) diameter = val * 0.6375;
+            else if (from === &#39;Diameter (mm)&#39;) diameter = val;
+            
+            if (to === &#39;US Size&#39;) return (diameter - 11.63) / 0.8128;
+            else if (to === &#39;UK Size&#39;) return (diameter - 11.63) / 0.8128 - 1.5;
+            else if (to === &#39;EU Size&#39;) return diameter / 0.6375;
+            else if (to === &#39;Diameter (mm)&#39;) return diameter;
+        }
+    },
+    data: {
+        units: {
+            &#39;Bit&#39;: 8,
+            &#39;Byte&#39;: 1,
+            &#39;Kilobyte&#39;: 0.001,
+            &#39;Megabyte&#39;: 0.000001,
+            &#39;Gigabyte&#39;: 1e-9,
+            &#39;Terabyte&#39;: 1e-12,
+            &#39;Petabyte&#39;: 1e-15,
+            &#39;Kibibyte&#39;: 0.0009765625,
+            &#39;Mebibyte&#39;: 9.5367431640625e-7,
+            &#39;Gibibyte&#39;: 9.31322574615479e-10,
+            &#39;Tebibyte&#39;: 9.09494701772928e-13
+        }
+    },
+    cooking: {
+        units: {
+            &#39;Cup (US)&#39;: 1,
+            &#39;Tablespoon (US)&#39;: 16,
+            &#39;Teaspoon (US)&#39;: 48,
+            &#39;Fluid Ounce (US)&#39;: 8,
+            &#39;Milliliter&#39;: 236.588,
+            &#39;Liter&#39;: 0.236588,
+            &#39;Pint (US)&#39;: 0.5,
+            &#39;Quart (US)&#39;: 0.25,
+            &#39;Gallon (US)&#39;: 0.0625,
+            &#39;Gram (water)&#39;: 236.588,
+            &#39;Gram (flour)&#39;: 125,
+            &#39;Gram (sugar)&#39;: 200,
+            &#39;Gram (butter)&#39;: 227,
+            &#39;Stick of Butter&#39;: 0.5
+        }
+    },
+    power: {
+        units: {
+            &#39;Watt&#39;: 1,
+            &#39;Kilowatt&#39;: 0.001,
+            &#39;Megawatt&#39;: 0.000001,
+            &#39;Horsepower (mechanical)&#39;: 0.00134102,
+            &#39;Horsepower (metric)&#39;: 0.00135962,
+            &#39;BTU per Hour&#39;: 3.41214,
+            &#39;Foot-Pound per Second&#39;: 0.737562,
+            &#39;Calorie per Second&#39;: 0.238846
+        }
+    },
+    shoes: {
+        units: {
+            &#39;US Men&#39;: null,
+            &#39;US Women&#39;: null,
+            &#39;UK&#39;: null,
+            &#39;EU&#39;: null,
+            &#39;CM&#39;: null
+        },
+        convert: (val, from, to) =&gt; {
+            let cm;
+            if (from === &#39;US Men&#39;) cm = 22.86 + (val - 7) * 0.847;
+            else if (from === &#39;US Women&#39;) cm = 22.86 + (val - 5) * 0.847 - 1.5 * 0.847;
+            else if (from === &#39;UK&#39;) cm = 22.86 + (val - 6) * 0.847;
+            else if (from === &#39;EU&#39;) cm = 22.86 + (val - 40) * 0.667;
+            else if (from === &#39;CM&#39;) cm = val;
+            
+            if (to === &#39;US Men&#39;) return 7 + (cm - 22.86) / 0.847;
+            else if (to === &#39;US Women&#39;) return 5 + (cm - 22.86) / 0.847 + 1.5;
+            else if (to === &#39;UK&#39;) return 6 + (cm - 22.86) / 0.847;
+            else if (to === &#39;EU&#39;) return 40 + (cm - 22.86) / 0.667;
+            else if (to === &#39;CM&#39;) return cm;
+        }
+    }
+};
+
+let converting = false;
 
 // Placeholder for initTheme (was called but not defined in original code)
 function initTheme() {
@@ -555,9 +390,4 @@ function initializeConverter() {
 
 // Call the new initialization function when the script loads
 initializeConverter();
-    
-</script>
-
-
-</body>
-</html>
+</script></body></html>
