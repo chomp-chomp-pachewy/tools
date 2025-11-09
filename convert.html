@@ -504,9 +504,17 @@
     }
 
 
+    // *** MODIFIED INITIALIZATION LOGIC ***
+    initTheme();
+    updateUnits(); // Step 1: Initialize units for 'length' (default in HTML)
 
-    initTheme();
-    updateUnits();
+    // Step 2: Set the requested default units
+    document.getElementById('unit1').value = 'Inch';
+    document.getElementById('unit2').value = 'Centimeter';
+    
+    // Step 3: Update the formula display for the final selection
+    updateFormula();
+    
 </script>
 
 
