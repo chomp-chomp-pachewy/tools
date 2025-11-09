@@ -407,10 +407,13 @@ whois = whois.replace(
             document.getElementById('asn').textContent = asnMatch[0];
         }
         if (rangeMatch) {
-            document.getElementById('asnRange').textContent = `${rangeMatch[1]} - ${rangeMatch[2]}`;
-        } else {
-            document.getElementById('asnRange').textContent = 'n/a';
-        }
+    const startIP = rangeMatch[1];
+    const endIP = rangeMatch[2];
+    const cidr = rangeToCIDR(startIP, endIP);
+    document.getElementById('asnRange').textContent = `${cidr} (${startIP} - ${endIP})`;
+} else {
+    document.getElementById('asnRange').textContent = 'n/a';
+}
         
         allData.whois = whois;
     } catch (error) {
@@ -420,31 +423,23 @@ whois = whois.replace(
     }
 }
     
-    function convertRangeToCIDR(startIP, endIP) {
-        // Simple conversion for common cases
-        // Convert IPs to numbers
-        const start = startIP.split('.').map(Number);
-        const end = endIP.split('.').map(Number);
-        
-        // Calculate the prefix length based on the range
-        // This is a simplified version that works for common cases
-        if (end[0] - start[0] > 0) {
-            // Class A range
-            return `${startIP}/8`;
-        } else if (end[1] - start[1] > 0) {
-            // Class B range  
-            return `${startIP}/16`;
-        } else if (end[2] - start[2] > 0) {
-            // Class C range
-            return `${startIP}/24`;
-        } else {
-            // Smaller range, calculate more precisely
-            const diff = end[3] - start[3] + 1;
-            const bits = Math.floor(Math.log2(diff));
-            const prefix = 32 - bits;
-            return `${startIP}/${prefix}`;
-        }
-    }
+    function rangeToCIDR(startIP, endIP) {
+    // Convert IP to 32-bit integer
+    const ipToInt = (ip) => {
+        return ip.split('.').reduce((int, octet) => (int << 8) + parseInt(octet), 0) >>> 0;
+    };
+    
+    const start = ipToInt(startIP);
+    const end = ipToInt(endIP);
+    
+    // Calculate the number of IPs in the range
+    const rangeSize = end - start + 1;
+    
+    // Calculate prefix length (32 - log2 of range size)
+    const prefixLength = 32 - Math.floor(Math.log2(rangeSize));
+    
+    return `${startIP}/${prefixLength}`;
+}
     
     async function getHostname(ip) {
         try {
