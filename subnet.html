@@ -732,51 +732,49 @@ function calculateCIDRBlocks(start, end) {
     const blocks = [];
     let current = start;
 
-    // Use BigInt for intermediate size calculations to prevent overflow/imprecision, 
-    // although standard bitwise operations should suffice if we stick to the 32-bit integer range.
-
     while (current <= end) {
-        let prefix = 32;
-        const diff = end - current + 1; // Remaining IP addresses in the target range
-
-        // 1. Find the ideal prefix based on alignment.
-        // We find the smallest prefix (largest power of 2) that the 'current' address is aligned to.
+        // 1. Determine the maximum prefix for ALIGNMENT (network boundary)
+        let alignmentPrefix = 32;
+        
+        // Check alignment from /32 down to /0
         for (let p = 32; p >= 0; p--) {
-            // Create a bitmask for the host portion (32-p bits)
             const hostBits = 32 - p;
             
-            // Check if the host portion of 'current' is all zeros (network boundary check)
-            // (current & host_mask_int) === 0
-            if ((current & ((1 << hostBits) - 1)) === 0 || hostBits === 32) {
-                prefix = p;
-                break; 
+            // Create a bitmask for the host portion (2^(32-p) - 1)
+            // Use bitwise shift to calculate mask: (1 << hostBits) - 1
+            // Use >>> 0 to treat current as unsigned 32-bit integer
+            const hostMask = (1 << hostBits) - 1;
+
+            // Check if all host bits are zero (i.e., 'current' is a network address)
+            // Note: This check fails safely for hostBits=32 because (1 << 32) is 1.
+            // We handle the /0 case by ensuring p=0 is always aligned.
+            if (p === 0 || ((current >>> 0) & hostMask) === 0) {
+                alignmentPrefix = p;
+                break;
             }
         }
 
-        // 2. Adjust prefix for range constraint (diff).
-        // Find the smallest prefix (largest block) that is less than or equal to 'diff'.
-        let maxPrefixForRange = 32;
-        let largestPowerOfTwo = 1;
+        // 2. Determine the maximum prefix for RANGE (must fit within 'end')
+        const remainingIPs = end - current + 1;
+        let rangePrefix = 32;
 
-        for (let p = 31; p >= 0; p--) { // Start from p=31 (size 2)
+        // Find the smallest prefix (largest block size) where block size <= remainingIPs
+        for (let p = 32; p >= 0; p--) {
+            // Block size is 2^(32-p). Use bitwise shift (1 << hostBits)
             const blockSize = 1 << (32 - p);
-            if (blockSize <= diff) {
-                maxPrefixForRange = p;
+            
+            if (blockSize <= remainingIPs) {
+                rangePrefix = p;
                 break;
             }
         }
         
-        // Handle the /32 and /31 cases explicitly if needed, but the loop covers it.
-        if (diff === 1) maxPrefixForRange = 32;
-        if (diff === 2 && maxPrefixForRange > 31) maxPrefixForRange = 31;
-
-
-        // The actual prefix is the smallest (longest mask) of the two constraints
-        // We use Math.max because a LARGER prefix number means a SMALLER block size.
-        prefix = Math.max(prefix, maxPrefixForRange); 
+        // 3. The actual prefix must be the LONGER (LARGER number) of the two constraints.
+        // E.g., if alignment says /24, but range only has 10 IPs (/28), we must use /28.
+        const prefix = Math.max(alignmentPrefix, rangePrefix);
         
-        // Calculate the resulting block size using the determined prefix
-        const blockSize = Math.pow(2, 32 - prefix);
+        // Calculate block size using the final, chosen prefix
+        const blockSize = 1 << (32 - prefix);
 
         blocks.push({
             network: intToIp(current),
@@ -784,6 +782,7 @@ function calculateCIDRBlocks(start, end) {
             size: blockSize
         });
 
+        // Move to the next IP address outside the current block
         current += blockSize;
     }
 
