@@ -733,23 +733,39 @@ function calculateCIDRBlocks(start, end) {
     let current = start;
 
     while (current <= end) {
-        // Start with the smallest possible prefix (longest mask)
         let prefix = 32;
+        let diff = end - current + 1; // Number of IPs remaining in the desired range (including current)
 
-        // Iteratively check for the longest matching prefix (smallest CIDR block)
-        // that contains the current IP, is within the target range (end), 
-        // and is aligned to the network boundary.
-        for (let i = 32; i >= 0; i--) {
-            const blockSize = Math.pow(2, 32 - i);
-            const blockEnd = current + blockSize - 1;
-
-            // Check network boundary alignment: (IP & mask) must equal IP
-            // Check range containment: block must not exceed the end IP
-            if ((current % blockSize === 0) && (blockEnd <= end)) {
-                prefix = i;
-                break; // Found the largest possible block size (smallest prefix)
+        // 1. Find the smallest block size (longest prefix)
+        // that aligns with the network boundary of 'current'.
+        for (let p = 32; p >= 0; p--) {
+            // Check if 'current' is aligned for a /p prefix.
+            // Alignment means all host bits are zero (current AND mask_of_host_bits == 0).
+            const hostBitsMask = Math.pow(2, 32 - p) - 1; 
+            
+            // Check alignment (using bitwise OR to avoid negative zero issues with >>> 0)
+            if ((current & hostBitsMask) === 0) {
+                prefix = p;
+                break; // Found the largest possible prefix that aligns 'current'
             }
         }
+
+        // 2. Adjust 'prefix' to ensure the block stays within the 'end' limit.
+        // We only care about block sizes that fit completely within the remaining range 'diff'.
+        let maxPrefixForRange = 32;
+        
+        // Find the smallest prefix (largest power of 2) that is <= diff
+        for (let p = 32; p >= 0; p--) {
+            const blockSize = Math.pow(2, 32 - p);
+            if (blockSize <= diff) {
+                maxPrefixForRange = p;
+                break;
+            }
+        }
+
+        // The actual prefix used is the GREATER (smaller number) of the two constraints:
+        // alignment (prefix) and range limit (maxPrefixForRange).
+        prefix = Math.min(prefix, maxPrefixForRange);
         
         const blockSize = Math.pow(2, 32 - prefix);
 
@@ -764,6 +780,7 @@ function calculateCIDRBlocks(start, end) {
 
     return blocks;
 }
+
 
 function displayCIDRResults(cidrBlocks, totalIps) {
     // ... (This function remains the same as in your original code)
