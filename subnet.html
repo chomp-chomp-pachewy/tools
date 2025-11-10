@@ -732,41 +732,50 @@ function calculateCIDRBlocks(start, end) {
     const blocks = [];
     let current = start;
 
+    // Use BigInt for intermediate size calculations to prevent overflow/imprecision, 
+    // although standard bitwise operations should suffice if we stick to the 32-bit integer range.
+
     while (current <= end) {
         let prefix = 32;
-        let diff = end - current + 1; // Number of IPs remaining in the desired range (including current)
+        const diff = end - current + 1; // Remaining IP addresses in the target range
 
-        // 1. Find the smallest block size (longest prefix)
-        // that aligns with the network boundary of 'current'.
+        // 1. Find the ideal prefix based on alignment.
+        // We find the smallest prefix (largest power of 2) that the 'current' address is aligned to.
         for (let p = 32; p >= 0; p--) {
-            // Check if 'current' is aligned for a /p prefix.
-            // Alignment means all host bits are zero (current AND mask_of_host_bits == 0).
-            const hostBitsMask = Math.pow(2, 32 - p) - 1; 
+            // Create a bitmask for the host portion (32-p bits)
+            const hostBits = 32 - p;
             
-            // Check alignment (using bitwise OR to avoid negative zero issues with >>> 0)
-            if ((current & hostBitsMask) === 0) {
+            // Check if the host portion of 'current' is all zeros (network boundary check)
+            // (current & host_mask_int) === 0
+            if ((current & ((1 << hostBits) - 1)) === 0 || hostBits === 32) {
                 prefix = p;
-                break; // Found the largest possible prefix that aligns 'current'
+                break; 
             }
         }
 
-        // 2. Adjust 'prefix' to ensure the block stays within the 'end' limit.
-        // We only care about block sizes that fit completely within the remaining range 'diff'.
+        // 2. Adjust prefix for range constraint (diff).
+        // Find the smallest prefix (largest block) that is less than or equal to 'diff'.
         let maxPrefixForRange = 32;
-        
-        // Find the smallest prefix (largest power of 2) that is <= diff
-        for (let p = 32; p >= 0; p--) {
-            const blockSize = Math.pow(2, 32 - p);
+        let largestPowerOfTwo = 1;
+
+        for (let p = 31; p >= 0; p--) { // Start from p=31 (size 2)
+            const blockSize = 1 << (32 - p);
             if (blockSize <= diff) {
                 maxPrefixForRange = p;
                 break;
             }
         }
-
-        // The actual prefix used is the GREATER (smaller number) of the two constraints:
-        // alignment (prefix) and range limit (maxPrefixForRange).
-        prefix = Math.min(prefix, maxPrefixForRange);
         
+        // Handle the /32 and /31 cases explicitly if needed, but the loop covers it.
+        if (diff === 1) maxPrefixForRange = 32;
+        if (diff === 2 && maxPrefixForRange > 31) maxPrefixForRange = 31;
+
+
+        // The actual prefix is the smallest (longest mask) of the two constraints
+        // We use Math.max because a LARGER prefix number means a SMALLER block size.
+        prefix = Math.max(prefix, maxPrefixForRange); 
+        
+        // Calculate the resulting block size using the determined prefix
         const blockSize = Math.pow(2, 32 - prefix);
 
         blocks.push({
@@ -780,6 +789,7 @@ function calculateCIDRBlocks(start, end) {
 
     return blocks;
 }
+
 
 
 function displayCIDRResults(cidrBlocks, totalIps) {
