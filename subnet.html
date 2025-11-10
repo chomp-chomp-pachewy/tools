@@ -403,21 +403,23 @@
 
 <!-- CIDR Calculator -->
 <section id="cidr-section" class="calc-section">
-  <h2>CIDR Range Calculator</h2>
+  <div class="section-title">CIDR Range Calculator</div>
 
-  <div class="input-row">
+  <div class="form-group">
     <label for="startIp">Start IP Address</label>
     <input type="text" id="startIp" placeholder="e.g., 192.168.0.0" />
   </div>
 
-  <div class="input-row">
+  <div class="form-group">
     <label for="endIp">End IP Address</label>
     <input type="text" id="endIp" placeholder="e.g., 192.168.0.255" />
+                          <button class="btn" onclick="calcSubnet()">calculate</button>
+
   </div>
 
-  <div class="input-row-two">
-    <button class="btn" onclick="calcCIDR()">calculate</button>
-    <a onclick="clearCIDR()">clear all values</a>
+  <div class="button-row">
+    <button class="primary-btn" onclick="calcCIDR()">Calculate</button>
+    <button class="clear-btn" onclick="clearCIDR()">Clear All Values</button>
   </div>
 
   <div id="cidrError" class="error-message" style="display:none;"></div>
