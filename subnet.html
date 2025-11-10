@@ -690,119 +690,127 @@
             document.getElementById('subnetResults').style.display = 'none';
         }
 
-        // CIDR CALCULATOR
-        function calcCIDR() {
-            const startIp = document.getElementById('startIp').value.trim();
-            const endIp = document.getElementById('endIp').value.trim();
-            const errorDiv = document.getElementById('cidrError');
-            const resultsDiv = document.getElementById('cidrResults');
+       // CIDR CALCULATOR
+function calcCIDR() {
+    const startIp = document.getElementById('startIp').value.trim();
+    const endIp = document.getElementById('endIp').value.trim();
+    const errorDiv = document.getElementById('cidrError');
+    const resultsDiv = document.getElementById('cidrResults');
 
-            errorDiv.style.display = 'none';
-            resultsDiv.style.display = 'none';
+    errorDiv.style.display = 'none';
+    resultsDiv.style.display = 'none';
 
-            if (!isValidIp(startIp)) {
-                showCIDRError('invalid starting IP address');
-                return;
+    if (!isValidIp(startIp)) {
+        showCIDRError('invalid starting IP address');
+        return;
+    }
+    if (!isValidIp(endIp)) {
+        showCIDRError('invalid ending IP address');
+        return;
+    }
+
+    const startInt = ipToInt(startIp);
+    const endInt = ipToInt(endIp);
+
+    if (startInt > endInt) {
+        showCIDRError('starting IP must be less than or equal to ending IP');
+        return;
+    }
+
+    const cidrBlocks = calculateCIDRBlocks(startInt, endInt);
+
+    if (cidrBlocks.length === 0) {
+        // This case should not be hit with valid IPs, but acts as a safeguard
+        showCIDRError('unable to calculate CIDR notation for this range');
+        return;
+    }
+
+    displayCIDRResults(cidrBlocks, endInt - startInt + 1);
+}
+
+function calculateCIDRBlocks(start, end) {
+    const blocks = [];
+    let current = start;
+
+    while (current <= end) {
+        // Start with the smallest possible prefix (longest mask)
+        let prefix = 32;
+
+        // Iteratively check for the longest matching prefix (smallest CIDR block)
+        // that contains the current IP, is within the target range (end), 
+        // and is aligned to the network boundary.
+        for (let i = 32; i >= 0; i--) {
+            const blockSize = Math.pow(2, 32 - i);
+            const blockEnd = current + blockSize - 1;
+
+            // Check network boundary alignment: (IP & mask) must equal IP
+            // Check range containment: block must not exceed the end IP
+            if ((current % blockSize === 0) && (blockEnd <= end)) {
+                prefix = i;
+                break; // Found the largest possible block size (smallest prefix)
             }
-            if (!isValidIp(endIp)) {
-                showCIDRError('invalid ending IP address');
-                return;
-            }
-
-            const startInt = ipToInt(startIp);
-            const endInt = ipToInt(endIp);
-
-            if (startInt > endInt) {
-                showCIDRError('starting IP must be less than or equal to ending IP');
-                return;
-            }
-
-            const cidrBlocks = calculateCIDRBlocks(startInt, endInt);
-
-            if (cidrBlocks.length === 0) {
-                showCIDRError('unable to calculate CIDR notation for this range');
-                return;
-            }
-
-            displayCIDRResults(cidrBlocks, endInt - startInt + 1);
         }
+        
+        const blockSize = Math.pow(2, 32 - prefix);
 
-        function calculateCIDRBlocks(start, end) {
-            const blocks = [];
-            let current = start;
+        blocks.push({
+            network: intToIp(current),
+            prefix: prefix,
+            size: blockSize
+        });
 
-            while (current <= end) {
-                let maxSize = 32;
-                
-                for (let size = 0; size <= 32; size++) {
-                    const blockSize = Math.pow(2, 32 - size);
-                    const blockEnd = current + blockSize - 1;
-                    
-                    if (current % blockSize === 0 && blockEnd <= end) {
-                        maxSize = size;
-                    } else {
-                        break;
-                    }
-                }
+        current += blockSize;
+    }
 
-                const blockSize = Math.pow(2, 32 - maxSize);
-                blocks.push({
-                    network: intToIp(current),
-                    prefix: maxSize,
-                    size: blockSize
-                });
+    return blocks;
+}
 
-                current += blockSize;
-            }
+function displayCIDRResults(cidrBlocks, totalIps) {
+    // ... (This function remains the same as in your original code)
+    const resultsDiv = document.getElementById('cidrResults');
+    
+    let html = '<div class="result-section">';
+    html += '<h3>cidr results</h3>';
+    html += '<div class="result-item">';
+    html += '<span class="result-label">total ip addresses</span>';
+    html += '<span class="result-value">' + totalIps.toLocaleString() + '</span>';
+    html += '</div>';
+    html += '<div class="result-item">';
+    html += '<span class="result-label">number of cidr blocks</span>';
+    html += '<span class="result-value">' + cidrBlocks.length + '</span>';
+    html += '</div>';
+    html += '<div class="result-item" style="flex-direction: column; align-items: flex-start; padding: 1rem 0;">';
+    html += '<span class="result-label" style="margin-bottom: 0.75rem;">cidr notation</span>';
+    
+    cidrBlocks.forEach((block) => {
+        const cidr = block.network + '/' + block.prefix;
+        html += '<div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 0.5rem;">';
+        html += '<span class="result-value" style="font-family: monospace;">' + cidr + '</span>';
+        html += '<button class="copy-btn" onclick="copyToClipboard(\'' + cidr + '\')" title="copy to clipboard">';
+        html += '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
+        html += '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>';
+        html += '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+        html += '</svg></button></div>';
+    });
+    
+    html += '</div></div>';
 
-            return blocks;
-        }
+    resultsDiv.innerHTML = html;
+    resultsDiv.style.display = 'block';
+}
 
-        function displayCIDRResults(cidrBlocks, totalIps) {
-            const resultsDiv = document.getElementById('cidrResults');
-            
-            let html = '<div class="result-section">';
-            html += '<h3>cidr results</h3>';
-            html += '<div class="result-item">';
-            html += '<span class="result-label">total ip addresses</span>';
-            html += '<span class="result-value">' + totalIps.toLocaleString() + '</span>';
-            html += '</div>';
-            html += '<div class="result-item">';
-            html += '<span class="result-label">number of cidr blocks</span>';
-            html += '<span class="result-value">' + cidrBlocks.length + '</span>';
-            html += '</div>';
-            html += '<div class="result-item" style="flex-direction: column; align-items: flex-start; padding: 1rem 0;">';
-            html += '<span class="result-label" style="margin-bottom: 0.75rem;">cidr notation</span>';
-            
-            cidrBlocks.forEach((block) => {
-                const cidr = block.network + '/' + block.prefix;
-                html += '<div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 0.5rem;">';
-                html += '<span class="result-value" style="font-family: monospace;">' + cidr + '</span>';
-                html += '<button class="copy-btn" onclick="copyToClipboard(\'' + cidr + '\')" title="copy to clipboard">';
-                html += '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">';
-                html += '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>';
-                html += '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
-                html += '</svg></button></div>';
-            });
-            
-            html += '</div></div>';
+function showCIDRError(message) {
+    const errorDiv = document.getElementById('cidrError');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+}
 
-            resultsDiv.innerHTML = html;
-            resultsDiv.style.display = 'block';
-        }
-
-        function showCIDRError(message) {
-            const errorDiv = document.getElementById('cidrError');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-        }
-
-        function clearCIDR() {
-            document.getElementById('startIp').value = '';
-            document.getElementById('endIp').value = '';
-            document.getElementById('cidrError').style.display = 'none';
-            document.getElementById('cidrResults').style.display = 'none';
-        }
+function clearCIDR() {
+    document.getElementById('startIp').value = '';
+    document.getElementById('endIp').value = '';
+    document.getElementById('cidrError').style.display = 'none';
+    document.getElementById('cidrResults').style.display = 'none';
+}
 
         // Enter key support
         document.getElementById('ipAddress').addEventListener('keypress', function(e) {
