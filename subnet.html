@@ -396,6 +396,7 @@
 
 <div class="input-row-two" id="copySubnetBtnContainer" style="display:none;">
   <button class="btn" id="copySubnetBtn" onclick="copyAllSubnetResults()">copy all results</button>
+ <button class="btn" id="copySubnetBtn" onclick="downloadSubnetResults">download .txt</button>
 </div>
 
             <div class="clear-link">
@@ -804,27 +805,25 @@ function clearCIDR() {
             if (e.key === 'Enter') calcCIDR();
         });
 
-function copyAllSubnetResults() {
+// === Shared text generator for both copy & download ===
+function generateSubnetOutputText() {
     const resultsDiv = document.getElementById('subnetResults');
     if (!resultsDiv || resultsDiv.style.display === 'none') {
-        alert('No subnet results to copy.');
-        return;
+        return null;
     }
 
     let output = '';
 
-    // === Timestamp & Input Summary ===
+    // Timestamp and CIDR summary
     const now = new Date();
     const timestamp = now.toLocaleString();
 
-    // Try to detect the CIDR input (IPv4 or IPv6)
     const cidrItem = [...resultsDiv.querySelectorAll('.result-box, .result-item')]
         .find(el => el.innerText.includes('/') && el.innerText.match(/[\dA-Fa-f:.]+\/\d+/));
     const inputSummary = cidrItem
         ? (cidrItem.innerText.split(':')[1]?.trim() || cidrItem.innerText.trim())
         : '';
 
-    // IPv6 detection (simple heuristic)
     const isIPv6 = inputSummary.includes(':');
 
     output += `Subnet Calculation Results\n`;
@@ -832,13 +831,12 @@ function copyAllSubnetResults() {
     if (inputSummary) output += `Input: ${inputSummary}\n`;
     output += `Type: ${isIPv6 ? 'IPv6' : 'IPv4'}\n\n`;
 
-    // === Collect result sections ===
+    // Gather sections
     const sections = resultsDiv.querySelectorAll('.result-section, .result-grid');
 
     sections.forEach(section => {
         const header = section.querySelector('h3');
         if (header) {
-            // Adjust certain section names dynamically
             let title = header.innerText.trim();
             if (isIPv6 && title.toLowerCase().includes('network information')) {
                 title = 'Network Prefix Information';
@@ -855,7 +853,6 @@ function copyAllSubnetResults() {
             const label = item.querySelector('.result-label, .result-box-label')?.innerText?.trim() || '';
             const value = item.querySelector('.result-value, .result-box-value span')?.innerText?.trim() || '';
             if (label && value) {
-                // For IPv6, rename certain fields for clarity
                 let adjustedLabel = label;
                 if (isIPv6) {
                     if (label.toLowerCase().includes('network address')) adjustedLabel = 'network prefix';
@@ -870,22 +867,53 @@ function copyAllSubnetResults() {
         output += '\n';
     });
 
-    // === Decode if URI-encoded ===
     if (/%[0-9A-F]{2}/i.test(output)) {
         try {
             output = decodeURIComponent(output);
-        } catch (e) {
+        } catch {
             console.warn('Skipping decode — invalid URI encoding.');
         }
     }
 
-    // === Copy to clipboard ===
+    return output.trim() + '\n';
+}
+
+// === Copy to clipboard ===
+function copyAllSubnetResults() {
+    const output = generateSubnetOutputText();
+    if (!output) {
+        alert('No subnet results to copy.');
+        return;
+    }
+
     navigator.clipboard.writeText(output).then(() => {
         showToast('All subnet results copied to clipboard.');
     }).catch(err => {
         console.error('Copy failed', err);
         showToast('Unable to copy results.');
     });
+}
+
+// === Download as .txt file ===
+function downloadSubnetResults() {
+    const output = generateSubnetOutputText();
+    if (!output) {
+        alert('No subnet results to download.');
+        return;
+    }
+
+    const blob = new Blob([output], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    const now = new Date();
+    const timestamp = now.toISOString().replace(/[:.]/g, '-');
+    a.href = url;
+    a.download = `subnet-results-${timestamp}.txt`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+    showToast('Subnet results downloaded as text file.');
 }
 
         
