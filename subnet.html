@@ -813,26 +813,73 @@ function copyAllSubnetResults() {
 
     let output = '';
 
-    // Grab each result section
+    // === Timestamp & Input Summary ===
+    const now = new Date();
+    const timestamp = now.toLocaleString();
+
+    // Try to detect the CIDR input (IPv4 or IPv6)
+    const cidrItem = [...resultsDiv.querySelectorAll('.result-box, .result-item')]
+        .find(el => el.innerText.includes('/') && el.innerText.match(/[\dA-Fa-f:.]+\/\d+/));
+    const inputSummary = cidrItem
+        ? (cidrItem.innerText.split(':')[1]?.trim() || cidrItem.innerText.trim())
+        : '';
+
+    // IPv6 detection (simple heuristic)
+    const isIPv6 = inputSummary.includes(':');
+
+    output += `Subnet Calculation Results\n`;
+    output += `Generated on: ${timestamp}\n`;
+    if (inputSummary) output += `Input: ${inputSummary}\n`;
+    output += `Type: ${isIPv6 ? 'IPv6' : 'IPv4'}\n\n`;
+
+    // === Collect result sections ===
     const sections = resultsDiv.querySelectorAll('.result-section, .result-grid');
 
     sections.forEach(section => {
-        // If it has a header (like h3), use it as section title
         const header = section.querySelector('h3');
-        if (header) output += header.innerText + '\n';
+        if (header) {
+            // Adjust certain section names dynamically
+            let title = header.innerText.trim();
+            if (isIPv6 && title.toLowerCase().includes('network information')) {
+                title = 'Network Prefix Information';
+            } else if (isIPv6 && title.toLowerCase().includes('usable ip range')) {
+                title = 'Assignable Address Range';
+            }
 
-        // Grab all label/value pairs
+            const line = '='.repeat(title.length);
+            output += `${title.toUpperCase()}\n${line}\n`;
+        }
+
         const items = section.querySelectorAll('.result-item, .result-box');
         items.forEach(item => {
-            const label = item.querySelector('.result-label, .result-box-label')?.innerText || '';
-            const value = item.querySelector('.result-value, .result-box-value span')?.innerText || '';
-            if (label && value) output += `${label}: ${value}\n`;
+            const label = item.querySelector('.result-label, .result-box-label')?.innerText?.trim() || '';
+            const value = item.querySelector('.result-value, .result-box-value span')?.innerText?.trim() || '';
+            if (label && value) {
+                // For IPv6, rename certain fields for clarity
+                let adjustedLabel = label;
+                if (isIPv6) {
+                    if (label.toLowerCase().includes('network address')) adjustedLabel = 'network prefix';
+                    if (label.toLowerCase().includes('broadcast')) adjustedLabel = 'last address in prefix';
+                    if (label.toLowerCase().includes('subnet mask')) adjustedLabel = 'prefix length';
+                    if (label.toLowerCase().includes('wildcard mask')) adjustedLabel = 'prefix mask (not used)';
+                }
+                output += `${adjustedLabel}: ${value}\n`;
+            }
         });
 
-        output += '\n'; // add spacing between sections
+        output += '\n';
     });
 
-    // Copy to clipboard
+    // === Decode if URI-encoded ===
+    if (/%[0-9A-F]{2}/i.test(output)) {
+        try {
+            output = decodeURIComponent(output);
+        } catch (e) {
+            console.warn('Skipping decode — invalid URI encoding.');
+        }
+    }
+
+    // === Copy to clipboard ===
     navigator.clipboard.writeText(output).then(() => {
         showToast('All subnet results copied to clipboard.');
     }).catch(err => {
