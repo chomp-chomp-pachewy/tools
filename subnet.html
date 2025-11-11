@@ -451,79 +451,224 @@
     <div id="toast" class="toast"></div>
 
     <script>
-        // Utility functions
-        function ipToInt(ip) {
-            const parts = ip.split('.').map(Number);
-            return (parts[0] << 24) + (parts[1] << 16) + (parts[2] << 8) + parts[3];
+
+// ===== Utility Functions =====
+
+// IPv4
+function ipToInt(ip) {
+    const parts = ip.split('.').map(Number);
+    return (parts[0] << 24) + (parts[1] << 16) + (parts[2] << 8) + parts[3];
+}
+
+function intToIp(int) {
+    return [
+        (int >>> 24) & 0xFF,
+        (int >>> 16) & 0xFF,
+        (int >>> 8) & 0xFF,
+        int & 0xFF
+    ].join('.');
+}
+
+function intToHex(int) {
+    return [
+        ((int >>> 24) & 0xFF).toString(16).toUpperCase().padStart(2, '0'),
+        ((int >>> 16) & 0xFF).toString(16).toUpperCase().padStart(2, '0'),
+        ((int >>> 8) & 0xFF).toString(16).toUpperCase().padStart(2, '0'),
+        (int & 0xFF).toString(16).toUpperCase().padStart(2, '0')
+    ].join('.');
+}
+
+function ipToBinary(ip) {
+    return ip.split('.').map(part => parseInt(part).toString(2).padStart(8, '0')).join('.');
+}
+
+function isValidIPv4(ip) {
+    const parts = ip.split('.');
+    if (parts.length !== 4) return false;
+    return parts.every(part => {
+        const n = Number(part);
+        return n >= 0 && n <= 255 && part === n.toString();
+    });
+}
+
+function isPrivateIPv4(ip) {
+    const parts = ip.split('.').map(Number);
+    return (parts[0] === 10) ||
+           (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) ||
+           (parts[0] === 192 && parts[1] === 168);
+}
+
+// IPv6
+function isValidIPv6(ip) {
+    const regex = /^([0-9a-fA-F]{1,4}:){1,7}[0-9a-fA-F]{1,4}$/;
+    return regex.test(ip.replace(/::/, ':').replace(/(^:|:$)/g, ''));
+}
+
+function isPrivateIPv6(ip) {
+    return ip.toLowerCase().startsWith('fd'); // Unique local addresses
+}
+
+// Expand IPv6 for calculations
+function expandIPv6(ip) {
+    if (!ip.includes('::')) return ip;
+    const [left, right] = ip.split('::');
+    const leftCount = left ? left.split(':').length : 0;
+    const rightCount = right ? right.split(':').length : 0;
+    const missing = 8 - (leftCount + rightCount);
+    const fill = Array(missing).fill('0000').join(':');
+    return [left, fill, right].filter(Boolean).join(':');
+}
+
+function ipv6ToBigInt(ip) {
+    const expanded = expandIPv6(ip);
+    return expanded.split(':').reduce((acc, part) => (acc << 16n) + BigInt(parseInt(part, 16)), 0n);
+}
+
+function bigIntToIPv6(num) {
+    const parts = [];
+    for (let i = 0; i < 8; i++) {
+        parts.unshift((num & 0xFFFFn).toString(16));
+        num >>= 16n;
+    }
+    return parts.join(':').replace(/(^|:)0(:0)+(:|$)/, '::'); // Simple zero-compression
+}
+
+// ===== Subnet Calculator =====
+function calcSubnet() {
+    const input = document.getElementById('ipAddress').value.trim();
+    const maskSelect = document.getElementById('subnetMask').value;
+    const errorDiv = document.getElementById('subnetError');
+    const resultsDiv = document.getElementById('subnetResults');
+
+    errorDiv.style.display = 'none';
+    resultsDiv.style.display = 'none';
+
+    let ip, prefix;
+    if (input.includes('/')) {
+        [ip, prefix] = input.split('/');
+        prefix = parseInt(prefix);
+    } else {
+        ip = input;
+        prefix = maskSelect ? parseInt(maskSelect) : null;
+    }
+
+    const isIPv6 = ip.includes(':');
+
+    if (isIPv6) {
+        if (!isValidIPv6(ip)) {
+            showSubnetError('Invalid IPv6 address.');
+            return;
+        }
+        if (prefix === null || prefix < 0 || prefix > 128) {
+            showSubnetError('Invalid IPv6 prefix (0-128).');
+            return;
         }
 
-        function intToIp(int) {
-            return [
-                (int >>> 24) & 0xFF,
-                (int >>> 16) & 0xFF,
-                (int >>> 8) & 0xFF,
-                int & 0xFF
-            ].join('.');
+        const ipNum = ipv6ToBigInt(ip);
+        const mask = (1n << BigInt(128 - prefix)) - 1n;
+        const networkNum = ipNum & (~mask);
+        const broadcastNum = ipNum | mask;
+
+        const firstUsable = networkNum;
+        const lastUsable = broadcastNum;
+
+        displaySubnetResults({
+            inputIp: ip,
+            inputCidr: `${ip}/${prefix}`,
+            cidr: `${ip}/${prefix}`,
+            cidrIpRange: `${bigIntToIPv6(networkNum)} - ${bigIntToIPv6(broadcastNum)}`,
+            ipsInRange: 2n ** BigInt(128 - prefix),
+            networkAddress: bigIntToIPv6(networkNum),
+            broadcastAddress: bigIntToIPv6(broadcastNum),
+            firstUsable: bigIntToIPv6(firstUsable),
+            lastUsable: bigIntToIPv6(lastUsable),
+            usableHosts: 2n ** BigInt(128 - prefix),
+            ipClass: 'N/A',
+            isPrivate: isPrivateIPv6(ip),
+            maskBinary: null,
+            networkBinary: null
+        });
+    } else {
+        if (!isValidIPv4(ip)) {
+            showSubnetError('Invalid IPv4 address.');
+            return;
+        }
+        if (prefix === null || prefix < 0 || prefix > 32) {
+            showSubnetError('Invalid IPv4 prefix (0-32).');
+            return;
         }
 
-        function intToHex(int) {
-            return [
-                ((int >>> 24) & 0xFF).toString(16).toUpperCase().padStart(2, '0'),
-                ((int >>> 16) & 0xFF).toString(16).toUpperCase().padStart(2, '0'),
-                ((int >>> 8) & 0xFF).toString(16).toUpperCase().padStart(2, '0'),
-                (int & 0xFF).toString(16).toUpperCase().padStart(2, '0')
-            ].join('.');
-        }
+        const ipInt = ipToInt(ip);
+        const maskInt = (0xFFFFFFFF << (32 - prefix)) >>> 0;
+        const networkInt = (ipInt & maskInt) >>> 0;
+        const broadcastInt = (networkInt | ~maskInt) >>> 0;
 
-        function ipToBinary(ip) {
-            const parts = ip.split('.');
-            return parts.map(part => {
-                return parseInt(part).toString(2).padStart(8, '0');
-            }).join('.');
-        }
+        const totalHosts = 2 ** (32 - prefix);
+        const usableHosts = prefix === 32 ? 1 : (prefix === 31 ? 2 : totalHosts - 2);
+        const networkIp = intToIp(networkInt);
+        const broadcastIp = intToIp(broadcastInt);
+        const subnetMask = intToIp(maskInt);
+        const wildcardMask = intToIp((~maskInt) >>> 0);
+        const firstUsableIp = prefix === 32 ? networkIp : (prefix === 31 ? networkIp : intToIp(networkInt + 1));
+        const lastUsableIp = prefix === 32 ? networkIp : (prefix === 31 ? broadcastIp : intToIp(broadcastInt - 1));
+        const ipClass = getNetworkClass(parseInt(ip.split('.')[0]));
+        const isPrivate = isPrivateIPv4(networkIp);
 
-        function isValidIp(ip) {
-            const parts = ip.split('.');
-            if (parts.length !== 4) return false;
-            return parts.every(part => {
-                const num = Number(part);
-                return num >= 0 && num <= 255 && part === num.toString();
-            });
-        }
+        displaySubnetResults({
+            inputIp: ip,
+            inputCidr: networkIp + '/' + prefix,
+            inputLong: ipInt >>> 0,
+            inputHex: intToHex(ipInt),
+            cidr: networkIp + '/' + prefix,
+            cidrIpRange: networkIp + ' - ' + broadcastIp,
+            cidrLongRange: (networkInt >>> 0) + ' - ' + (broadcastInt >>> 0),
+            cidrHexRange: intToHex(networkInt) + ' - ' + intToHex(broadcastInt),
+            ipsInRange: totalHosts,
+            maskBits: prefix,
+            subnetMask: subnetMask,
+            hexSubnetMask: intToHex(maskInt),
+            networkAddress: networkIp,
+            broadcastAddress: broadcastIp,
+            wildcardMask: wildcardMask,
+            firstUsable: firstUsableIp,
+            lastUsable: lastUsableIp,
+            usableHosts: usableHosts,
+            ipClass: ipClass,
+            isPrivate: isPrivate,
+            networkBinary: ipToBinary(networkIp),
+            maskBinary: ipToBinary(subnetMask)
+        });
+    }
 
-        function getNetworkClass(firstOctet) {
-            if (firstOctet >= 1 && firstOctet <= 126) return 'A';
-            if (firstOctet >= 128 && firstOctet <= 191) return 'B';
-            if (firstOctet >= 192 && firstOctet <= 223) return 'C';
-            if (firstOctet >= 224 && firstOctet <= 239) return 'D (multicast)';
-            if (firstOctet >= 240 && firstOctet <= 255) return 'E (reserved)';
-            return 'unknown';
-        }
+    document.getElementById('copySubnetBtnContainer').style.display = 'block';
+}
 
-        function isPrivateIp(ip) {
-            const parts = ip.split('.').map(Number);
-            if (parts[0] === 10) return true;
-            if (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) return true;
-            if (parts[0] === 192 && parts[1] === 168) return true;
-            return false;
-        }
+// ===== Copy All Results (IPv4 + IPv6) =====
+function copyAllSubnetResults() {
+    const resultsDiv = document.getElementById('subnetResults');
+    if (!resultsDiv || resultsDiv.style.display === 'none') {
+        alert('No subnet results to copy.');
+        return;
+    }
 
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('copied to clipboard');
-            }).catch(err => {
-                showToast('failed to copy');
-            });
-        }
+    let output = 'Subnet Calculation Results\n';
+    output += `Generated on: ${new Date().toLocaleString()}\n\n`;
 
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
-        }
+    const items = resultsDiv.querySelectorAll('.result-box, .result-item');
+    items.forEach(item => {
+        const label = item.querySelector('.result-label, .result-box-label')?.innerText?.trim() || '';
+        const value = item.querySelector('.result-value, .result-box-value span')?.innerText?.trim() || '';
+        if (label && value) output += `${label}: ${value}\n`;
+    });
+
+    navigator.clipboard.writeText(output).then(() => showToast('All subnet results copied to clipboard.'))
+        .catch(() => showToast('Unable to copy results.'));
+}
+
+// ===== Helper Functions =====
+function showSubnetError(msg) { const e = document.getElementById('subnetError'); e.textContent = msg; e.style.display = 'block'; }
+function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
+
 
         // SUBNET CALCULATOR
         function calcSubnet() {
