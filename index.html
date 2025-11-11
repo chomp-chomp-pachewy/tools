@@ -128,7 +128,7 @@
                 <font style="font-style: italic;">owner | location | whois</font>
         </div>
 
- <a href="javascript:(function(){ 
+  <a href="javascript:(function(){ 
       function deleteCookie(name, domain, path){ 
         let cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=' + (path || '/'); 
         if(domain) cookie += ' domain=' + domain + ';'; 
@@ -139,7 +139,7 @@
         if(!document.cookie) return []; 
         return document.cookie.split(';').map(c => c.trim().split('=')[0]); 
       }
-
+      
       function tryDeleteAll(domainVariants){
         const names = getAllCookieNames();
         if(names.length === 0){ alert('No accessible cookies found.'); return; }
@@ -155,9 +155,8 @@
       const host = location.hostname;
       const variants = [undefined, '.' + host.split('.').slice(1).join('.')];
       tryDeleteAll(variants);
-  })()" 
-  title="Drag to bookmarks bar" class="tool-link">
-   <div class="tool-name">clear cookies (drag me to your bookmarks bar!)</a>
+  })()" class="bookmarklet" title="Drag me to bookmarks bar">
+   <div class="tool-name">clear cookies (drag me!)</a>
    <font style="font-style: italic;">bookmarklet to clear cookies from any site</font>
  </div>
 
