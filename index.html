@@ -110,7 +110,7 @@
 </head>
 <body>
     <nav>
-        <a href="https://chomp.ltd">home</a>
+        <a href="https://www.chomp.ltd">chomp chomp</a>
         <a href="https://tools.chomp.ltd">tools</a>
     </nav>
 
@@ -128,6 +128,42 @@
                 <font style="font-style: italic;">owner | location | whois</font>
         </div>
 
+ <a href="javascript:(function(){ 
+      function deleteCookie(name, domain, path){ 
+        let cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=' + (path || '/'); 
+        if(domain) cookie += ' domain=' + domain + ';'; 
+        document.cookie = cookie; 
+      }
+      
+      function getAllCookieNames(){ 
+        if(!document.cookie) return []; 
+        return document.cookie.split(';').map(c => c.trim().split('=')[0]); 
+      }
+
+      function tryDeleteAll(domainVariants){
+        const names = getAllCookieNames();
+        if(names.length === 0){ alert('No accessible cookies found.'); return; }
+        for(const name of names){
+          for(const dom of domainVariants){
+            deleteCookie(name, dom, '/');
+          }
+          deleteCookie(name, undefined, '/');
+        }
+        alert('Cookies deletion attempt complete.');
+      }
+
+      const host = location.hostname;
+      const variants = [undefined, '.' + host.split('.').slice(1).join('.')];
+      tryDeleteAll(variants);
+  })()" 
+  title="Drag to bookmarks bar" 
+  draggable="true" 
+  ondragstart="event.dataTransfer.setData('text/plain', event.target.href);" class="tool-link">
+   <div class="tool-name">clear cookies (drag me to your bookmarks bar!)</a>
+   <font style="font-style: italic;">bookmarklet to clear cookies from any site</font>
+ </div>
+
+    
         <a href="https://tools.chomp.ltd/convert" class="tool-link">
             <div class="tool-name">&#149; convert</a>
                                 <font style="font-style: italic;">length | volume | weight | etc</font></div>
