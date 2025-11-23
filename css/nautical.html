@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nautical ipsum - chomp tools</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Shared Chomp styles -->
+    <link rel="stylesheet" href="chomp-shared.css">
+    <!-- Tools-specific styles -->
+    <link rel="stylesheet" href="tools.css">
+</head>
+<body>
+    <!-- Theme toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()"></div>
+    
+    <!-- Navigation -->
+    <nav>
+        <a href="https://tools.chomp.ltd">all tools</a>
+    </nav>
+
+    <div class="tool-page">
+        <div class="tool-header">
+            <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/refs/heads/main/nautical.png" alt="nautical ipsum" style="max-width: 300px; margin-bottom: 30px;">
+        </div>
+
+        <div class="info-box">
+            <p><strong style="color: var(--accent-red); display: block; margin-bottom: 10px;">About nautical ipsum:</strong> Catch dramatic, whale-chasing lines from Melville's classic. Or, deck your emails with boat speak: "mizzenmast," "starboard," "fo'c'sle" to make you feel like you just came off a ship's deck.</p>
+        </div>
+
+        <div class="section-title" style="color: var(--accent-red); font-size: 1.15em; font-weight: 700; margin: 30px 0 15px 0; text-transform: lowercase;">moby dick ipsum</div>
+        
+        <div class="tool-controls">
+            <div class="control-group">
+                <label class="control-label">number of paragraphs:</label>
+                <input type="number" id="count-moby" class="control-input" value="3" min="1" max="20" style="width: 250px; height: 52px;">
+            </div>
+
+            <div class="tool-actions">
+                <button class="tool-button" onclick="generateMoby()" style="width: 250px;">generate</button>
+                <button class="tool-button tool-button-secondary" onclick="copyToClipboard('moby')" style="width: 250px;">copy to clipboard</button>
+            </div>
+
+            <div class="control-group">
+                <textarea id="output-moby" class="control-input" placeholder="generated text will appear here..." readonly></textarea>
+            </div>
+        </div>
+
+        <div class="section-title" style="color: var(--accent-red); font-size: 1.15em; font-weight: 700; margin: 40px 0 15px 0; text-transform: lowercase;">drop anchor ipsum</div>
+        
+        <div class="tool-controls">
+            <div class="control-group">
+                <label class="control-label">number of paragraphs:</label>
+                <input type="number" id="count-nautical" class="control-input" value="3" min="1" max="20" style="width: 250px; height: 52px;">
+            </div>
+
+            <div class="tool-actions">
+                <button class="tool-button" onclick="generateNautical()" style="width: 250px;">generate</button>
+                <button class="tool-button tool-button-secondary" onclick="copyToClipboard('nautical')" style="width: 250px;">copy to clipboard</button>
+            </div>
+
+            <div class="control-group">
+                <textarea id="output-nautical" class="control-input" placeholder="generated text will appear here..." readonly></textarea>
+            </div>
+        </div>
+
+        <div class="toast" id="toast">copied to clipboard!</div>
+    </div>
+
+    <script>
+  <script>
+    const nauticalTerms = [
+      'anchor', 'ballast', 'barnacle', 'beacon', 'bearing', 'berth', 'bilge', 'boom', 
+      'bow', 'bowsprit', 'bridge', 'bulkhead', 'buoy', 'cabin', 'capstan', 'cargo', 
+      'chart', 'cleat', 'compass', 'course', 'crew', 'current', 'davit', 'deck', 
+      'depth', 'dinghy', 'drift', 'fathom', 'figurehead', 'fleet', 'galley', 'gunwale', 
+      'halyard', 'harbor', 'hatch', 'hawser', 'heading', 'helm', 'horizon', 'hull', 
+      'jib', 'keel', 'knot', 'lanyard', 'latitude', 'league', 'lee', 'lighthouse', 
+      'line', 'log', 'longitude', 'mainmast', 'mainsail', 'mast', 'mooring', 'nautical', 
+      'navigation', 'offshore', 'outrigger', 'passage', 'pier', 'pilot', 'plank', 
+      'porthole', 'prow', 'pulley', 'quarter', 'quay', 'rail', 'rigging', 'rudder', 
+      'sail', 'sailor', 'schooner', 'scupper', 'sea', 'sextant', 'sheet', 'ship', 
+      'shroud', 'skipper', 'sloop', 'spar', 'spinnaker', 'splice', 'squall', 'starboard', 
+      'stern', 'stowage', 'tackle', 'tack', 'tide', 'tiller', 'transom', 'vessel', 
+      'wake', 'watch', 'wave', 'wharf', 'windlass', 'yardarm',
+      'cast off', 'weigh anchor', 'full sail ahead', 'man overboard', 'all hands on deck',
+      'steady as she goes', 'hard to starboard', 'reef the sails', 'swab the deck',
+      'batten down the hatches', 'three sheets to the wind', 'dead in the water',
+      'show your true colors', 'know the ropes', 'on an even keel', 'take the helm',
+      'chart a course', 'trim the sails', 'make way', 'clear the deck', 'splice the mainbrace',
+      'heave to', 'come about', 'stand by', 'drop anchor', 'set sail', 'fair winds',
+      'following seas', 'smooth sailing', 'rough waters', 'high tide', 'low tide',
+      'dead reckoning', 'full steam ahead', 'all hands', 'abandon ship', 'steady course',
+      'port side', 'list to starboard', 'into the wind', 'with the current', 'against the tide'
+    ];
+    
+    const mobyPassages = [
+      "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
+      "It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people's hats off—then, I account it high time to get to sea as soon as I can.",
+      "There now is your insular city of the Manhattoes, belted round by wharves as Indian isles by coral reefs—commerce surrounds it with her surf. Right and left, the streets take you waterward. Its extreme downtown is the battery, where that noble mole is washed by waves, and cooled by breezes, which a few hours previous were out of sight of land.",
+      "But look! here come more crowds, pacing straight for the water, and seemingly bound for a dive. Strange! Nothing will content them but the extremest limit of the land; loitering under the shady lee of yonder warehouses will not suffice. No. They must get just as nigh the water as they possibly can without falling in.",
+      "And there they stand—miles of them—leagues. Inlanders all, they come from lanes and alleys, streets and avenues—north, east, south, and west. Yet here they all unite. Tell me, does the magnetic virtue of the needles of the compasses of all those ships attract them thither?",
+      "Once more. Say you are in the country; in some high land of lakes. Take almost any path you please, and ten to one it carries you down in a dale, and leaves you there by a pool in the stream. There is magic in it. Let the most absent-minded of men be plunged in his deepest reveries—stand that man on his legs, set his feet a-going, and he will infallibly lead you to water, if water there be in all that region.",
+      "Should you ever be athirst in the great American desert, try this experiment, if your caravan happen to be supplied with a metaphysical professor. Yes, as every one knows, meditation and water are wedded for ever.",
+      "But here is an artist. He desires to paint you the dreamiest, shadiest, quietest, most enchanting bit of romantic landscape in all the valley of the Saco. What is the chief element he employs? There stand his trees, each with a hollow trunk, as if a hermit and a crucifix were within; and here sleeps his meadow, and there sleep his cattle; and up from yonder cottage goes a sleepy smoke.",
+      "Deep into distant woodlands winds a mazy way, reaching to overlapping spurs of mountains bathed in their hill-side blue. But though the picture lies thus tranced, and though this pine-tree shakes down its sighs like leaves upon this shepherd's head, yet all were vain, unless the shepherd's eye were fixed upon the magic stream before him.",
+      "Go visit the Prairies in June, when for scores on scores of miles you wade knee-deep among Tiger-lilies—what is the one charm wanting?—Water—there is not a drop of water there! Were Niagara but a cataract of sand, would you travel your thousand miles to see it? Why did the poor poet of Tennessee, upon suddenly receiving two handfuls of silver, deliberate whether to buy him a coat, which he sadly needed, or invest his money in a pedestrian trip to Rockaway Beach?",
+      "Why is almost every robust healthy boy with a robust healthy soul in him, at some time or other crazy to go to sea? Why upon your first voyage as a passenger, did you yourself feel such a mystical vibration, when first told that you and your ship were now out of sight of land? Why did the old Persians hold the sea holy? Why did the Greeks give it a separate deity, and own brother of Jove? Surely all this is not without meaning.",
+      "And still deeper the meaning of that story of Narcissus, who because he could not grasp the tormenting, mild image he saw in the fountain, plunged into it and was drowned. But that same image, we ourselves see in all rivers and oceans. It is the image of the ungraspable phantom of life; and this is the key to it all.",
+      "Now, when I say that I am in the habit of going to sea whenever I begin to grow hazy about the eyes, and begin to be over conscious of my lungs, I do not mean to have it inferred that I ever go to sea as a passenger. For to go as a passenger you must needs have a purse, and a purse is but a rag unless you have something in it.",
+      "Besides, passengers get sea-sick—grow quarrelsome—don't sleep of nights—do not enjoy themselves much, as a general thing;—no, I never go as a passenger; nor, though I am something of a salt, do I ever go to sea as a Commodore, or a Captain, or a Cook. I abandon the glory and distinction of such offices to those who like them.",
+      "For my part, I abominate all honorable respectable toils, trials, and tribulations of every kind whatsoever. It is quite as much as I can do to take care of myself, without taking care of ships, barques, brigs, schooners, and what not. And as for going as cook,—though I confess there is considerable glory in that, a cook being a sort of officer on ship-board—yet, somehow, I never fancied broiling fowls;—though once broiled, judiciously buttered, and judgmatically salted and peppered, there is no one who will speak more respectfully, not to say reverentially, of a broiled fowl than I will.",
+      "It is out of the idolatrous dotings of the old Egyptians upon broiled ibis and roasted river horse, that you see the mummies of those creatures in their huge bake-houses the pyramids. No, when I go to sea, I go as a simple sailor, right before the mast, plumb down into the forecastle, aloft there to the royal mast-head.",
+      "True, they rather order me about some, and make me jump from spar to spar, like a grasshopper in a May meadow. And at first, this sort of thing is unpleasant enough. It touches one's sense of honor, particularly if you come of an old established family in the land, the Van Rensselaers, or Randolphs, or Hardicanutes.",
+      "And more than all, if just previous to putting your hand into the tar-pot, you have been lording it as a country schoolmaster, making the tallest boys stand in awe of you. The transition is a keen one, I assure you, from a schoolmaster to a sailor, and requires a strong decoction of Seneca and the Stoics to enable you to grin and bear it.",
+      "But even this wears off in time. What of it, if some old hunks of a sea-captain orders me to get a broom and sweep down the decks? What does that indignity amount to, weighed, I mean, in the scales of the New Testament? Do you think the archangel Gabriel thinks anything the less of me, because I promptly and respectfully obey that old hunks in that particular instance?",
+      "Who ain't a slave? Tell me that. Well, then, however the old sea-captains may order me about—however they may thump and punch me about, I have the satisfaction of knowing that it is all right; that everybody else is one way or other served in much the same way—either in a physical or metaphysical point of view, that is; and so the universal thump is passed round, and all hands should rub each other's shoulder-blades, and be content.",
+      "Again, I always go to sea as a sailor, because they make a point of paying me for my trouble, whereas they never pay passengers a single penny that I ever heard of. On the contrary, passengers themselves must pay. And there is all the difference in the world between paying and being paid.",
+      "The act of paying is perhaps the most uncomfortable infliction that the two orchard thieves entailed upon us. But being paid,—what will compare with it? The urbane activity with which a man receives money is really marvellous, considering that we so earnestly believe money to be the root of all earthly ills, and that on no account can a monied man enter heaven. Ah! how cheerfully we consign ourselves to perdition!",
+      "Finally, I always go to sea as a sailor, because of the wholesome exercise and pure air of the fore-castle deck. For as in this world, head winds are far more prevalent than winds from astern (that is, if you never violate the Pythagorean maxim), so for the most part the Commodore on the quarter-deck gets his atmosphere at second hand from the sailors on the forecastle.",
+      "He thinks he breathes it first; but not so. In much the same way do the commonalty lead their leaders in many other things, at the same time that the leaders little suspect it. But wherefore it was that after having repeatedly smelt the sea as a merchant sailor, I should now take it into my head to go on a whaling voyage; this the invisible police officer of the Fates, who has the constant surveillance of me, and secretly dogs me, and influences me in some unaccountable way—he can better answer than any one else.",
+      "And, doubtless, my going on this whaling voyage, formed part of the grand programme of Providence that was drawn up a long time ago. It came in as a sort of brief interlude and solo between more extensive performances. I take it that this part of the bill must have run something like this: 'Grand Contested Election for the Presidency of the United States. Whaling voyage by one Ishmael. Bloody Battle in Affghanistan.'",
+      "Though I cannot tell why it was exactly that those stage managers, the Fates, put me down for this shabby part of a whaling voyage, when others were set down for magnificent parts in high tragedies, and short and easy parts in genteel comedies, and jolly parts in farces—though I cannot tell why this was exactly; yet, now that I recall all the circumstances, I think I can see a little into the springs and motives which being cunningly presented to me under various disguises, induced me to set about performing the part I did, besides cajoling me into the delusion that it was a choice resulting from my own unbiased freewill and discriminating judgment.",
+      "Chief among these motives was the overwhelming idea of the great whale himself. Such a portentous and mysterious monster roused all my curiosity. Then the wild and distant seas where he rolled his island bulk; the undeliverable, nameless perils of the whale; these, with all the attending marvels of a thousand Patagonian sights and sounds, helped to sway me to my wish.",
+      "With other men, perhaps, such things would not have been inducements; but as for me, I am tormented with an everlasting itch for things remote. I love to sail forbidden seas, and land on barbarous coasts. Not ignoring what is good, I am quick to perceive a horror, and could still be social with it—would they let me—since it is but well to be on friendly terms with all the inmates of the place one lodges in.",
+      "By reason of these things, then, the whaling voyage was welcome; the great flood-gates of the wonder-world swung open, and in the wild conceits that swayed me to my purpose, two and two there floated into my inmost soul, endless processions of the whale, and, mid most of them all, one grand hooded phantom, like a snow hill in the air.",
+      "The Pequod was a ship of the old school, rather small if anything; with an old-fashioned claw-footed look about her. Long seasoned and weather-stained in the typhoons and calms of all four oceans, her old hull's complexion was darkened like a French grenadier's, who has alike fought in Egypt and Siberia.",
+      "Her venerable bows looked bearded. Her masts—cut somewhere on the coast of Japan, where her original ones were lost overboard in a gale—her masts stood stiffly up like the spines of the three old kings of Cologne. Her ancient decks were worn and wrinkled, like the pilgrim-worshipped flag-stone in Canterbury Cathedral where Becket bled.",
+      "But to all these her old antiquities, were added new and marvellous features, pertaining to the wild business that for more than half a century she had followed. Old Captain Peleg, many years her chief-mate, before he commanded another vessel of his own, and now a retired seaman, and one of the principal owners of the Pequod,—this old Peleg, during the term of his chief-mateship, had built upon her original grotesqueness, and inlaid it, all over, with a quaintness both of material and device, unmatched by anything except it be Thorkill-Hake's carved buckler or bedstead.",
+      "She was apparelled like any barbaric Ethiopian emperor, his neck heavy with pendants of polished ivory. She was a thing of trophies. A cannibal of a craft, tricking herself forth in the chased bones of her enemies. All round, her unpanelled, open bulwarks were garnished like one continuous jaw, with the long sharp teeth of the sperm whale, inserted there for pins, to fasten her old hempen thews and tendons to.",
+      "Those thews ran not through base blocks of land wood, but deftly travelled over sheaves of sea-ivory. Scorning a turnstile wheel at her reverend helm, she sported there a tiller; and that tiller was in one mass, curiously carved from the long narrow lower jaw of her hereditary foe. The helmsman who steered by that tiller in a tempest, felt like the Tartar, when he holds back his fiery steed by clutching its jaw.",
+      "A noble craft, but somehow a most melancholy! All noble things are touched with that. Now when I looked about the quarter-deck, for some one having authority, in order to propose myself as a candidate for the voyage, at first I saw nobody; but I could not well overlook a strange sort of tent, or rather wigwam, pitched a little behind the main-mast.",
+      "It seemed only a temporary erection used in port. It was of a conical shape, some ten feet high; consisting of the long, huge slabs of limber black bone taken from the middle and highest part of the jaws of the right-whale. Planted with their broad ends on the deck, a circle of these slabs laced together, mutually sloped towards each other, and at the apex united in a tufted point, where the loose hairy fibres waved to and fro like the top-knot on some old Pottowottamie Sachem's head.",
+      "A triangular opening faced towards the bows of the ship, so that the insider commanded a complete view forward. And half concealed in this queer tenement, I at length found one who by his aspect seemed to have authority; and who, it being noon, and the ship's work suspended, was now enjoying respite from the burden of command.",
+      "He was seated on an old-fashioned oaken chair, wriggling all over with curious carving; and the bottom of which was formed of a stout interlacing of the same elastic stuff of which the wigwam was constructed. There was nothing so very particular, perhaps, about the appearance of the elderly man I saw; he was brown and brawny, like most old seamen, and heavily rolled up in blue pilot-cloth, cut in the Quaker style; only there was a fine and almost microscopic net-work of the minutest wrinkles interlacing round his eyes, which must have arisen from his continual sailings in many hard gales, and always looking to windward;—for this causes the muscles about the eyes to become pursed together.",
+      "Such eye-wrinkles are very effectual in a scowl. 'Is this the Captain of the Pequod?' said I, advancing to the door of the tent. 'Supposing it be the captain of the Pequod, what dost thou want of him?' he demanded. 'I was thinking of shipping.' 'Thou wast, wast thou? I see thou art no Nantucketer—ever been in a stove boat?' 'No, Sir, I never have.'",
+      "'Dost know nothing at all about whaling, I dare say—eh?' 'Nothing, Sir; but I have no doubt I shall soon learn. I've been several voyages in the merchant service, and I think that—' 'Merchant service be damned. Talk not that lingo to me. Dost see that leg?—I'll take that leg away from thy stern, if ever thou talkest of the marchant service to me again. Marchant service indeed! I suppose now ye feel considerable proud of having served in those marchant ships. But flukes! man, what makes thee want to go a whaling, eh?—it looks a little suspicious, don't it, eh?—Hast not been a pirate, hast thou?—Didst not rob thy last Captain, didst thou?—Dost not think of murdering the officers when thou gettest to sea?'",
+      "I protested my innocence of these things. I saw that under the mask of these half humorous innuendoes, this old seaman, as an insulated Quakerish Nantucketer, was full of his insular prejudices, and rather distrustful of all aliens, unless they hailed from Cape Cod or the Vineyard. 'But what takes thee a-whaling? I want to know that before I think of shipping ye.' 'Well, sir, I want to see what whaling is. I want to see the world.' 'Want to see what whaling is, eh? Have ye clapped eye on Captain Ahab?'",
+      "'Who is Captain Ahab, sir?' 'Aye, aye, I thought so. Captain Ahab is the Captain of this ship.' 'I am mistaken then. I thought I was speaking to the Captain himself.' 'Thou art speaking to Captain Peleg—that's who ye are speaking to, young man. It belongs to me and Captain Bildad to see the Pequod fitted out for the voyage, and supplied with all her needs, including crew. We are part owners and agents. But as I was going to say, if thou wantest to know what whaling is, as thou tellest ye do, I can put ye in a way of finding it out before ye bind yourself to it, past backing out.'",
+      "'Clap eye on Captain Ahab, young man, and thou wilt find that he has only one leg.' 'What do you mean, sir? Was the other one lost by a whale?' 'Lost by a whale! Young man, come nearer to me: it was devoured, chewed up, crunched by the monstrousest parmacetty that ever chipped a boat!—ah, ah!' I was a little alarmed by his energy, perhaps also a little touched at the hearty grief in his concluding exclamation, but said as calmly as I could, 'What you say is no doubt true enough, sir; but how could I know there was any peculiar ferocity in that particular whale, though indeed I might have inferred as much from the simple fact of the accident.'",
+      "'Look ye now, young man, thy lungs are a sort of soft, d'ye see; thou dost not talk shark a bit. Sure, ye've been to sea before now; sure of that?' 'Sir,' said I, 'I thought I told you that I had been four voyages in the merchant—' 'Hard down out of that! Mind what I said about the marchant service—don't aggravate me—I won't have it. But let us understand each other. I have given thee a hint about what whaling is; do ye yet feel inclined for it?'",
+      "'I do, sir.' 'Very good. Now, art thou the man to pitch a harpoon down a live whale's throat, and then jump after it? Answer, quick!' 'I am, sir, if it should be positively indispensable to do so; not to be got rid of, that is; which I don't take to be the fact.' 'Good again. Now then, thou not only wantest to go a-whaling, to find out by experience what whaling is, but ye also want to go in order to see the world? Was not that what ye said? I thought so. Well then, just step forward there, and take a peep over the weather-bow, and then back to me and tell me what ye see there.'",
+      "For a moment I stood a little puzzled by this curious request, not knowing exactly how to take it, whether humorously or in earnest. But concentrating all his crow's feet into one scowl, Captain Peleg started me on the errand. Going forward and glancing over the weather bow, I perceived that the ship swinging to her anchor with the flood-tide, was now obliquely pointing towards the open ocean. The prospect was unlimited, but exceedingly monotonous and forbidding; not the slightest variety that I could see.",
+      "'Well, what's the report?' said Peleg when I came back; 'what did ye see?' 'Not much,' I replied—'nothing but water; considerable horizon though, and there's a squall coming up, I think.' 'Well, what does thou think then of seeing the world? Do ye wish to go round Cape Horn to see any more of it, eh? Can't ye see the world where you stand?' I was a little staggered, but go a-whaling I must, and I would; and the Pequod was as good a ship as any—I thought the best—and all this I now repeated to Peleg.",
+      "Seeing me so determined, he expressed his willingness to ship me. 'And thou mayest as well sign the papers right off,' he added—'come along with ye.' And so saying, he led the way below deck into the cabin. Seated on the transom was what seemed to me a most uncommon and surprising figure. It turned out to be Captain Bildad, who along with Captain Peleg was one of the largest owners of the vessel; the other shares, as is sometimes the case in these ports, being held by a crowd of old annuitants; widows, fatherless children, and chancery wards; each owning about the value of a timber head, or a foot of plank, or a nail or two in the ship.",
+      "People in Nantucket invest their money in whaling vessels, the same way that you do yours in approved state stocks bringing in good interest. Now, Bildad, like Peleg, and indeed many other Nantucketers, was a Quaker, the island having been originally settled by that sect; and to this day its inhabitants in general retain in an uncommon measure the peculiarities of the Quaker, only variously and anomalously modified by things altogether alien and heterogeneous.",
+      "For some of these same Quakers are the most sanguinary of all sailors and whale-hunters. They are fighting Quakers; they are Quakers with a vengeance. So that there are instances among them of men, who, named with Scripture names—a singularly common fashion on the island—and in childhood naturally imbibing the stately dramatic thee and thou of the Quaker idiom; still, from the audacious, daring, and boundless adventure of their subsequent lives, strangely blend with these unoutgrown peculiarities, a thousand bold dashes of character, not unworthy a Scandinavian sea-king, or a poetical Pagan Roman."
+    ];
+    
+    function generateNauticalParagraph() {
+      const targetWords = Math.floor(Math.random() * 16) + 50;
+      let paragraph = [];
+      let wordCount = 0;
+      
+      while (wordCount < targetWords) {
+        const term = nauticalTerms[Math.floor(Math.random() * nauticalTerms.length)];
+        const termWords = term.split(' ').length;
+        
+        if (wordCount + termWords <= targetWords) {
+          paragraph.push(term);
+          wordCount += termWords;
+        } else if (wordCount < targetWords - 5) {
+          paragraph.push(term);
+          wordCount += termWords;
+        } else {
+          break;
+        }
+      }
+      
+      let text = paragraph.join(' ');
+      return text.charAt(0).toUpperCase() + text.slice(1) + '.';
+    }
+    
+    function generateNautical() {
+      const count = parseInt(document.getElementById('count-nautical').value);
+      const output = document.getElementById('output-nautical');
+      
+      if (count < 1 || count > 20) {
+        output.value = 'please enter a number between 1 and 20';
+        return;
+      }
+      
+      let result = '';
+      for (let i = 0; i < count; i++) {
+        result += generateNauticalParagraph() + '\n\n';
+      }
+      
+      output.value = result.trim();
+    }
+    
+    function generateMoby() {
+      const count = parseInt(document.getElementById('count-moby').value);
+      const output = document.getElementById('output-moby');
+      
+      if (count < 1 || count > 20) {
+        output.value = 'please enter a number between 1 and 20';
+        return;
+      }
+      
+      let selectedPassages = [];
+      let availableIndices = mobyPassages.map((_, i) => i);
+      
+      for (let i = 0; i < count && availableIndices.length > 0; i++) {
+        const randomIndex = Math.floor(Math.random() * availableIndices.length);
+        const passageIndex = availableIndices[randomIndex];
+        selectedPassages.push(mobyPassages[passageIndex]);
+        availableIndices.splice(randomIndex, 1);
+      }
+      
+      output.value = selectedPassages.join('\n\n');
+    }
+    
+    function copyToClipboard(type) {
+      const output = document.getElementById('output-' + type);
+      const text = output.value;
+      const toast = document.getElementById('toast');
+      
+      if (!text || text === 'generated text will appear here...') {
+        return;
+      }
+      
+      navigator.clipboard.writeText(text).then(() => {
+        toast.textContent = 'copied to clipboard!';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      }).catch(err => {
+        console.error('Failed to copy:', err);
+      });
+    }
+    
+    window.onload = function() {
+      generateNautical();
+      generateMoby();
+    };
+  </script>
+
+</body>
+</html>
+        // Dark mode toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        // Load saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+</body>
+</html>

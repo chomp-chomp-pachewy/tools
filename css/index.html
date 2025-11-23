@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tools.chomp.ltd/">
+    <meta property="og:title" content="Chomp Tools">
+    <meta property="og:description" content="Useful web tools & utilities">
+    <meta property="og:image" content="https://tools.chomp.ltd/preview.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://tools.chomp.ltd/">
+    <meta property="twitter:title" content="Chomp Tools">
+    <meta property="twitter:description" content="Useful web tools & utilities">
+    <meta property="twitter:image" content="https://tools.chomp.ltd/preview.png">
+    
+    <title>tools - chomp ltd</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Shared Chomp styles -->
+    <link rel="stylesheet" href="chomp-shared.css">
+    <!-- Tools-specific styles -->
+    <link rel="stylesheet" href="tools.css">
+</head>
+<body>
+    <!-- Theme toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()"></div>
+    
+    <!-- Navigation -->
+    <nav>
+        <a href="https://www.chomp.ltd">chomp chomp</a>
+        <a href="https://recipes.chomp.ltd">recipes</a>
+        <a href="https://tools.chomp.ltd">tools</a>
+    </nav>
+
+    <div class="tools-container">
+        <div class="header-image">
+            <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/refs/heads/main/tools.png" alt="chomp chomp tools">
+        </div>
+
+        <h1>tools</h1>
+
+        <div class="tools-list">
+            <a href="https://tools.chomp.ltd/ip" class="tool-link">
+                <div class="tool-name">• your ip</div>
+                <div class="tool-description">owner | location | whois</div>
+            </a>
+            
+            <a href="https://tools.chomp.ltd/convert" class="tool-link">
+                <div class="tool-name">• convert</div>
+                <div class="tool-description">length | volume | weight | etc</div>
+            </a>
+            
+            <a href="https://tools.chomp.ltd/inferno" class="tool-link">
+                <div class="tool-name">• inferno ipsum</div>
+                <div class="tool-description">dante's inferno | placeholder text</div>
+            </a>
+            
+            <a href="https://tools.chomp.ltd/encode" class="tool-link">
+                <div class="tool-name">• encode</div>
+                <div class="tool-description">uri | base64 | SHA256 hash | etc</div>
+            </a>
+            
+            <a href="https://tools.chomp.ltd/nautical" class="tool-link">
+                <div class="tool-name">• nautical ipsum</div>
+                <div class="tool-description">moby dick | drop anchor</div>
+            </a>
+            
+            <a href="https://tools.chomp.ltd/subnet" class="tool-link">
+                <div class="tool-name">• subnet</div>
+                <div class="tool-description">subnet & cidr calculators</div>
+            </a>
+        </div>
+
+        <div class="footer-links">
+            <a href="mailto:tools@chomp.ltd">tools@chomp.ltd</a>
+            <a href="https://recipes.chomp.ltd">recipes</a>
+            <a href="https://www.chomp.ltd">chomp chomp</a>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        // Load saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+</body>
+</html>

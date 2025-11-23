@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>encode - chomp tools</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Shared Chomp styles -->
+    <link rel="stylesheet" href="chomp-shared.css">
+    <!-- Tools-specific styles -->
+    <link rel="stylesheet" href="tools.css">
+</head>
+<body>
+    <!-- Theme toggle -->
+    <div class="theme-toggle" onclick="toggleTheme()"></div>
+    
+    <!-- Navigation -->
+    <nav>
+        <a href="https://tools.chomp.ltd">all tools</a>
+    </nav>
+
+    <div class="tool-page">
+        <div class="tool-header">
+            <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/refs/heads/main/encode.png" alt="chomp encode" style="max-width: 300px; margin-bottom: 30px;">
+        </div>
+
+        <div class="info-box">
+            <p><strong style="color: var(--accent-red); display: block; margin-bottom: 10px;">about this encoder & decoder</strong></p>
+            <p>This tool helps you transform text into different encoded formats or decode it back again. It's handy for developers, analysts, or anyone working with web data, files, or security tokens.</p>
+            
+            <p style="margin-top: 15px;"><strong style="color: var(--accent-red); display: block; margin-bottom: 10px;">encoding & decoding</strong></p>
+            <p>Use options like <em>encode URI</em>, <em>base64</em>, <em>hex</em>, or <em>binary</em> to safely convert text for URLs, data storage, or transmission. You can also decode them to reveal the original content. Encoding keeps information intact across systems that might not handle special characters well.</p>
+            
+            <p style="margin-top: 15px;"><strong style="color: var(--accent-red); display: block; margin-bottom: 10px;">hashing functions</strong></p>
+            <p>Hashing (like <em>SHA-256</em>) converts text into a fixed-length digital fingerprint. It can't be reversed, making it useful for verifying data integrity or securely storing passwords without exposing the original text.</p>
+        </div>
+
+        <div class="tool-controls">
+            <div class="control-group">
+                <label class="control-label">select encoding type</label>
+                <select id="encodeType" class="tool-select">
+                    <option value="">select encoding type...</option>
+                    <option value="encodeURI">encode URI</option>
+                    <option value="decodeURI">decode URI</option>
+                    <option value="base64Encode">base64 encode</option>
+                    <option value="base64Decode">base64 decode</option>
+                    <option value="hexEncode">hex encode</option>
+                    <option value="hexDecode">hex decode</option>
+                    <option value="binaryEncode">binary encode</option>
+                    <option value="binaryDecode">binary decode</option>
+                    <option value="md5Hash">MD5 hash</option>
+                    <option value="sha256Hash">SHA-256 hash</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">input text</label>
+                <textarea id="input" class="control-input" placeholder="enter text here..."></textarea>
+            </div>
+
+            <div class="tool-actions">
+                <button class="tool-button" onclick="processEncode()">go</button>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label">output</label>
+                <textarea id="output" class="control-input" placeholder="output will appear here..." readonly></textarea>
+            </div>
+
+            <div class="tool-actions">
+                <button class="tool-button tool-button-secondary" onclick="clearFields()">clear</button>
+                <button class="tool-button" onclick="copyOutput()">copy output</button>
+            </div>
+        </div>
+
+        <div class="toast" id="toast">copied to clipboard!</div>
+    </div>
+
+    <script>
+        // Dark mode toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        // Load saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Encode/Decode functionality
+        const input = document.getElementById('input');
+        const output = document.getElementById('output');
+        const toast = document.getElementById('toast');
+        const encodeType = document.getElementById('encodeType');
+
+        function processEncode() {
+            const selectedType = encodeType.value;
+            if (!selectedType) return;
+
+            const functions = {
+                'encodeURI': encodeURIComp,
+                'decodeURI': decodeURIComp,
+                'base64Encode': base64Encode,
+                'base64Decode': base64Decode,
+                'hexEncode': hexEncode,
+                'hexDecode': hexDecode,
+                'binaryEncode': binaryEncode,
+                'binaryDecode': binaryDecode,
+                'md5Hash': md5Hash,
+                'sha256Hash': sha256Hash
+            };
+
+            if (functions[selectedType]) {
+                functions[selectedType]();
+            }
+        }
+
+        function encodeURIComp() {
+            try {
+                output.value = encodeURIComponent(input.value);
+            } catch (e) {
+                output.value = 'Error encoding text';
+            }
+        }
+
+        function decodeURIComp() {
+            try {
+                output.value = decodeURIComponent(input.value);
+            } catch (e) {
+                output.value = 'Error decoding text';
+            }
+        }
+
+        function base64Encode() {
+            try {
+                output.value = btoa(input.value);
+            } catch (e) {
+                output.value = 'Error encoding Base64';
+            }
+        }
+
+        function base64Decode() {
+            try {
+                output.value = atob(input.value);
+            } catch (e) {
+                output.value = 'Error decoding Base64';
+            }
+        }
+
+        function hexEncode() {
+            try {
+                output.value = Array.from(input.value)
+                    .map(char => char.charCodeAt(0).toString(16).padStart(2, '0'))
+                    .join('');
+            } catch (e) {
+                output.value = 'Error encoding to hex';
+            }
+        }
+
+        function hexDecode() {
+            try {
+                const hex = input.value.replace(/\s/g, '');
+                if (hex.length % 2 !== 0) {
+                    output.value = 'Invalid hex string (odd length)';
+                    return;
+                }
+                output.value = hex.match(/.{1,2}/g)
+                    .map(byte => String.fromCharCode(parseInt(byte, 16)))
+                    .join('');
+            } catch (e) {
+                output.value = 'Error decoding hex';
+            }
+        }
+
+        function binaryEncode() {
+            try {
+                output.value = Array.from(input.value)
+                    .map(char => char.charCodeAt(0).toString(2).padStart(8, '0'))
+                    .join(' ');
+            } catch (e) {
+                output.value = 'Error encoding to binary';
+            }
+        }
+
+        function binaryDecode() {
+            try {
+                const binary = input.value.replace(/\s/g, '');
+                if (binary.length % 8 !== 0) {
+                    output.value = 'Invalid binary string (length must be multiple of 8)';
+                    return;
+                }
+                output.value = binary.match(/.{1,8}/g)
+                    .map(byte => String.fromCharCode(parseInt(byte, 2)))
+                    .join('');
+            } catch (e) {
+                output.value = 'Error decoding binary';
+            }
+        }
+
+        async function md5Hash() {
+            try {
+                output.value = 'MD5 requires external library - use SHA-256 instead';
+            } catch (e) {
+                output.value = 'Error generating MD5 hash';
+            }
+        }
+
+        async function sha256Hash() {
+            try {
+                const msgBuffer = new TextEncoder().encode(input.value);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                output.value = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            } catch (e) {
+                output.value = 'Error generating SHA-256 hash';
+            }
+        }
+
+        function clearFields() {
+            input.value = '';
+            output.value = '';
+        }
+
+        function copyOutput() {
+            navigator.clipboard.writeText(output.value).then(() => {
+                showToast();
+            });
+        }
+
+        function showToast() {
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+    </script>
+</body>
+</html>
