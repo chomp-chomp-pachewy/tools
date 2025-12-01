@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tools.chomp.ltd/temp/">
+    <meta property="og:title" content="Chomp Chomp Tools">
+    <meta property="og:description" content="Tools & Utilities">
+    <meta property="og:image" content="https://tools.chomp.ltd/tools.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://tools.chomp.ltd/temp/">
+    <meta property="twitter:title" content="Chomp Chomp Tools">
+    <meta property="twitter:description" content="Tools & Utilities">
+    <meta property="twitter:image" content="https://tools.chomp.ltd/tools.png">
+
+    <title>tools - chomp ltd</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="https://www.chomp.ltd" class="site-logo">chomp chomp</a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <ul class="nav-links">
+                <li><a href="https://www.chomp.ltd">home</a></li>
+                <li><a href="https://recipes.chomp.ltd">recipes</a></li>
+                <li><a href="https://tools.chomp.ltd">tools</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-container tools-index">
+        <div class="header-image">
+            <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/refs/heads/main/tools.png" alt="chomp chomp tools">
+        </div>
+
+        <h1>tools</h1>
+
+        <div class="tools-list">
+            <a href="ip.html" class="tool-link">
+                <div class="tool-name">&#149; <u>your ip</u></div>
+                <div class="tool-description">owner | location | whois</div>
+            </a>
+
+            <a href="convert.html" class="tool-link">
+                <div class="tool-name">&#149; <u>convert</u></div>
+                <div class="tool-description">length | volume | weight | etc</div>
+            </a>
+
+            <a href="dante.html" class="tool-link">
+                <div class="tool-name">&#149; <u>inferno ipsum</u></div>
+                <div class="tool-description">dante's inferno | divine comedy</div>
+            </a>
+
+            <a href="nautical.html" class="tool-link">
+                <div class="tool-name">&#149; <u>nautical ipsum</u></div>
+                <div class="tool-description">moby dick | drop anchor</div>
+            </a>
+
+            <a href="subnet.html" class="tool-link">
+                <div class="tool-name">&#149; <u>subnet</u></div>
+                <div class="tool-description">subnet & cidr calculators</div>
+            </a>
+
+            <div class="tool-name">&nbsp;</div>
+
+            <div class="footer-links-index">
+                <a href="mailto:tools@chomp.ltd">tools@chomp.ltd</a>
+                <a href="https://recipes.chomp.ltd/">recipes</a>
+                <a href="https://www.chomp.ltd/">chomp chomp</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Chomp Chomp. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.site-nav')) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

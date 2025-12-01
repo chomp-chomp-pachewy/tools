@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inferno Ipsum - Chomp Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="https://www.chomp.ltd" class="site-logo">chomp chomp</a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <ul class="nav-links">
+                <li><a href="https://www.chomp.ltd">home</a></li>
+                <li><a href="https://recipes.chomp.ltd">recipes</a></li>
+                <li><a href="https://tools.chomp.ltd">tools</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-container">
+        <div class="tool-page">
+            <div class="tool-header">
+                <h1 class="tool-title">Inferno Ipsum</h1>
+                <p class="tool-subtitle">Lorem ipsum generator inspired by Dante's Divine Comedy</p>
+            </div>
+
+            <div class="tool-controls">
+                <div class="control-group">
+                    <label class="control-label">Number of Paragraphs</label>
+                    <input type="number" id="paragraphs" class="form-input" value="3" min="1" max="20">
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Text Style</label>
+                    <select id="textStyle" class="form-select">
+                        <option value="inferno">Inferno (Hell)</option>
+                        <option value="purgatorio">Purgatorio (Purgatory)</option>
+                        <option value="paradiso">Paradiso (Paradise)</option>
+                        <option value="mixed">Mixed (All Three)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">
+                        <input type="checkbox" id="startWithDante" style="width: auto; margin-right: 8px;">
+                        Start with "Nel mezzo del cammin..."
+                    </label>
+                </div>
+
+                <div class="tool-actions">
+                    <button class="tool-button" onclick="generate()">Generate</button>
+                    <button class="tool-button tool-button-secondary" onclick="copyText()">Copy</button>
+                </div>
+            </div>
+
+            <div class="tool-results" id="results">
+                <div class="result-item">
+                    <textarea class="control-input" id="output" readonly style="min-height: 400px; font-family: Georgia, serif; line-height: 1.8;">Click "Generate" to create Inferno-inspired placeholder text...</textarea>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>About:</strong> Inferno Ipsum generates placeholder text using excerpts from Dante Alighieri's Divine Comedy. Choose between the dark depths of Inferno, the hopeful ascent of Purgatorio, or the celestial heights of Paradiso.</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="index.html" class="btn btn-outline">← Back to Tools</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Chomp Chomp. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="mailto:tools@chomp.ltd">Contact</a>
+                <a href="https://www.chomp.ltd">Home</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.site-nav')) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Dante text fragments
+        const infernoText = [
+            "Nel mezzo del cammin di nostra vita mi ritrovai per una selva oscura ché la diritta via era smarrita.",
+            "Through me the way into the suffering city, through me the way to the eternal pain, through me the way that runs among the lost.",
+            "Abandon all hope, ye who enter here. These words of gloomy color I beheld written upon the summit of a gate.",
+            "The infernal storm, eternal in its rage, sweeps and drives the spirits with its blast. It whirls them, lashing them with punishment.",
+            "Here sighs and lamentations and loud cries were echoing across the starless air, so that it made me weep when I first heard.",
+            "Dark, profound it was, and nebulous, so that though I gazed into its depth I could not discern anything within it.",
+            "There is a place in Hell called Malebolge, all of stone and iron-hued, like the wall that makes its rounds.",
+            "Justice divine moved my maker supreme. Wisdom and primal love created me.",
+            "The wretched souls of those who lived without disgrace and without praise maintain the neutral condition.",
+            "No greater sorrow than to recall a happy time in wretchedness, as your teacher knows."
+        ];
+
+        const purgatorioText = [
+            "To course across more kindly waters now my talent's little vessel lifts her sails, leaving behind herself a sea so cruel.",
+            "O you who are within your little bark, eager to listen, following behind my ship that singing makes her way.",
+            "The dawn was vanquishing the hour of dark that fled before it, so that from afar I recognized the trembling of the sea.",
+            "We were upon the lonely plain, like one who seeks the road he lost and till he finds it seems to move in vain.",
+            "The beautiful planet that to love incites made all the East to smile with radiant light.",
+            "Higher up I saw a venerable old man, whose look commanded such respect that more no son can owe his father.",
+            "Through better waters now you course, my ship, that leaves behind herself a sea so cruel.",
+            "The natural thirst that never satisfied save with the water for whose grace the woman of Samaria besought.",
+            "And as the pilot, when he draws to land, moves from the poop to see what course he takes.",
+            "If the present world go wandering astray, in you is the cause, in you be it sought."
+        ];
+
+        const paradisoText = [
+            "The glory of Him who moves all things penetrates the universe and shines in one part more and in another less.",
+            "His will is our peace. It is that sea to which all things move, both what it creates and what nature makes.",
+            "In His will is our tranquility. It is the sea toward which everything moves that It creates or nature makes.",
+            "The love that moves the sun and other stars enlightened my mind with such clear light.",
+            "You were not made to live as brutes, but to pursue virtue and knowledge with your hearts.",
+            "The heavens declare the glory of the eternal power which in them shines supreme.",
+            "Within its depths I saw ingathered, bound by love in one volume, the scattered leaves of all the universe.",
+            "My vision, becoming pure, was entering more and more the ray of that high light which in itself is true.",
+            "Here power failed the lofty fantasy, but like a wheel in even motion my desire and will were turned.",
+            "The universal form of this complex I think I saw, because in telling this I feel my joy increase."
+        ];
+
+        function getRandomFromArray(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function generate() {
+            const numParagraphs = parseInt(document.getElementById('paragraphs').value) || 3;
+            const style = document.getElementById('textStyle').value;
+            const startWithDante = document.getElementById('startWithDante').checked;
+
+            let textSource;
+            switch(style) {
+                case 'inferno':
+                    textSource = infernoText;
+                    break;
+                case 'purgatorio':
+                    textSource = purgatorioText;
+                    break;
+                case 'paradiso':
+                    textSource = paradisoText;
+                    break;
+                case 'mixed':
+                    textSource = [...infernoText, ...purgatorioText, ...paradisoText];
+                    break;
+            }
+
+            let result = [];
+
+            // Add opening if requested
+            if (startWithDante) {
+                result.push("Nel mezzo del cammin di nostra vita mi ritrovai per una selva oscura ché la diritta via era smarrita.\n");
+            }
+
+            // Generate paragraphs
+            for (let i = 0; i < numParagraphs; i++) {
+                let paragraph = [];
+                const sentencesPerParagraph = Math.floor(Math.random() * 3) + 3; // 3-5 sentences
+
+                for (let j = 0; j < sentencesPerParagraph; j++) {
+                    paragraph.push(getRandomFromArray(textSource));
+                }
+
+                result.push(paragraph.join(' '));
+            }
+
+            document.getElementById('output').value = result.join('\n\n');
+        }
+
+        function copyText() {
+            const output = document.getElementById('output');
+            output.select();
+            document.execCommand('copy');
+
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => {
+                btn.textContent = originalText;
+            }, 2000);
+        }
+
+        // Generate initial text on load
+        window.addEventListener('load', generate);
+    </script>
+</body>
+</html>
