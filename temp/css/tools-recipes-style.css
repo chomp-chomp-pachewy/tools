@@ -646,6 +646,12 @@ textarea.control-input {
     background-color: #362f2f;
     border-color: #463f3f;
   }
+
+  /* Index page link colors in dark mode */
+  .tool-link:hover,
+  .tool-name u {
+    color: #ff6b7a;
+  }
 }
 
 /* ---------------------------------------------------- */
