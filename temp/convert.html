@@ -10,13 +10,19 @@
 <body>
     <header class="site-header">
         <nav class="site-nav">
-            <a href="https://www.chomp.ltd" class="site-logo">chomp chomp</a>
+            <a href="index.html" class="site-logo">Tools</a>
             <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-            <ul class="nav-links">
-                <li><a href="https://www.chomp.ltd">home</a></li>
-                <li><a href="https://recipes.chomp.ltd">recipes</a></li>
-                <li><a href="https://tools.chomp.ltd">tools</a></li>
-            </ul>
+            <div class="nav-tools-dropdown">
+                <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Tools ▼</button>
+                <ul class="tools-dropdown-menu" id="toolsDropdown">
+                    <li><a href="ip.html">Your IP</a></li>
+                    <li><a href="convert.html">Convert</a></li>
+                    <li><a href="encode.html">Encode</a></li>
+                    <li><a href="dante.html">Inferno Ipsum</a></li>
+                    <li><a href="nautical.html">Nautical Ipsum</a></li>
+                    <li><a href="subnet.html">Subnet Calculator</a></li>
+                </ul>
+            </div>
         </nav>
     </header>
 
@@ -93,28 +99,41 @@
 
     <footer class="site-footer">
         <div class="footer-content">
-            <p>&copy; 2024 Chomp Chomp. All rights reserved.</p>
             <div class="footer-links">
-                <a href="mailto:tools@chomp.ltd">Contact</a>
-                <a href="https://www.chomp.ltd">Home</a>
+                <a href="mailto:hi@chomp.ltd">hi@chomp.ltd</a>
+                <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+                <a href="https://recipes.chomp.ltd">chomp chomp: recipes & rituals</a>
             </div>
+            <p style="margin-top: 15px;">&copy; 2025 Chomp Chomp</p>
         </div>
     </footer>
 
     <script>
-        // Mobile menu toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
+        // Tools dropdown toggle
+        function toggleToolsDropdown() {
+            const dropdown = document.getElementById('toolsDropdown');
+            dropdown.classList.toggle('active');
+        }
 
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
+        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.site-nav')) {
-                navLinks.classList.remove('active');
+            if (!e.target.closest('.nav-tools-dropdown')) {
+                const dropdown = document.getElementById('toolsDropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('active');
+                }
             }
         });
+
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const toolsDropdown = document.querySelector('.nav-tools-dropdown');
+
+        if (menuToggle && toolsDropdown) {
+            menuToggle.addEventListener('click', () => {
+                toolsDropdown.classList.toggle('active');
+            });
+        }
 
         // Conversion logic
         const units = {
