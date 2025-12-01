@@ -1,401 +1,270 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>encoding</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #fdfdfd;
-      color: #434343;
-      line-height: 1.5;
-    }
-    .header {
-      background-color: #fdfdfd;
-      padding: 30px 20px 10px 20px;
-      text-align: center;
-    }
-    .header img {
-      max-width: 300px;
-      height: auto;
-    }
-    .container {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 0 20px;
-    }
-    .section-title {
-      color: #fe0032;
-      font-size: 1.15em;
-      font-weight: 700;
-      margin-bottom: 15px;
-      text-transform: lowercase;
-    }
-    select {
-      width: 250px;
-      padding: 12px 16px;
-      font-size: 15px;
-      font-family: 'Roboto', sans-serif;
-      border: 1px solid #434343;
-      border-radius: 8px;
-      background-color: #ffffff;
-      color: #434343;
-      margin-bottom: 8px;
-      height: 52px;
-      box-sizing: border-box;
-    }
-    select:focus {
-      outline: none;
-      border-color: #fe0032;
-    }
-       .info-section2 {
-            margin-top: 40px;
-            padding: 30px;
-            background-color: #F2F2F4;
-            color: #000000;
-            border-radius: 8px;
-            border: 1px solid #434343;
-            margin-bottom: 40px;
-        }
-
-        .info-section2 strong {
-            color: #fe0032;
-            font-weight: 400;
-            display: block;
-            margin-bottom: 10px;
-            font-size: 1em;
-            text-transform: lowercase;
-        }
-
-        .info-section2 p {
-            margin: 0 0 15px 0;
-            color: #000000;
-            font-weight: 300;
-            line-height: 1.8;
-            font-size: 0.95em;
-        }
-
-        .info-section2 p:last-child {
-            margin-bottom: 0;
-        }
-
-    textarea {
-      width: 100%;
-      height: 200px;
-      padding: 12px;
-      border: 1px solid #434343;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 0.9em;
-      color: #434343;
-      background-color: #ffffff;
-      margin-bottom: 24px;
-      margin-top: 8px;
-      line-height: 1.8;
-    }
-    textarea:focus {
-      outline: none;
-      border-color: #fe0032;
-    }
-.button-group {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        button {
-            padding: 10px 16px;
-            font-family: 'Roboto', sans-serif;
-            font-size: 15px;
-            font-weight: 400;
-            text-transform: lowercase;
-            background-color: #ffffff;
-            color: #434343;
-            border: 1px solid #434343;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        button:hover {
-             background-color: #fe0032;
-            border-color: #fe0032;
-            color: #ffffff;
-        }
-        button:active {
-            transform: scale(0.98);
-        }
-
-    .toast {
-      position: fixed;
-      top: 80px;
-      left: 50%;
-      transform: translateX(-50%) scale(0.9);
-      background-color: #fe0032;
-      color: #ffffff;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-size: 14px;
-      opacity: 0;
-      transition: all 0.3s ease;
-      pointer-events: none;
-      z-index: 1000;
-    }
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) scale(1);
-    }
-    .spacer {
-      height: 100px;
-    }
-     nav {
-        padding: 20px;
-        text-align: right;
-    }
-
-    nav a {
-        color: #999;
-        text-decoration: none;
-        margin-left: 30px;
-        font-size: 0.95em;
-    }
-
-    nav a:hover {
-        color: #333;
-    }
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encode - Chomp Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
 </head>
 <body>
-      <nav>
-        <a href="https://tools.chomp.ltd">all tools</a>
-    </nav>
-  <div class="header">
-    <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/refs/heads/main/encode.png" alt="chomp encode">
-  </div>
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="index.html" class="site-logo">
+                <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764612872597_tools.png?alt=media&token=e8a04166-074d-4813-97a8-9e7f3a474b93" alt="Chomp Chomp">
+            </a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <div class="nav-tools-dropdown">
+                <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Tools ▼</button>
+                <ul class="tools-dropdown-menu" id="toolsDropdown">
+                    <li><a href="ip.html">Your IP</a></li>
+                    <li><a href="convert.html">Convert</a></li>
+                    <li><a href="encode.html">Encode</a></li>
+                    <li><a href="dante.html">Inferno Ipsum</a></li>
+                    <li><a href="nautical.html">Nautical Ipsum</a></li>
+                    <li><a href="subnet.html">Subnet Calculator</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
-  <div class="container">
-<div class="info-section2">
-    <strong>about this encoder & decoder</strong>
-    <p>This tool helps you transform text into different encoded formats or decode it back again. It’s handy for developers, analysts, or anyone working with web data, files, or security tokens.</p>
+    <div class="page-container">
+        <div class="tool-page">
+            <div class="tool-header">
+                <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764612870991_encode.png?alt=media&token=798b07a9-299d-48fd-8e4b-abb0062ae4a3" alt="encode" style="max-width: 300px; margin: 0 auto 20px; display: block;">
+                <p class="tool-subtitle">Transform text with URI, Base64, Hex, Binary & Hash functions</p>
+            </div>
 
-    <strong>encoding & decoding</strong>
-    <p>Use options like <em>encode URI</em>, <em>base64</em>, <em>hex</em>, or <em>binary</em> to safely convert text for URLs, data storage, or transmission. You can also decode them to reveal the original content. Encoding keeps information intact across systems that might not handle special characters well.</p>
+            <div class="info-box">
+                <p><strong>About this encoder & decoder:</strong> This tool helps you transform text into different encoded formats or decode it back again. It's handy for developers, analysts, or anyone working with web data, files, or security tokens.</p>
+                <p><strong>Encoding & Decoding:</strong> Use options like encode URI, base64, hex, or binary to safely convert text for URLs, data storage, or transmission. You can also decode them to reveal the original content.</p>
+                <p><strong>Hashing functions:</strong> Hashing (like SHA-256) converts text into a fixed-length digital fingerprint. It can't be reversed, making it useful for verifying data integrity or securely storing passwords.</p>
+            </div>
 
-    <strong>hashing functions</strong>
-    <p>Hashing (like <em>SHA-256</em>) converts text into a fixed-length digital fingerprint. It can’t be reversed, making it useful for verifying data integrity or securely storing passwords without exposing the original text.</p>
-</div>    
-    <div class="section-title">select encoding type</div>
-<select id="encodeType">
-  <option value="">select encoding type...</option>
-  <option value="encodeURI">encode URI</option>
-  <option value="decodeURI">decode URI</option>
-  <option value="base64Encode">base64 encode</option>
-  <option value="base64Decode">base64 decode</option>
-  <option value="hexEncode">hex encode</option>
-  <option value="hexDecode">hex decode</option>
-  <option value="binaryEncode">binary encode</option>
-  <option value="binaryDecode">binary decode</option>
-  <option value="md5Hash">MD5 hash</option>
-  <option value="sha256Hash">SHA-256 hash</option>
-</select>
+            <div class="tool-controls">
+                <div class="control-group">
+                    <label class="control-label">Select Encoding Type</label>
+                    <select id="encodeType" class="form-select">
+                        <option value="">Select encoding type...</option>
+                        <option value="encodeURI">Encode URI</option>
+                        <option value="decodeURI">Decode URI</option>
+                        <option value="base64Encode">Base64 Encode</option>
+                        <option value="base64Decode">Base64 Decode</option>
+                        <option value="hexEncode">Hex Encode</option>
+                        <option value="hexDecode">Hex Decode</option>
+                        <option value="binaryEncode">Binary Encode</option>
+                        <option value="binaryDecode">Binary Decode</option>
+                        <option value="sha256Hash">SHA-256 Hash</option>
+                    </select>
+                </div>
 
-<textarea id="input" placeholder="enter text here..."></textarea>
+                <div class="control-group">
+                    <label class="control-label">Input</label>
+                    <textarea id="input" class="control-input" placeholder="Enter text here..." style="min-height: 150px;"></textarea>
+                </div>
 
-<div class="button-group">
-  <button onclick="processEncode()">go</button>
-</div>
+                <div class="tool-actions">
+                    <button class="tool-button" onclick="processEncode()">Process</button>
+                    <button class="tool-button tool-button-secondary" onclick="clearFields()">Clear</button>
+                </div>
+            </div>
 
-<textarea id="output" placeholder="output will appear here..." readonly></textarea>
+            <div class="tool-results">
+                <div class="control-group">
+                    <label class="control-label">Output</label>
+                    <textarea id="output" class="control-input" readonly placeholder="Output will appear here..." style="min-height: 150px;"></textarea>
+                </div>
 
-<div class="button-group">
-  <button onclick="clearFields()">clear</button>
-  <button onclick="copyOutput()">copy output</button>
-</div>
+                <div class="tool-actions">
+                    <button class="tool-button tool-button-secondary" onclick="copyOutput()">Copy Output</button>
+                </div>
+            </div>
 
-<div class="toast" id="toast">copied to clipboard!</div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="index.html" class="btn btn-outline">← Back to Tools</a>
+            </div>
+        </div>
+    </div>
 
-  </div>
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="mailto:hi@chomp.ltd">hi@chomp.ltd</a>
+                <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+                <a href="https://recipes.chomp.ltd">chomp chomp: recipes & rituals</a>
+            </div>
+            <p style="margin-top: 15px;">&copy; 2025 Chomp Chomp</p>
+        </div>
+    </footer>
 
-  <div class="spacer"></div>
-
-  <script>
-    const input = document.getElementById('input');
-    const output = document.getElementById('output');
-    const toast = document.getElementById('toast');
-    const encodeType = document.getElementById('encodeType');
-
-    function processEncode() {
-      const selectedType = encodeType.value;
-      if (!selectedType) return;
-
-      const functions = {
-        'encodeURI': encodeURIComp,
-        'decodeURI': decodeURIComp,
-        'base64Encode': base64Encode,
-        'base64Decode': base64Decode,
-        'hexEncode': hexEncode,
-        'hexDecode': hexDecode,
-        'binaryEncode': binaryEncode,
-        'binaryDecode': binaryDecode,
-        'md5Hash': md5Hash,
-        'sha256Hash': sha256Hash
-      };
-
-      if (functions[selectedType]) {
-        functions[selectedType]();
-      }
-    }
-
-    function encodeURIComp() {
-      try {
-        output.value = encodeURIComponent(input.value);
-      } catch (e) {
-        output.value = 'Error encoding text';
-      }
-    }
-
-    function decodeURIComp() {
-      try {
-        output.value = decodeURIComponent(input.value);
-      } catch (e) {
-        output.value = 'Error decoding text';
-      }
-    }
-
-    function base64Encode() {
-      try {
-        output.value = btoa(input.value);
-      } catch (e) {
-        output.value = 'Error encoding Base64';
-      }
-    }
-
-    function base64Decode() {
-      try {
-        output.value = atob(input.value);
-      } catch (e) {
-        output.value = 'Error decoding Base64';
-      }
-    }
-
-    function htmlEscape() {
-      output.value = input.value
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/\"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    function htmlUnescape() {
-      output.value = input.value
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        .replace(/&amp;/g, '&');
-    }
-
-    function htmlUnescape() {
-      output.value = input.value
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&quot;/g, '"')
-        .replace(/&#39;/g, "'")
-        .replace(/&amp;/g, '&');
-    }
-
-    function hexEncode() {
-      try {
-        output.value = Array.from(input.value)
-          .map(char => char.charCodeAt(0).toString(16).padStart(2, '0'))
-          .join('');
-      } catch (e) {
-        output.value = 'Error encoding to hex';
-      }
-    }
-
-    function hexDecode() {
-      try {
-        const hex = input.value.replace(/\s/g, '');
-        if (hex.length % 2 !== 0) {
-          output.value = 'Invalid hex string (odd length)';
-          return;
+    <script>
+        // Tools dropdown toggle
+        function toggleToolsDropdown() {
+            const dropdown = document.getElementById('toolsDropdown');
+            dropdown.classList.toggle('active');
         }
-        output.value = hex.match(/.{1,2}/g)
-          .map(byte => String.fromCharCode(parseInt(byte, 16)))
-          .join('');
-      } catch (e) {
-        output.value = 'Error decoding hex';
-      }
-    }
 
-    function binaryEncode() {
-      try {
-        output.value = Array.from(input.value)
-          .map(char => char.charCodeAt(0).toString(2).padStart(8, '0'))
-          .join(' ');
-      } catch (e) {
-        output.value = 'Error encoding to binary';
-      }
-    }
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-tools-dropdown')) {
+                const dropdown = document.getElementById('toolsDropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('active');
+                }
+            }
+        });
 
-    function binaryDecode() {
-      try {
-        const binary = input.value.replace(/\s/g, '');
-        if (binary.length % 8 !== 0) {
-          output.value = 'Invalid binary string (length must be multiple of 8)';
-          return;
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const toolsDropdown = document.querySelector('.nav-tools-dropdown');
+
+        if (menuToggle && toolsDropdown) {
+            menuToggle.addEventListener('click', () => {
+                toolsDropdown.classList.toggle('active');
+            });
         }
-        output.value = binary.match(/.{1,8}/g)
-          .map(byte => String.fromCharCode(parseInt(byte, 2)))
-          .join('');
-      } catch (e) {
-        output.value = 'Error decoding binary';
-      }
-    }
 
-    async function md5Hash() {
-      try {
-        const msgBuffer = new TextEncoder().encode(input.value);
-        // MD5 is not available in Web Crypto API, using a simple implementation
-        output.value = 'MD5 requires external library - use SHA-256 instead';
-      } catch (e) {
-        output.value = 'Error generating MD5 hash';
-      }
-    }
+        // Encoding functions
+        const input = document.getElementById('input');
+        const output = document.getElementById('output');
+        const encodeType = document.getElementById('encodeType');
 
-    async function sha256Hash() {
-      try {
-        const msgBuffer = new TextEncoder().encode(input.value);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        output.value = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      } catch (e) {
-        output.value = 'Error generating SHA-256 hash';
-      }
-    }
+        function processEncode() {
+            const selectedType = encodeType.value;
+            if (!selectedType) {
+                alert('Please select an encoding type');
+                return;
+            }
 
-    function clearFields() {
-      input.value = '';
-      output.value = '';
-    }
+            const functions = {
+                'encodeURI': encodeURIComp,
+                'decodeURI': decodeURIComp,
+                'base64Encode': base64Encode,
+                'base64Decode': base64Decode,
+                'hexEncode': hexEncode,
+                'hexDecode': hexDecode,
+                'binaryEncode': binaryEncode,
+                'binaryDecode': binaryDecode,
+                'sha256Hash': sha256Hash
+            };
 
-    function copyOutput() {
-      navigator.clipboard.writeText(output.value).then(() => {
-        showToast();
-      });
-    }
+            if (functions[selectedType]) {
+                functions[selectedType]();
+            }
+        }
 
-    function showToast() {
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2000);
-    }
-  </script>
+        function encodeURIComp() {
+            try {
+                output.value = encodeURIComponent(input.value);
+            } catch (e) {
+                output.value = 'Error encoding text';
+            }
+        }
 
+        function decodeURIComp() {
+            try {
+                output.value = decodeURIComponent(input.value);
+            } catch (e) {
+                output.value = 'Error decoding text';
+            }
+        }
+
+        function base64Encode() {
+            try {
+                output.value = btoa(input.value);
+            } catch (e) {
+                output.value = 'Error encoding Base64';
+            }
+        }
+
+        function base64Decode() {
+            try {
+                output.value = atob(input.value);
+            } catch (e) {
+                output.value = 'Error decoding Base64';
+            }
+        }
+
+        function hexEncode() {
+            try {
+                output.value = Array.from(input.value)
+                    .map(char => char.charCodeAt(0).toString(16).padStart(2, '0'))
+                    .join('');
+            } catch (e) {
+                output.value = 'Error encoding to hex';
+            }
+        }
+
+        function hexDecode() {
+            try {
+                const hex = input.value.replace(/\s/g, '');
+                if (hex.length % 2 !== 0) {
+                    output.value = 'Invalid hex string (odd length)';
+                    return;
+                }
+                output.value = hex.match(/.{1,2}/g)
+                    .map(byte => String.fromCharCode(parseInt(byte, 16)))
+                    .join('');
+            } catch (e) {
+                output.value = 'Error decoding hex';
+            }
+        }
+
+        function binaryEncode() {
+            try {
+                output.value = Array.from(input.value)
+                    .map(char => char.charCodeAt(0).toString(2).padStart(8, '0'))
+                    .join(' ');
+            } catch (e) {
+                output.value = 'Error encoding to binary';
+            }
+        }
+
+        function binaryDecode() {
+            try {
+                const binary = input.value.replace(/\s/g, '');
+                if (binary.length % 8 !== 0) {
+                    output.value = 'Invalid binary string (length must be multiple of 8)';
+                    return;
+                }
+                output.value = binary.match(/.{1,8}/g)
+                    .map(byte => String.fromCharCode(parseInt(byte, 2)))
+                    .join('');
+            } catch (e) {
+                output.value = 'Error decoding binary';
+            }
+        }
+
+        async function sha256Hash() {
+            try {
+                const msgBuffer = new TextEncoder().encode(input.value);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                output.value = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            } catch (e) {
+                output.value = 'Error generating SHA-256 hash';
+            }
+        }
+
+        function clearFields() {
+            input.value = '';
+            output.value = '';
+            encodeType.selectedIndex = 0;
+        }
+
+        function copyOutput() {
+            output.select();
+            navigator.clipboard.writeText(output.value).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy');
+            });
+        }
+    </script>
 </body>
 </html>
