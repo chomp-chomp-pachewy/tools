@@ -107,6 +107,15 @@ img {
   font-weight: 500;
   color: var(--color-accent);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.site-logo img {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .nav-links {
