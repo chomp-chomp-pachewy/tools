@@ -38,7 +38,8 @@
 
                 <div class="tool-actions">
                     <button class="tool-button" onclick="lookupIP()">Get Details</button>
-                    <button class="tool-button tool-button-secondary" onclick="copyIP()">Copy IP</button>
+                    <button class="tool-button tool-button-secondary" onclick="copyIP(event)">Copy IP</button>
+                    <button class="tool-button tool-button-secondary" onclick="copyAllDetails(event)" id="copyAllBtn" style="display: none;">Copy All Details</button>
                 </div>
             </div>
 
@@ -247,6 +248,9 @@
                 // Display browser/system details
                 displayBrowserDetails();
 
+                // Show the "Copy All Details" button
+                document.getElementById('copyAllBtn').style.display = 'inline-block';
+
             } catch (error) {
                 alert('Error fetching IP details. Please try again.');
                 console.error('Error:', error);
@@ -302,14 +306,14 @@
         }
 
         // Copy IP to clipboard
-        function copyIP() {
+        function copyIP(e) {
             if (!currentIP) {
                 alert('IP address not loaded yet');
                 return;
             }
 
             navigator.clipboard.writeText(currentIP).then(() => {
-                const btn = event.target;
+                const btn = e.target;
                 const originalText = btn.textContent;
                 btn.textContent = 'Copied!';
                 setTimeout(() => {
@@ -317,6 +321,47 @@
                 }, 2000);
             }).catch(err => {
                 alert('Failed to copy IP address');
+                console.error('Copy error:', err);
+            });
+        }
+
+        // Copy all details to clipboard
+        function copyAllDetails(e) {
+            let allDetails = '=== MY IP ADDRESS ===\n\n';
+            allDetails += `IP Address: ${document.getElementById('ip').textContent}\n`;
+            allDetails += `City: ${document.getElementById('city').textContent}\n`;
+            allDetails += `State/Region: ${document.getElementById('region').textContent}\n`;
+            allDetails += `Postal Code: ${document.getElementById('postal').textContent}\n`;
+            allDetails += `Country: ${document.getElementById('country').textContent}\n`;
+            allDetails += `Coordinates: ${document.getElementById('coordinates').textContent}\n`;
+            allDetails += `Time Zone: ${document.getElementById('timezone').textContent}\n`;
+            allDetails += `Local Time: ${document.getElementById('localtime').textContent}\n`;
+            allDetails += `ISP: ${document.getElementById('isp').textContent}\n`;
+            allDetails += `Domain: ${document.getElementById('domain').textContent}\n`;
+            allDetails += `Organization: ${document.getElementById('org').textContent}\n`;
+            allDetails += `ASN: ${document.getElementById('asn').textContent}\n`;
+            allDetails += `Network IP Range: ${document.getElementById('network').textContent}\n\n`;
+
+            allDetails += '=== IP ADDRESS WHOIS ===\n\n';
+            allDetails += document.getElementById('whoisData').value + '\n\n';
+
+            allDetails += '=== ADDITIONAL DETAILS ===\n\n';
+            allDetails += `User Agent: ${document.getElementById('userAgent').textContent}\n`;
+            allDetails += `Screen Resolution: ${document.getElementById('screenRes').textContent}\n`;
+            allDetails += `Browser Language: ${document.getElementById('browserLang').textContent}\n`;
+            allDetails += `Platform: ${document.getElementById('platform').textContent}\n`;
+            allDetails += `Cookies Enabled: ${document.getElementById('cookies').textContent}\n`;
+            allDetails += `Do Not Track: ${document.getElementById('dnt').textContent}\n`;
+
+            navigator.clipboard.writeText(allDetails).then(() => {
+                const btn = e.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy details');
                 console.error('Copy error:', err);
             });
         }
