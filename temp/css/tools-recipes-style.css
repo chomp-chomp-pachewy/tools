@@ -754,12 +754,12 @@ textarea.control-input {
 
   /* Mobile hero image on index page */
   .tools-index .tool-header img {
-    max-height: 135px;
+    max-height: 165px;
   }
 
   /* Mobile tool header images on tool pages */
   .tool-page .tool-header img {
-    max-height: 135px;
+    max-height: 165px;
   }
 
   .menu-toggle {
