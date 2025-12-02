@@ -11,6 +11,7 @@
     <header class="site-header">
         <nav class="site-nav">
             <a href="index.html" class="site-logo">
+                <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764687494472_MagicEraser_251202_001040.png?alt=media&token=97b7e1ec-632a-4dea-8037-e54789b4e2fd" alt="Chomp Chomp">
                 <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764612872597_tools.png?alt=media&token=e8a04166-074d-4813-97a8-9e7f3a474b93" alt="Chomp Chomp">
             </a>
             <button class="menu-toggle" aria-label="Toggle menu">☰</button>
@@ -27,6 +28,123 @@
             </div>
         </nav>
     </header>
+
+    <div class="site-header-banner">
+        <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764685804409_Chomp%20Chomp%20logos%20-%203.jpeg?alt=media&token=8117574e-19c3-4028-aa79-8ca224c61ebe" alt="Chomp Chomp Tools">
+    </div>
+
+    <div class="page-container">
+        <div class="tool-page">
+            <div class="tool-header">
+                <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764612870246_whois.png?alt=media&token=d34e8af6-bb82-49df-8243-5d7135b43ed7" alt="your ip" style="max-width: 300px; margin: 0 auto 20px; display: block;">
+                <p class="tool-subtitle">Find your IP address, location & network information</p>
+            </div>
+
+            <div class="tool-controls" style="text-align: center;">
+                <div style="margin: 30px 0;">
+                    <div style="font-size: 0.9em; color: var(--color-text-muted); margin-bottom: 10px;">Your IP Address</div>
+                    <div id="ipDisplay" style="font-size: 2em; font-weight: 600; color: var(--color-accent); font-family: 'Courier New', monospace;">
+                        Loading...
+                    </div>
+                </div>
+
+                <div class="tool-actions">
+                    <button class="tool-button" onclick="lookupIP()">Get Details</button>
+                    <button class="tool-button tool-button-secondary" onclick="copyIP(event)">Copy IP</button>
+                    <button class="tool-button tool-button-secondary" onclick="copyAllDetails(event)" id="copyAllBtn" style="display: none;">Copy All Details</button>
+                </div>
+            </div>
+
+            <div class="tool-results" id="results" style="display: none;">
+                <h3 style="margin-bottom: 15px; color: var(--color-text);">IP Address Information</h3>
+                <div class="result-item">
+                    <div class="result-label">IP Address</div>
+                    <div class="result-value" id="ip">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">City</div>
+                    <div class="result-value" id="city">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">State/Region</div>
+                    <div class="result-value" id="region">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Postal Code</div>
+                    <div class="result-value" id="postal">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Country</div>
+                    <div class="result-value" id="country">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Coordinates</div>
+                    <div class="result-value" id="coordinates">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Time Zone</div>
+                    <div class="result-value" id="timezone">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Local Time</div>
+                    <div class="result-value" id="localtime">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">ISP</div>
+                    <div class="result-value" id="isp">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Domain</div>
+                    <div class="result-value" id="domain">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Organization</div>
+                    <div class="result-value" id="org">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">ASN</div>
+                    <div class="result-value" id="asn">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Network IP Range</div>
+                    <div class="result-value" id="network">-</div>
+                </div>
+            </div>
+
+            <div class="tool-results" id="whoisResults" style="display: none; margin-top: 20px;">
+                <h3 style="margin-bottom: 15px; color: var(--color-text);">IP Address WHOIS</h3>
+                <div class="result-item" style="border-bottom: none;">
+                    <textarea id="whoisData" readonly style="width: 100%; min-height: 300px; font-family: 'Courier New', monospace; font-size: 0.85em; line-height: 1.6; padding: 15px; background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text);">Loading WHOIS data...</textarea>
+                </div>
+            </div>
+
+            <div class="tool-results" id="browserDetails" style="display: none; margin-top: 20px;">
+                <h3 style="margin-bottom: 15px; color: var(--color-text);">Additional Details</h3>
+                <div class="result-item">
+                    <div class="result-label">User Agent</div>
+                    <div class="result-value" id="userAgent" style="word-break: break-word;">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Screen Resolution</div>
+                    <div class="result-value" id="screenRes">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Browser Language</div>
+                    <div class="result-value" id="browserLang">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Platform</div>
+                    <div class="result-value" id="platform">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Cookies Enabled</div>
+                    <div class="result-value" id="cookies">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Do Not Track</div>
+                    <div class="result-value" id="dnt">-</div>
+                </div>
+            </div>
 
     <div class="page-container">
         <div class="tool-page">

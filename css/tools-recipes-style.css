@@ -85,6 +85,7 @@ img {
 /* === NAVIGATION === */
 /* ---------------------------------------------------- */
 .site-header {
+  background-color: white;
   background-color: var(--color-sidebar-bg);
   border-bottom: 1px solid var(--color-border);
   padding: var(--spacing-md) var(--spacing-xl);
@@ -112,6 +113,24 @@ img {
 }
 
 .site-logo img {
+  max-height: 45px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Header banner image (only on tool pages) */
+.site-header-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-md) 0;
+  background-color: white;
+}
+
+.site-header-banner img {
+  max-height: 90px;
+  width: auto;
+  object-fit: contain;
   height: 45px;
   width: 45px;
   border-radius: 50%;
@@ -660,6 +679,15 @@ textarea.control-input {
 @media (max-width: 768px) {
   .site-header {
     padding: var(--spacing-md);
+  }
+
+  /* Mobile icon and banner sizes */
+  .site-logo img {
+    max-height: 25px;
+  }
+
+  .site-header-banner img {
+    max-height: 70px;
   }
 
   .menu-toggle {
