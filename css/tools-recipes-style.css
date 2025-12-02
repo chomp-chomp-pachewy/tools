@@ -108,12 +108,46 @@ img {
   text-decoration: none;
   display: flex;
   align-items: center;
+  position: relative;
+}
+
+/* Logo icon container for stacking images */
+.site-logo-icon {
+  position: relative;
+  display: inline-block;
+  max-height: 40px;
+  width: auto;
 }
 
 .site-logo img {
   max-height: 40px;
   width: auto;
   object-fit: contain;
+  display: block;
+}
+
+/* Default cookie icon (visible by default) */
+.site-logo .logo-default {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Heart icon (hidden by default) */
+.site-logo .logo-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* On hover, swap visibility */
+.site-logo:hover .logo-default {
+  opacity: 0;
+}
+
+.site-logo:hover .logo-hover {
+  opacity: 1;
 }
 
 /* Header banner image (centered in nav, between logo and dropdown) */
