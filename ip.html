@@ -1,613 +1,397 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>whatisyourip</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #ffffff;
-            color: #434343;
-            line-height: 1.5;
-        }
-        .header {
-            background-color: #ffffff;
-            padding: 30px 20px 10px 20px;
-            text-align: center;
-        }
-        .header img {
-            max-width: 300px;
-            height: auto;
-        }
-    .info-section2 {
-            margin-top: 40px;
-            padding: 30px;
-            background-color: #F2F2F4;
-            color: #000000;
-            border-radius: 8px;
-            border: 1px solid #434343;
-            margin-bottom: 100px;
-        }
-
-        .info-section2 strong {
-            color: #fe0032;
-            font-weight: 400;
-            display: block;
-            margin-bottom: 10px;
-            font-size: 1em;
-            text-transform: lowercase;
-        }
-
-        .info-section2 p {
-            margin: 0 0 15px 0;
-            color: #000000;
-            font-weight: 300;
-            line-height: 1.8;
-            font-size: 0.95em;
-        }
-
-        .info-section2 p:last-child {
-            margin-bottom: 0;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        .info-section {
-            margin-bottom: 30px;
-        }
-        .section-title {
-            color: #fe0032;
-            font-size: 1.15em;
-            font-weight: 700;
-            margin-bottom: 15px;
-            text-transform: lowercase;
-        }
-        .info-grid {
-            display: grid;
-            grid-template-columns: 180px 1fr;
-            gap: 8px 15px;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #434343;
-            border-radius: 8px;
-            line-height: 1.5;
-        }
-        .info-label {
-            color: #666666;
-            font-weight: 400;
-            text-transform: lowercase;
-            font-size: 0.95em;
-        }
-        .info-value {
-            color: #434343;
-            font-weight: 400;
-            word-break: break-word;
-            font-size: 0.95em;
-        }
-        .info-value a {
-            color: #fe0032;
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-        .info-value a:hover {
-            opacity: 0.7;
-        }
-        .whois-text {
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #434343;
-            border-radius: 8px;
-            font-family: 'Roboto', sans-serif;
-            font-size: 0.95em;
-            white-space: pre-wrap;
-            color: #434343;
-            line-height: 1.5;
-        }
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        button {
-            padding: 10px 16px;
-            font-family: 'Roboto', sans-serif;
-            font-size: 13px;
-            font-weight: 400;
-            text-transform: lowercase;
-            background-color: #ffffff;
-            color: #434343;
-            border: 1px solid #434343;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        button:hover {
-             background-color: #fe0032;
-            border-color: #fe0032;
-            color: #ffffff;
-        }
-        button:active {
-            transform: scale(0.98);
-        }
-        .toast {
-            position: fixed;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%) scale(0.9);
-            background-color: #fe0032;
-            color: #ffffff;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            z-index: 1000;
-        }
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) scale(1);
-        }
-        .spacer {
-            height: 100px;
-        }
-        @media (max-width: 600px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            .info-label {
-                font-weight: 700;
-            }
-        }
-
-         nav {
-        padding: 20px;
-        text-align: right;
-    }
-
-    nav a {
-        color: #999;
-        text-decoration: none;
-        margin-left: 30px;
-        font-size: 0.95em;
-    }
-
-    nav a:hover {
-        color: #333;
-    }
-
-    </style>
+    <title>Your IP - Chomp Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/tools-recipes-style.css">
 </head>
 <body>
-        <nav>
-        <a href="https://tools.chomp.ltd">all tools</a>
-    </nav>
-    <div class="header">
-        <img src="https://raw.githubusercontent.com/chomp-chomp-pachewy/chomp-chomp/refs/heads/main/whois.png" alt="what is your ip">
+    <header class="site-header">
+        <nav class="site-nav">
+            <a href="index.html" class="site-logo">
+                <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764687494472_MagicEraser_251202_001040.png?alt=media&token=97b7e1ec-632a-4dea-8037-e54789b4e2fd" alt="Chomp Chomp">
+            </a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <div class="nav-tools-dropdown">
+                <button class="tools-dropdown-btn" onclick="toggleToolsDropdown()">Tools ▼</button>
+                <ul class="tools-dropdown-menu" id="toolsDropdown">
+                    <li><a href="ip.html">Your IP</a></li>
+                    <li><a href="convert.html">Convert</a></li>
+                    <li><a href="encode.html">Encode</a></li>
+                    <li><a href="dante.html">Inferno Ipsum</a></li>
+                    <li><a href="nautical.html">Nautical Ipsum</a></li>
+                    <li><a href="subnet.html">Subnet Calculator</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="site-header-banner">
+        <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764685804409_Chomp%20Chomp%20logos%20-%203.jpeg?alt=media&token=8117574e-19c3-4028-aa79-8ca224c61ebe" alt="Chomp Chomp Tools">
     </div>
 
-<div class="container">
-    <div class="button-group">
-        <button onclick="copyIPInfo()">copy ip info</button>
-        <button onclick="copyFullRecord()">copy full record</button>
-    </div>
+    <div class="page-container">
+        <div class="tool-page">
+            <div class="tool-header">
+                <img src="https://firebasestorage.googleapis.com/v0/b/chomp-chomp-recipes.firebasestorage.app/o/posts%2Fimages%2F1764612870246_whois.png?alt=media&token=d34e8af6-bb82-49df-8243-5d7135b43ed7" alt="your ip" style="max-width: 300px; margin: 0 auto 20px; display: block;">
+                <p class="tool-subtitle">Find your IP address, location & network information</p>
+            </div>
 
-    <div class="info-section" id="myIPSection">
-        <div class="section-title">ip info</div>
-        <div class="info-grid">
-            <div class="info-label">ip address</div>
-            <div class="info-value" id="ipv4">loading...</div>
-            
-            <div class="info-label">city</div>
-            <div class="info-value" id="city">loading...</div>
-            
-            <div class="info-label">state/region</div>
-            <div class="info-value" id="region">loading...</div>
-            
-            <div class="info-label">postal code</div>
-            <div class="info-value" id="postalCode">loading...</div>
-            
-            <div class="info-label">country</div>
-            <div class="info-value" id="country">loading...</div>
-            
-            <div class="info-label">coordinates</div>
-            <div class="info-value" id="coordinates">loading...</div>
-            
-            <div class="info-label">time zone</div>
-            <div class="info-value" id="timezone">loading...</div>
-            
-            <div class="info-label">local time</div>
-            <div class="info-value" id="localTime">loading...</div>
-            
-            <div class="info-label">isp</div>
-            <div class="info-value" id="isp">loading...</div>
-            
-            <div class="info-label">domain</div>
-            <div class="info-value" id="domain">loading...</div>
-            
-            <div class="info-label">organization</div>
-            <div class="info-value" id="organization">loading...</div>
-            
-            <div class="info-label">asn</div>
-            <div class="info-value" id="asn">loading...</div>
-            
-            <div class="info-label">network ip range</div>
-            <div class="info-value" id="asnRange">loading...</div>
+            <div class="tool-controls" style="text-align: center;">
+                <div style="margin: 30px 0;">
+                    <div style="font-size: 0.9em; color: var(--color-text-muted); margin-bottom: 10px;">Your IP Address</div>
+                    <div id="ipDisplay" style="font-size: 2em; font-weight: 600; color: var(--color-accent); font-family: 'Courier New', monospace;">
+                        Loading...
+                    </div>
+                </div>
 
-            <!--
-            <div class="info-label">is proxy?</div>
-            <div class="info-value" id="proxyDetected">loading...</div>
-            
-            <div class="info-label">proxy type</div>
-            <div class="info-value" id="proxyType">loading...</div>
-            -->
+                <div class="tool-actions">
+                    <button class="tool-button" onclick="lookupIP()">Get Details</button>
+                    <button class="tool-button tool-button-secondary" onclick="copyIP(event)">Copy IP</button>
+                    <button class="tool-button tool-button-secondary" onclick="copyAllDetails(event)" id="copyAllBtn" style="display: none;">Copy All Details</button>
+                </div>
+            </div>
+
+            <div class="tool-results" id="results" style="display: none;">
+                <h3 style="margin-bottom: 15px; color: var(--color-text);">IP Address Information</h3>
+                <div class="result-item">
+                    <div class="result-label">IP Address</div>
+                    <div class="result-value" id="ip">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">City</div>
+                    <div class="result-value" id="city">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">State/Region</div>
+                    <div class="result-value" id="region">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Postal Code</div>
+                    <div class="result-value" id="postal">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Country</div>
+                    <div class="result-value" id="country">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Coordinates</div>
+                    <div class="result-value" id="coordinates">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Time Zone</div>
+                    <div class="result-value" id="timezone">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Local Time</div>
+                    <div class="result-value" id="localtime">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">ISP</div>
+                    <div class="result-value" id="isp">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Domain</div>
+                    <div class="result-value" id="domain">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Organization</div>
+                    <div class="result-value" id="org">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">ASN</div>
+                    <div class="result-value" id="asn">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Network IP Range</div>
+                    <div class="result-value" id="network">-</div>
+                </div>
+            </div>
+
+            <div class="tool-results" id="whoisResults" style="display: none; margin-top: 20px;">
+                <h3 style="margin-bottom: 15px; color: var(--color-text);">IP Address WHOIS</h3>
+                <div class="result-item" style="border-bottom: none;">
+                    <textarea id="whoisData" readonly style="width: 100%; min-height: 300px; font-family: 'Courier New', monospace; font-size: 0.85em; line-height: 1.6; padding: 15px; background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-text);">Loading WHOIS data...</textarea>
+                </div>
+            </div>
+
+            <div class="tool-results" id="browserDetails" style="display: none; margin-top: 20px;">
+                <h3 style="margin-bottom: 15px; color: var(--color-text);">Additional Details</h3>
+                <div class="result-item">
+                    <div class="result-label">User Agent</div>
+                    <div class="result-value" id="userAgent" style="word-break: break-word;">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Screen Resolution</div>
+                    <div class="result-value" id="screenRes">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Browser Language</div>
+                    <div class="result-value" id="browserLang">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Platform</div>
+                    <div class="result-value" id="platform">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Cookies Enabled</div>
+                    <div class="result-value" id="cookies">-</div>
+                </div>
+                <div class="result-item">
+                    <div class="result-label">Do Not Track</div>
+                    <div class="result-value" id="dnt">-</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Privacy Note:</strong> This tool displays your public IP address as seen by external servers. IP geolocation data is approximate and may not reflect your exact location. No personal data is stored.</p>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="index.html" class="btn btn-outline">← Back to Tools</a>
+            </div>
         </div>
     </div>
 
-    <div class="info-section" id="whoisSection">
-        <div class="section-title">ip address whois</div>
-        <div class="whois-text" id="whoisText">loading...</div>
-    </div>
-
-    <div class="info-section">
-        <div class="section-title">additional details</div>
-        <div class="info-grid">
-            <div class="info-label">user agent</div>
-            <div class="info-value" id="userAgent">loading...</div>
-            
-            <div class="info-label">screen resolution</div>
-            <div class="info-value" id="screenRes">loading...</div>
-            
-            <div class="info-label">browser language</div>
-            <div class="info-value" id="language">loading...</div>
-            
-            <div class="info-label">platform</div>
-            <div class="info-value" id="platform">loading...</div>
-            
-            <div class="info-label">cookies enabled</div>
-            <div class="info-value" id="cookies">loading...</div>
-            
-            <div class="info-label">do not track</div>
-            <div class="info-value" id="dnt">loading...</div>
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="mailto:hi@chomp.ltd">hi@chomp.ltd</a>
+                <a href="https://www.chomp.ltd">chomp chomp: cookies, etc.</a>
+                <a href="https://recipes.chomp.ltd">chomp chomp: recipes & rituals</a>
+            </div>
+            <p style="margin-top: 15px;">&copy; 2025 Chomp Chomp</p>
         </div>
-    </div>
+    </footer>
 
-    <div class="info-section2">
-    <strong>about ip addresses & whois</strong>
-    <p><strong>ip address:</strong> a unique identifier assigned to your device on the internet or a local network. It can reveal approximate location, ISP, and the network block your address belongs to.</p>
-    <p><strong>whois data:</strong> contains registration information for the IP address, including the organization, ASN, domain, and network range. This helps identify the owner of the IP block.</p>
-    <p><strong>additional details:</strong> your device and browser information can be collected, such as user agent, platform, screen resolution, language, cookies, and do-not-track settings. These details help websites optimize display and functionality for your environment.</p>
-    </div>
-</div>
-    
-</div>
-
-<div class="toast" id="toast">copied to clipboard!</div>
-
-<div class="spacer"></div>
-
-<script>
-    console.log('=== SCRIPT STARTED ===');
-    console.log('Script is loading...');
-    
-    const API_KEY = '25463b02f43f7899916d89b8eb4043ec';
-    let allData = {};
-    
-    async function getIPAddress() {
-        try {
-            const response = await fetch(`https://api.whatismyip.com/ip.php?key=${API_KEY}`);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const ip = await response.text();
-            document.getElementById('ipv4').textContent = ip.trim();
-            allData.ipv4 = ip.trim();
-            
-            console.log('Calling getIPLookup...');
-            await getIPLookup(ip.trim());
-            
-            console.log('Calling getWhois...');
-            await getWhois(ip.trim());
-            
-            console.log('Calling getHostname...');
-            await getHostname(ip.trim());
-            
-            console.log('All API calls complete');
-        } catch (error) {
-            console.error('Error fetching IP:', error);
-            document.getElementById('ipv4').textContent = 'error loading';
+    <script>
+        // Tools dropdown toggle
+        function toggleToolsDropdown() {
+            const dropdown = document.getElementById('toolsDropdown');
+            dropdown.classList.toggle('active');
         }
-    }
-    
-    async function getIPLookup(ip) {
-        try {
-            const response = await fetch(`https://api.whatismyip.com/ip-address-lookup.php?key=${API_KEY}&input=${ip}&output=json`);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-tools-dropdown')) {
+                const dropdown = document.getElementById('toolsDropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('active');
+                }
             }
-            
-            const jsonData = await response.json();
-            console.log('JSON lookup response:', JSON.stringify(jsonData, null, 2));
-            
-            // The API returns data in ip_address_lookup array format
-            // Get the first (and likely only) element, or if there are two, get the second (the data)
-            const lookupArray = jsonData.ip_address_lookup || [];
-            const data = lookupArray.length === 1 ? lookupArray[0] : (lookupArray[1] || {});
-            
-            console.log('Parsed lookup data:', JSON.stringify(data, null, 2));
-            console.log('City value:', data.city);
-            console.log('Region value:', data.region);
-            console.log('ISP value:', data.isp);
-            console.log('ASN value:', data.asn);
-            
-            document.getElementById('city').textContent = data.city || 'n/a';
-            document.getElementById('region').textContent = data.region || 'n/a';
-            document.getElementById('postalCode').textContent = data.postalcode || 'n/a';
-            document.getElementById('country').textContent = data.country || 'n/a';
-            document.getElementById('timezone').textContent = data.time || 'n/a';
-            document.getElementById('isp').textContent = data.isp || 'n/a';
-            document.getElementById('organization').textContent = data.isp || 'n/a';
-            
-            // ASN with link
-            if (data.asn) {
-                const asnLink = document.createElement('a');
-                asnLink.href = `https://asnlookup.com/asn/AS${data.asn}`;
-                asnLink.target = '_blank';
-                asnLink.textContent = `AS${data.asn}`;
-                document.getElementById('asn').innerHTML = '';
-                document.getElementById('asn').appendChild(asnLink);
-            } else {
-                document.getElementById('asn').textContent = 'n/a';
+        });
+
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const toolsDropdown = document.querySelector('.nav-tools-dropdown');
+
+        if (menuToggle && toolsDropdown) {
+            menuToggle.addEventListener('click', () => {
+                toolsDropdown.classList.toggle('active');
+            });
+        }
+
+        let currentIP = '';
+
+        // Get IP address on page load
+        async function getIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                currentIP = data.ip;
+                document.getElementById('ipDisplay').textContent = currentIP;
+            } catch (error) {
+                document.getElementById('ipDisplay').textContent = 'Unable to fetch IP';
+                console.error('Error fetching IP:', error);
             }
-            
-            // Coordinates
-            if (data.latitude && data.longitude) {
-    const latitude = data.latitude;
-    const longitude = data.longitude;
+        }
 
-    // 1. Create the link element
-    const mapLink = document.createElement('a');
+        // Lookup detailed IP information
+        async function lookupIP() {
+            if (!currentIP) {
+                alert('IP address not loaded yet');
+                return;
+            }
 
-    // 2. Set the href attribute using the coordinates
-    // Using a standard Google Maps link format for better compatibility:
-    mapLink.href = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+            try {
+                const response = await fetch(`https://ipapi.co/${currentIP}/json/`);
+                const data = await response.json();
 
-    // 3. Set the visible text of the link
-    mapLink.textContent = `${latitude}, ${longitude}`;
+                if (data.error) {
+                    alert('Error fetching IP details: ' + data.reason);
+                    return;
+                }
 
-    // 4. Get the target container element
-    const coordinatesDisplay = document.getElementById('coordinates');
+                // Populate IP information
+                document.getElementById('ip').textContent = data.ip || '-';
+                document.getElementById('city').textContent = data.city || '-';
+                document.getElementById('region').textContent = data.region || '-';
+                document.getElementById('postal').textContent = data.postal || '-';
+                document.getElementById('country').textContent = `${data.country_code || '-'}`;
 
-    // 5. Clear any existing content and append the new link
-    coordinatesDisplay.innerHTML = ''; // Clear 'n/a' or previous content
-    coordinatesDisplay.appendChild(mapLink);
+                // Format coordinates
+                const lat = data.latitude || '-';
+                const lon = data.longitude || '-';
+                document.getElementById('coordinates').textContent = lat !== '-' && lon !== '-' ? `${lat}, ${lon}` : '-';
 
-} else {
-    document.getElementById('coordinates').textContent = 'n/a';
-}
-            
-            // Calculate local time from timezone offset
-            if (data.time) {
+                // Format timezone with UTC offset
+                const tz = data.timezone || '-';
+                const utcOffset = data.utc_offset || '';
+                document.getElementById('timezone').textContent = utcOffset ? `UTC ${utcOffset}` : tz;
+
+                // Format local time
                 const now = new Date();
-                const localTimeStr = now.toLocaleString('en-US', { 
-                    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                const localTimeStr = now.toLocaleDateString('en-US', {
                     weekday: 'short',
                     year: 'numeric',
                     month: 'short',
                     day: '2-digit',
                     hour: '2-digit',
                     minute: '2-digit',
-                    second: '2-digit',
-                    hour12: false
+                    second: '2-digit'
                 });
-                document.getElementById('localTime').textContent = localTimeStr;
-            } else {
-                document.getElementById('localTime').textContent = 'n/a';
-            }
-            
-            allData.lookup = data;
-        } catch (error) {
-            console.error('Error fetching IP lookup:', error);
-            document.getElementById('city').textContent = 'error';
-            document.getElementById('region').textContent = 'error';
-            document.getElementById('postalCode').textContent = 'error';
-            document.getElementById('country').textContent = 'error';
-            document.getElementById('timezone').textContent = 'error';
-            document.getElementById('isp').textContent = 'error';
-        }
-    }
-    
-    
+                document.getElementById('localtime').textContent = localTimeStr;
 
-async function getWhois(ip) {
-    try {
-        const response = await fetch(`https://api.whatismyip.com/whois.php?key=${API_KEY}&input=${ip}`);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        let whois = await response.text();
-        
-        // Replace the ARIN reporting text with a link
-whois = whois.replace(
-    /please report at[\s\n]*#[\s\n]*https:\/\/www\.arin\.net\/resources\/registry\/whois\/inaccuracy_reporting\//g,
-    'please <a href="https://www.arin.net/resources/registry/whois/inaccuracy_reporting/">report</a> them.'
-);
+                document.getElementById('isp').textContent = data.org || '-';
+                document.getElementById('domain').textContent = data.ip || '-';
+                document.getElementById('org').textContent = data.org || '-';
+                document.getElementById('asn').textContent = data.asn || '-';
 
-// Replace the Terms of Use text with a link
-whois = whois.replace(
-    /subject to the Terms of Use[\s\n]*#[\s\n]*available at:\s*https:\/\/www\.arin\.net\/resources\/registry\/whois\/tou\//g,
-    'subject to the <a href="https://www.arin.net/resources/registry/whois/tou/">Terms of Use</a>.'
-);
-        
-        document.getElementById('whoisText').innerHTML = whois; // Changed from textContent to innerHTML
-        
-        // Try to extract ASN and range from WHOIS data
-        const asnMatch = whois.match(/AS\d+/);
-        const rangeMatch = whois.match(/(\d+\.\d+\.\d+\.\d+)\s*-\s*(\d+\.\d+\.\d+\.\d+)/);
-        
-        if (asnMatch && !document.getElementById('asn').textContent.includes('loading')) {
-            document.getElementById('asn').textContent = asnMatch[0];
-        }
-        if (rangeMatch) {
-    const startIP = rangeMatch[1];
-    const endIP = rangeMatch[2];
-    const cidr = rangeToCIDR(startIP, endIP);
-    document.getElementById('asnRange').textContent = `${cidr} (${startIP} - ${endIP})`;
-} else {
-    document.getElementById('asnRange').textContent = 'n/a';
-}
-        
-        allData.whois = whois;
-    } catch (error) {
-        console.error('Error fetching WHOIS:', error);
-        document.getElementById('whoisText').textContent = 'error loading whois data';
-        document.getElementById('asnRange').textContent = 'n/a';
-    }
-}
-    
-    function rangeToCIDR(startIP, endIP) {
-    // Convert IP to 32-bit integer
-    const ipToInt = (ip) => {
-        return ip.split('.').reduce((int, octet) => (int << 8) + parseInt(octet), 0) >>> 0;
-    };
-    
-    const start = ipToInt(startIP);
-    const end = ipToInt(endIP);
-    
-    // Calculate the number of IPs in the range
-    const rangeSize = end - start + 1;
-    
-    // Calculate prefix length (32 - log2 of range size)
-    const prefixLength = 32 - Math.floor(Math.log2(rangeSize));
-    
-    return `${startIP}/${prefixLength}`;
-}
-    
-    async function getHostname(ip) {
-        try {
-            const response = await fetch(`https://api.whatismyip.com/host-name.php?key=${API_KEY}&input=${ip}`);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                // Format network range
+                const network = data.network || '-';
+                document.getElementById('network').textContent = network !== '-' ? `${network} (${data.ip || ''})` : '-';
+
+                // Display results
+                document.getElementById('results').style.display = 'block';
+
+                // Fetch and display WHOIS data
+                fetchWHOIS(currentIP);
+
+                // Display browser/system details
+                displayBrowserDetails();
+
+                // Show the "Copy All Details" button
+                document.getElementById('copyAllBtn').style.display = 'inline-block';
+
+            } catch (error) {
+                alert('Error fetching IP details. Please try again.');
+                console.error('Error:', error);
             }
-            
-            const hostname = await response.text();
-            document.getElementById('domain').textContent = hostname.trim() || 'n/a';
-            allData.hostname = hostname.trim();
-        } catch (error) {
-            console.error('Error fetching hostname:', error);
-            document.getElementById('domain').textContent = 'n/a';
         }
-    }
-    
-    function getBrowserInfo() {
-        document.getElementById('userAgent').textContent = navigator.userAgent;
-        document.getElementById('screenRes').textContent = `${screen.width} x ${screen.height}`;
-        document.getElementById('language').textContent = navigator.language;
-        document.getElementById('platform').textContent = navigator.platform;
-        document.getElementById('cookies').textContent = navigator.cookieEnabled ? 'yes' : 'no';
-        document.getElementById('dnt').textContent = navigator.doNotTrack || 'not set';
-    }
-    
-    function copyIPInfo() {
-        const ip = document.getElementById('ipv4').textContent;
-        
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(ip).then(() => {
-                showToast();
+
+        // Fetch WHOIS data
+        async function fetchWHOIS(ip) {
+            try {
+                // Note: WHOIS API may require authentication or have rate limits
+                // Using a simulated WHOIS response or try ipapi.co whois endpoint
+                const response = await fetch(`https://ipapi.co/${ip}/json/`);
+                const data = await response.json();
+
+                // Format WHOIS-like output
+                let whoisText = `#\n# WHOIS data for ${ip}\n#\n\n`;
+                whoisText += `NetRange:       ${data.network || 'N/A'}\n`;
+                whoisText += `CIDR:           ${data.network || 'N/A'}\n`;
+                whoisText += `NetName:        ${data.org || 'N/A'}\n`;
+                whoisText += `Organization:   ${data.org || 'N/A'}\n`;
+                whoisText += `ASN:            ${data.asn || 'N/A'}\n`;
+                whoisText += `Country:        ${data.country_name || 'N/A'} (${data.country_code || 'N/A'})\n`;
+                whoisText += `Region:         ${data.region || 'N/A'}\n`;
+                whoisText += `City:           ${data.city || 'N/A'}\n`;
+                whoisText += `Postal:         ${data.postal || 'N/A'}\n`;
+                whoisText += `Timezone:       ${data.timezone || 'N/A'}\n`;
+                whoisText += `Coordinates:    ${data.latitude || 'N/A'}, ${data.longitude || 'N/A'}\n\n`;
+                whoisText += `OrgName:        ${data.org || 'N/A'}\n`;
+                whoisText += `OrgTechEmail:   N/A\n`;
+                whoisText += `OrgTechPhone:   N/A\n\n`;
+                whoisText += `# Additional information may be available from regional registries\n`;
+                whoisText += `# (ARIN, RIPE, APNIC, LACNIC, AFRINIC)\n`;
+
+                document.getElementById('whoisData').value = whoisText;
+                document.getElementById('whoisResults').style.display = 'block';
+            } catch (error) {
+                document.getElementById('whoisData').value = 'Unable to fetch WHOIS data';
+                document.getElementById('whoisResults').style.display = 'block';
+                console.error('WHOIS error:', error);
+            }
+        }
+
+        // Display browser and system details
+        function displayBrowserDetails() {
+            document.getElementById('userAgent').textContent = navigator.userAgent || '-';
+            document.getElementById('screenRes').textContent = `${screen.width} x ${screen.height}` || '-';
+            document.getElementById('browserLang').textContent = navigator.language || '-';
+            document.getElementById('platform').textContent = navigator.platform || '-';
+            document.getElementById('cookies').textContent = navigator.cookieEnabled ? 'yes' : 'no';
+            document.getElementById('dnt').textContent = navigator.doNotTrack || '0';
+
+            document.getElementById('browserDetails').style.display = 'block';
+        }
+
+        // Copy IP to clipboard
+        function copyIP(e) {
+            if (!currentIP) {
+                alert('IP address not loaded yet');
+                return;
+            }
+
+            navigator.clipboard.writeText(currentIP).then(() => {
+                const btn = e.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
             }).catch(err => {
-                fallbackCopy(ip);
+                alert('Failed to copy IP address');
+                console.error('Copy error:', err);
             });
-        } else {
-            fallbackCopy(ip);
         }
-    }
-    
-    function copyFullRecord() {
-        let text = 'MY IP ADDRESS\n\n';
-        
-        const myIPGrid = document.querySelector('#myIPSection .info-grid');
-        const labels = myIPGrid.querySelectorAll('.info-label');
-        const values = myIPGrid.querySelectorAll('.info-value');
-        
-        for (let i = 0; i < labels.length; i++) {
-            text += `${labels[i].textContent}: ${values[i].textContent}\n`;
-        }
-        
-        text += '\nIP ADDRESS WHOIS\n\n';
-        text += document.getElementById('whoisText').textContent + '\n\n';
-        
-        text += 'ADDITIONAL DETAILS\n\n';
-        text += `User Agent: ${document.getElementById('userAgent').textContent}\n`;
-        text += `Screen Resolution: ${document.getElementById('screenRes').textContent}\n`;
-        text += `Browser Language: ${document.getElementById('language').textContent}\n`;
-        text += `Platform: ${document.getElementById('platform').textContent}\n`;
-        text += `Cookies Enabled: ${document.getElementById('cookies').textContent}\n`;
-        text += `Do Not Track: ${document.getElementById('dnt').textContent}\n`;
-        
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(() => {
-                showToast();
+
+        // Copy all details to clipboard
+        function copyAllDetails(e) {
+            let allDetails = '=== MY IP ADDRESS ===\n\n';
+            allDetails += `IP Address: ${document.getElementById('ip').textContent}\n`;
+            allDetails += `City: ${document.getElementById('city').textContent}\n`;
+            allDetails += `State/Region: ${document.getElementById('region').textContent}\n`;
+            allDetails += `Postal Code: ${document.getElementById('postal').textContent}\n`;
+            allDetails += `Country: ${document.getElementById('country').textContent}\n`;
+            allDetails += `Coordinates: ${document.getElementById('coordinates').textContent}\n`;
+            allDetails += `Time Zone: ${document.getElementById('timezone').textContent}\n`;
+            allDetails += `Local Time: ${document.getElementById('localtime').textContent}\n`;
+            allDetails += `ISP: ${document.getElementById('isp').textContent}\n`;
+            allDetails += `Domain: ${document.getElementById('domain').textContent}\n`;
+            allDetails += `Organization: ${document.getElementById('org').textContent}\n`;
+            allDetails += `ASN: ${document.getElementById('asn').textContent}\n`;
+            allDetails += `Network IP Range: ${document.getElementById('network').textContent}\n\n`;
+
+            allDetails += '=== IP ADDRESS WHOIS ===\n\n';
+            allDetails += document.getElementById('whoisData').value + '\n\n';
+
+            allDetails += '=== ADDITIONAL DETAILS ===\n\n';
+            allDetails += `User Agent: ${document.getElementById('userAgent').textContent}\n`;
+            allDetails += `Screen Resolution: ${document.getElementById('screenRes').textContent}\n`;
+            allDetails += `Browser Language: ${document.getElementById('browserLang').textContent}\n`;
+            allDetails += `Platform: ${document.getElementById('platform').textContent}\n`;
+            allDetails += `Cookies Enabled: ${document.getElementById('cookies').textContent}\n`;
+            allDetails += `Do Not Track: ${document.getElementById('dnt').textContent}\n`;
+
+            navigator.clipboard.writeText(allDetails).then(() => {
+                const btn = e.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
             }).catch(err => {
-                fallbackCopy(text);
+                alert('Failed to copy details');
+                console.error('Copy error:', err);
             });
-        } else {
-            fallbackCopy(text);
         }
-    }
-    
-    function fallbackCopy(text) {
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-999999px';
-        textArea.style.top = '-999999px';
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        
-        try {
-            const successful = document.execCommand('copy');
-            if (successful) {
-                showToast();
-            }
-        } catch (err) {
-            console.error('Fallback copy error:', err);
-        }
-        
-        document.body.removeChild(textArea);
-    }
-    
-    function showToast() {
-        const toast = document.getElementById('toast');
-        toast.classList.add('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 2000);
-    }
-    
-    getIPAddress();
-    getBrowserInfo();
-</script>
 
-
+        // Load IP on page load
+        window.addEventListener('load', getIP);
+    </script>
 </body>
 </html>
