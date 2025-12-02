@@ -150,35 +150,20 @@ img {
   opacity: 1;
 }
 
-/* Header banner image (truly centered using absolute positioning) */
-.site-header-banner {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  pointer-events: none;
+/* Header banner image (below nav, centered like recipes site) */
+.header-banner {
+  display: block;
+  max-width: 600px;
+  max-height: 135px;
+  height: auto;
+  margin: var(--spacing-md) auto 0;
+  text-align: center;
 }
 
-.site-header-banner a {
-  display: flex;
-  align-items: center;
-  pointer-events: auto;
-}
-
-.site-header-banner img {
+.header-banner img {
   max-height: 90px;
   width: auto;
   object-fit: contain;
-}
-
-/* Ensure logo and dropdown appear above banner */
-.site-logo,
-.nav-tools-dropdown,
-.menu-toggle {
-  position: relative;
-  z-index: 10;
 }
 
 .nav-links {
