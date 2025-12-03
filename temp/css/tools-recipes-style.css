@@ -115,12 +115,12 @@ img {
 .site-logo-icon {
   position: relative;
   display: inline-block;
-  max-height: 40px;
+  max-height: 50px;
   width: auto;
 }
 
 .site-logo img {
-  max-height: 40px;
+  max-height: 50px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -699,6 +699,11 @@ textarea.control-input {
   .tool-name u {
     color: #ff6b7a;
   }
+
+  /* Invert index page hero image colors in dark mode */
+  .tools-index .tool-header img {
+    filter: invert(1) hue-rotate(180deg);
+  }
 }
 
 /* ---------------------------------------------------- */
@@ -718,7 +723,7 @@ textarea.control-input {
 
   /* Mobile icon size */
   .site-logo img {
-    max-height: 50px;
+    max-height: 30px;
   }
 
   /* Mobile hero image on index page */
@@ -733,9 +738,9 @@ textarea.control-input {
 
   .menu-toggle {
     display: block;
-    font-size: 2em;
-    min-width: 50px;
-    min-height: 50px;
+    font-size: 1.5em;
+    min-width: 30px;
+    min-height: 30px;
     flex-shrink: 0;
   }
 
