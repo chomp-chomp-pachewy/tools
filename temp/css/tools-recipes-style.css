@@ -700,8 +700,9 @@ textarea.control-input {
     color: #ff6b7a;
   }
 
-  /* Invert index page hero image colors in dark mode */
-  .tools-index .tool-header img {
+  /* Invert tool header image colors in dark mode */
+  .tools-index .tool-header img,
+  .tool-page .tool-header img {
     filter: invert(1) hue-rotate(180deg);
   }
 }
