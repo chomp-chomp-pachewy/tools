@@ -193,14 +193,20 @@
             });
         }
 
+        const API_KEY = '25463b02f43f7899916d89b8eb4043ec';
         let currentIP = '';
 
         // Get IP address on page load
         async function getIP() {
             try {
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                currentIP = data.ip;
+                const response = await fetch(`https://api.whatismyip.com/ip.php?key=${API_KEY}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const ip = await response.text();
+                currentIP = ip.trim();
                 document.getElementById('ipDisplay').textContent = currentIP;
             } catch (error) {
                 document.getElementById('ipDisplay').textContent = 'Unable to fetch IP';
@@ -216,58 +222,73 @@
             }
 
             try {
-                const response = await fetch(`https://ipapi.co/${currentIP}/json/`);
-                const data = await response.json();
+                // Fetch IP lookup data
+                const lookupResponse = await fetch(`https://api.whatismyip.com/ip-address-lookup.php?key=${API_KEY}&input=${currentIP}&output=json`);
 
-                if (data.error) {
-                    alert('Error fetching IP details: ' + data.reason);
-                    return;
+                if (!lookupResponse.ok) {
+                    throw new Error(`HTTP error! status: ${lookupResponse.status}`);
                 }
 
+                const jsonData = await lookupResponse.json();
+                const lookupArray = jsonData.ip_address_lookup || [];
+                const data = lookupArray.length === 1 ? lookupArray[0] : (lookupArray[1] || {});
+
                 // Populate IP information
-                document.getElementById('ip').textContent = data.ip || '-';
-                document.getElementById('city').textContent = data.city || '-';
-                document.getElementById('region').textContent = data.region || '-';
-                document.getElementById('postal').textContent = data.postal || '-';
-                document.getElementById('country').textContent = `${data.country_code || '-'}`;
+                document.getElementById('ip').textContent = currentIP;
+                document.getElementById('city').textContent = data.city || 'n/a';
+                document.getElementById('region').textContent = data.region || 'n/a';
+                document.getElementById('postal').textContent = data.postalcode || 'n/a';
+                document.getElementById('country').textContent = data.country || 'n/a';
 
-                // Format coordinates
-                const lat = data.latitude || '-';
-                const lon = data.longitude || '-';
-                document.getElementById('coordinates').textContent = lat !== '-' && lon !== '-' ? `${lat}, ${lon}` : '-';
+                // Format coordinates with map link
+                if (data.latitude && data.longitude) {
+                    const mapLink = document.createElement('a');
+                    mapLink.href = `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`;
+                    mapLink.target = '_blank';
+                    mapLink.textContent = `${data.latitude}, ${data.longitude}`;
+                    document.getElementById('coordinates').innerHTML = '';
+                    document.getElementById('coordinates').appendChild(mapLink);
+                } else {
+                    document.getElementById('coordinates').textContent = 'n/a';
+                }
 
-                // Format timezone with UTC offset
-                const tz = data.timezone || '-';
-                const utcOffset = data.utc_offset || '';
-                document.getElementById('timezone').textContent = utcOffset ? `UTC ${utcOffset}` : tz;
+                document.getElementById('timezone').textContent = data.time || 'n/a';
 
                 // Format local time
                 const now = new Date();
-                const localTimeStr = now.toLocaleDateString('en-US', {
+                const localTimeStr = now.toLocaleString('en-US', {
                     weekday: 'short',
                     year: 'numeric',
                     month: 'short',
                     day: '2-digit',
                     hour: '2-digit',
                     minute: '2-digit',
-                    second: '2-digit'
+                    second: '2-digit',
+                    hour12: false
                 });
                 document.getElementById('localtime').textContent = localTimeStr;
 
-                document.getElementById('isp').textContent = data.org || '-';
-                document.getElementById('domain').textContent = data.ip || '-';
-                document.getElementById('org').textContent = data.org || '-';
-                document.getElementById('asn').textContent = data.asn || '-';
+                document.getElementById('isp').textContent = data.isp || 'n/a';
+                document.getElementById('org').textContent = data.isp || 'n/a';
 
-                // Format network range
-                const network = data.network || '-';
-                document.getElementById('network').textContent = network !== '-' ? `${network} (${data.ip || ''})` : '-';
+                // ASN with link
+                if (data.asn) {
+                    const asnLink = document.createElement('a');
+                    asnLink.href = `https://asnlookup.com/asn/AS${data.asn}`;
+                    asnLink.target = '_blank';
+                    asnLink.textContent = `AS${data.asn}`;
+                    document.getElementById('asn').innerHTML = '';
+                    document.getElementById('asn').appendChild(asnLink);
+                } else {
+                    document.getElementById('asn').textContent = 'n/a';
+                }
 
                 // Display results
                 document.getElementById('results').style.display = 'block';
 
-                // Fetch and display WHOIS data
-                fetchWHOIS(currentIP);
+                // Fetch additional data
+                await getHostname(currentIP);
+                await fetchWHOIS(currentIP);
 
                 // Display browser/system details
                 displayBrowserDetails();
@@ -281,40 +302,80 @@
             }
         }
 
+        // Get hostname
+        async function getHostname(ip) {
+            try {
+                const response = await fetch(`https://api.whatismyip.com/host-name.php?key=${API_KEY}&input=${ip}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const hostname = await response.text();
+                document.getElementById('domain').textContent = hostname.trim() || 'n/a';
+            } catch (error) {
+                console.error('Error fetching hostname:', error);
+                document.getElementById('domain').textContent = 'n/a';
+            }
+        }
+
         // Fetch WHOIS data
         async function fetchWHOIS(ip) {
             try {
-                // Note: WHOIS API may require authentication or have rate limits
-                // Using a simulated WHOIS response or try ipapi.co whois endpoint
-                const response = await fetch(`https://ipapi.co/${ip}/json/`);
-                const data = await response.json();
+                const response = await fetch(`https://api.whatismyip.com/whois.php?key=${API_KEY}&input=${ip}`);
 
-                // Format WHOIS-like output
-                let whoisText = `#\n# WHOIS data for ${ip}\n#\n\n`;
-                whoisText += `NetRange:       ${data.network || 'N/A'}\n`;
-                whoisText += `CIDR:           ${data.network || 'N/A'}\n`;
-                whoisText += `NetName:        ${data.org || 'N/A'}\n`;
-                whoisText += `Organization:   ${data.org || 'N/A'}\n`;
-                whoisText += `ASN:            ${data.asn || 'N/A'}\n`;
-                whoisText += `Country:        ${data.country_name || 'N/A'} (${data.country_code || 'N/A'})\n`;
-                whoisText += `Region:         ${data.region || 'N/A'}\n`;
-                whoisText += `City:           ${data.city || 'N/A'}\n`;
-                whoisText += `Postal:         ${data.postal || 'N/A'}\n`;
-                whoisText += `Timezone:       ${data.timezone || 'N/A'}\n`;
-                whoisText += `Coordinates:    ${data.latitude || 'N/A'}, ${data.longitude || 'N/A'}\n\n`;
-                whoisText += `OrgName:        ${data.org || 'N/A'}\n`;
-                whoisText += `OrgTechEmail:   N/A\n`;
-                whoisText += `OrgTechPhone:   N/A\n\n`;
-                whoisText += `# Additional information may be available from regional registries\n`;
-                whoisText += `# (ARIN, RIPE, APNIC, LACNIC, AFRINIC)\n`;
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
-                document.getElementById('whoisData').value = whoisText;
+                let whois = await response.text();
+
+                // Replace ARIN reporting text with a link
+                whois = whois.replace(
+                    /please report at[\s\n]*#[\s\n]*https:\/\/www\.arin\.net\/resources\/registry\/whois\/inaccuracy_reporting\//g,
+                    'please <a href="https://www.arin.net/resources/registry/whois/inaccuracy_reporting/" target="_blank">report</a> them.'
+                );
+
+                // Replace Terms of Use text with a link
+                whois = whois.replace(
+                    /subject to the Terms of Use[\s\n]*#[\s\n]*available at:\s*https:\/\/www\.arin\.net\/resources\/registry\/whois\/tou\//g,
+                    'subject to the <a href="https://www.arin.net/resources/registry/whois/tou/" target="_blank">Terms of Use</a>.'
+                );
+
+                document.getElementById('whoisData').value = whois;
+
+                // Try to extract ASN and range from WHOIS data
+                const rangeMatch = whois.match(/(\d+\.\d+\.\d+\.\d+)\s*-\s*(\d+\.\d+\.\d+\.\d+)/);
+
+                if (rangeMatch) {
+                    const startIP = rangeMatch[1];
+                    const endIP = rangeMatch[2];
+                    const cidr = rangeToCIDR(startIP, endIP);
+                    document.getElementById('network').textContent = `${cidr} (${startIP} - ${endIP})`;
+                } else {
+                    document.getElementById('network').textContent = 'n/a';
+                }
+
                 document.getElementById('whoisResults').style.display = 'block';
             } catch (error) {
                 document.getElementById('whoisData').value = 'Unable to fetch WHOIS data';
                 document.getElementById('whoisResults').style.display = 'block';
                 console.error('WHOIS error:', error);
             }
+        }
+
+        // Convert IP range to CIDR notation
+        function rangeToCIDR(startIP, endIP) {
+            const ipToInt = (ip) => {
+                return ip.split('.').reduce((int, octet) => (int << 8) + parseInt(octet), 0) >>> 0;
+            };
+
+            const start = ipToInt(startIP);
+            const end = ipToInt(endIP);
+            const rangeSize = end - start + 1;
+            const prefixLength = 32 - Math.floor(Math.log2(rangeSize));
+
+            return `${startIP}/${prefixLength}`;
         }
 
         // Display browser and system details
