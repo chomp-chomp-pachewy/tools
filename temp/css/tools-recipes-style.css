@@ -101,27 +101,6 @@ img {
   gap: var(--spacing-lg);
 }
 
-/* Three-column header layout */
-.header-left {
-  display: flex;
-  align-items: center;
-  flex: 0 0 auto;
-}
-
-.header-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex: 0 0 auto;
-}
-
 .site-logo {
   font-size: 1.6em;
   font-weight: 500;
@@ -169,20 +148,6 @@ img {
 
 .site-logo:hover .logo-hover {
   opacity: 1;
-}
-
-/* Header banner image (centered in nav) */
-.header-banner {
-  display: block;
-  max-width: 600px;
-  max-height: 200px;
-  height: auto;
-}
-
-.header-banner img {
-  max-height: 200px;
-  width: auto;
-  object-fit: contain;
 }
 
 .nav-links {
@@ -486,14 +451,14 @@ p {
 
 /* Tool header images on tool pages */
 .tool-page .tool-header img {
-  max-height: 250px;
+  max-height: 200px;
   width: auto;
   object-fit: contain;
 }
 
 /* Hero image on index page */
 .tools-index .tool-header img {
-  max-height: 250px;
+  max-height: 200px;
   width: auto;
   object-fit: contain;
 }
@@ -744,23 +709,19 @@ textarea.control-input {
     padding: var(--spacing-md);
   }
 
-  /* Mobile icon and banner sizes */
+  /* Mobile icon size */
   .site-logo img {
     max-height: 25px;
   }
 
-  .header-banner img {
-    max-height: 155px;
-  }
-
   /* Mobile hero image on index page */
   .tools-index .tool-header img {
-    max-height: 165px;
+    max-height: 155px;
   }
 
   /* Mobile tool header images on tool pages */
   .tool-page .tool-header img {
-    max-height: 165px;
+    max-height: 155px;
   }
 
   .menu-toggle {
